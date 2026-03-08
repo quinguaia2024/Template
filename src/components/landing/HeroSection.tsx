@@ -29,24 +29,24 @@ const HeroSection = () => {
 
         {/* Floating decorative particles */}
         {[...Array(6)].map((_, i) => (
-          <Parallax
+          <div
             key={i}
-            speed={0.2 + i * 0.15}
             className="absolute pointer-events-none"
             style={{
               top: `${15 + i * 13}%`,
               left: `${5 + i * 16}%`,
-            } as any}
+            }}
           >
             <motion.div
               animate={{
                 opacity: [0.15, 0.6, 0.15],
                 scale: [1, 1.5, 1],
+                y: [0, -20, 0],
               }}
               transition={{ duration: 3 + i, repeat: Infinity, delay: i * 0.5 }}
               className={`rounded-full ${i % 2 === 0 ? 'bg-primary/30 w-1.5 h-1.5' : 'bg-secondary/20 w-1 h-1'}`}
             />
-          </Parallax>
+          </div>
         ))}
 
         {/* Content grid */}
