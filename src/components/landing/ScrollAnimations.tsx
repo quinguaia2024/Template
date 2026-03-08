@@ -157,7 +157,7 @@ export const MagneticWrap = ({ children, className = "" }: { children: ReactNode
 // Scramble text effect
 export const ScrambleText = ({ text, className = "" }: { text: string; className?: string }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: false });
   const [display, setDisplay] = useState(text);
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
