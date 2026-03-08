@@ -100,7 +100,7 @@ export const RevealLine = ({ className = "" }: { className?: string }) => {
 // Counter that animates numbers
 export const AnimatedCounter = ({ target, suffix = "" }: { target: number; suffix?: string }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: false });
   const [count, setCount] = useState(0);
 
   useEffect(() => {
