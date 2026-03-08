@@ -1,84 +1,96 @@
-import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-
-const stats = [
-  { value: "40%", label: "Taxa de reprovação no ensino técnico", color: "text-alert-red" },
-  { value: "1:80", label: "Rácio professor-aluno em muitas escolas", color: "text-glow-amber" },
-  { value: "72%", label: "Pais sem visibilidade do progresso", color: "text-alert-yellow" },
-];
+import { motion, useScroll, useTransform } from "framer-motion";
+import { TextReveal, FadeUp, RevealLine, AnimatedCounter, Parallax } from "./ScrollAnimations";
 
 const ProblemSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const bgX = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
 
   return (
-    <section id="problema" className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 mesh-gradient" />
+    <section id="problema" ref={ref} className="relative py-40 overflow-hidden">
+      {/* Animated bg element */}
+      <motion.div
+        style={{ x: bgX }}
+        className="absolute top-20 -right-20 text-[20vw] font-thin text-muted/30 select-none pointer-events-none leading-none"
+      >
+        ?
+      </motion.div>
 
-      <div ref={ref} className="relative z-10 container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-4"
-        >
-          <span className="font-display text-sm font-bold uppercase tracking-[0.3em] text-secondary">
-            O Problema
-          </span>
-        </motion.div>
+      <div className="relative z-10 px-8 max-w-6xl mx-auto">
+        {/* Label */}
+        <FadeUp>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-px w-12 glow-line" />
+            <span className="text-[10px] tracking-[0.4em] uppercase text-secondary font-light">
+              O problema
+            </span>
+          </div>
+        </FadeUp>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight max-w-3xl mb-16"
-        >
-          A educação técnica em Angola enfrenta desafios{" "}
-          <span className="text-gradient-primary">que não podem esperar</span>
-        </motion.h2>
+        {/* Headline */}
+        <h2 className="text-[clamp(2rem,5vw,4.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-4xl mb-20">
+          <TextReveal>A educação técnica em Angola enfrenta uma crise silenciosa que afecta milhares de estudantes todos os anos</TextReveal>
+        </h2>
 
-        {/* Stats grid */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.2 + i * 0.15 }}
-              className="group relative overflow-hidden rounded-2xl bg-glass p-8 transition-all hover:border-glow"
-            >
-              <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <span className={`font-display text-5xl md:text-6xl font-extrabold ${stat.color}`}>
-                {stat.value}
-              </span>
-              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                {stat.label}
-              </p>
-            </motion.div>
+        <RevealLine className="mb-20" />
+
+        {/* Stats — large numbers */}
+        <div className="grid md:grid-cols-3 gap-16 mb-24">
+          {[
+            { value: 40, suffix: "%", label: "dos alunos do ensino técnico reprovam por falta de acompanhamento individualizado — um número que continua a crescer ano após ano sem intervenção adequada." },
+            { value: 1, suffix: ":80", label: "é o rácio professor-aluno em grande parte das escolas técnicas, tornando impossível uma atenção personalizada a cada estudante." },
+            { value: 72, suffix: "%", label: "dos pais não têm qualquer visibilidade sobre o progresso académico dos filhos até que os resultados já sejam irreversíveis." },
+          ].map((stat, i) => (
+            <FadeUp key={i} delay={i * 0.15}>
+              <div className="group">
+                <span className="text-[clamp(3rem,6vw,5rem)] font-thin text-gradient-primary leading-none block mb-6">
+                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                </span>
+                <p className="text-sm font-light text-muted-foreground leading-[1.8]">
+                  {stat.label}
+                </p>
+              </div>
+            </FadeUp>
           ))}
         </div>
 
-        {/* Pain points */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="grid sm:grid-cols-3 gap-8 max-w-4xl"
-        >
+        <RevealLine className="mb-20" />
+
+        {/* Pain points — detailed descriptions */}
+        <div className="grid md:grid-cols-3 gap-12">
           {[
-            { icon: "🎓", title: "Alunos", desc: "Sem personalização, aprendem todos ao mesmo ritmo — e muitos ficam para trás." },
-            { icon: "👨‍👩‍👧", title: "Pais", desc: "Só descobrem os problemas quando já é tarde demais, sem alertas preventivos." },
-            { icon: "👨‍🏫", title: "Professores", desc: "Sem ferramentas digitais para potencializar o ensino com tecnologia." },
+            {
+              title: "Alunos",
+              desc: "Cada estudante tem um ritmo e estilo de aprendizagem único. Num sistema onde todos são forçados a aprender da mesma forma, ao mesmo tempo, muitos ficam para trás. Sem feedback personalizado, a frustração acumula-se, a motivação desaparece, e o ciclo de reprovação torna-se inevitável. Os jovens angolanos merecem mais do que um modelo educacional que ignora as suas necessidades individuais.",
+            },
+            {
+              title: "Encarregados",
+              desc: "A maioria dos pais e encarregados de educação só descobre que o filho está em dificuldades quando as notas finais chegam — e nessa altura já é tarde demais para intervir. Sem um sistema de alertas preventivos, sem relatórios de progresso regulares, a família fica completamente no escuro. A falta de comunicação entre escola e casa amplifica o problema.",
+            },
+            {
+              title: "Professores",
+              desc: "Os professores angolanos são dedicados, mas enfrentam turmas enormes sem qualquer ferramenta tecnológica de apoio. Não têm como personalizar o ensino para 80 alunos diferentes. Não têm analytics sobre onde cada estudante está. Não têm forma de integrar os seus materiais didáticos numa plataforma inteligente. A tecnologia que deveria ser o seu maior aliado simplesmente não existe.",
+            },
           ].map((item, i) => (
-            <div key={item.title} className="flex gap-4">
-              <span className="text-2xl flex-shrink-0">{item.icon}</span>
+            <FadeUp key={item.title} delay={i * 0.12}>
               <div>
-                <h3 className="font-display font-bold text-foreground mb-1">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-px w-6 bg-primary/40" />
+                  <span className="text-xs tracking-[0.2em] uppercase text-primary/80 font-light">
+                    {item.title}
+                  </span>
+                </div>
+                <p className="text-sm font-light text-muted-foreground leading-[1.9]">
+                  {item.desc}
+                </p>
               </div>
-            </div>
+            </FadeUp>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

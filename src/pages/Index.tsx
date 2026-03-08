@@ -1,3 +1,4 @@
+import CursorFollower from "@/components/landing/CursorFollower";
 import Navbar from "@/components/landing/Navbar";
 import HeroSection from "@/components/landing/HeroSection";
 import ProblemSection from "@/components/landing/ProblemSection";
@@ -9,7 +10,8 @@ import Footer from "@/components/landing/Footer";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background noise-overlay">
+    <div className="min-h-screen bg-background">
+      <CursorFollower />
       <Navbar />
       <HeroSection />
       <ProblemSection />

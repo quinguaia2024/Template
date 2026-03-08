@@ -1,67 +1,61 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { TextReveal, FadeUp, MagneticWrap, RevealLine } from "./ScrollAnimations";
 
 const CTASection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <section id="cta" className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
-        <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-secondary/5 blur-[100px]" />
-      </div>
+    <section id="cta" className="relative py-40 overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-primary/3 blur-[150px] pointer-events-none" />
 
-      <div ref={ref} className="relative z-10 container mx-auto px-6 text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="font-display text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6"
-        >
-          Pronto para
-          <br />
-          <span className="text-gradient-primary">mudar o jogo?</span>
-        </motion.h2>
+      <div className="relative z-10 px-8 max-w-4xl mx-auto text-center">
+        <h2 className="text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] font-thin tracking-[-0.03em] mb-8">
+          <TextReveal>Pronto para mudar o jogo?</TextReveal>
+        </h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-lg text-muted-foreground max-w-md mx-auto mb-10"
-        >
-          Junte-se à revolução da educação técnica em Angola. Comece agora — é gratuito.
-        </motion.p>
+        <FadeUp delay={0.3}>
+          <p className="text-base font-light text-muted-foreground leading-[1.8] max-w-xl mx-auto mb-6">
+            O Mentor IA está a construir o futuro da educação técnica em Angola. Um futuro onde cada aluno tem um caminho personalizado, cada professor é potencializado pela tecnologia, e cada família está informada e envolvida.
+          </p>
+        </FadeUp>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <a
-            href="#"
-            className="group relative inline-flex items-center gap-3 rounded-full bg-primary px-10 py-4 text-lg font-bold text-primary-foreground transition-all hover:scale-105 glow-cyan"
-          >
-            <span>Criar conta gratuita</span>
-            <svg
-              className="w-5 h-5 transition-transform group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
-          <a
-            href="#"
-            className="inline-flex items-center gap-2 rounded-full border-glow px-10 py-4 text-lg font-semibold text-foreground transition-all hover:bg-muted/40"
-          >
-            Falar connosco
-          </a>
-        </motion.div>
+        <FadeUp delay={0.4}>
+          <p className="text-sm font-light text-muted-foreground/60 max-w-lg mx-auto mb-14">
+            Junte-se à revolução educacional. Registe-se para acesso antecipado — é completamente gratuito. Seja parte da mudança que Angola precisa.
+          </p>
+        </FadeUp>
+
+        <FadeUp delay={0.5}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <MagneticWrap>
+              <a
+                href="#"
+                className="group relative inline-flex items-center gap-4 rounded-full border border-primary/40 px-10 py-4 text-sm tracking-[0.1em] uppercase font-light text-primary transition-all duration-700 hover:bg-primary hover:text-primary-foreground overflow-hidden"
+              >
+                <span className="relative z-10">Acesso antecipado</span>
+                <motion.svg
+                  className="relative z-10 w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1}
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </motion.svg>
+              </a>
+            </MagneticWrap>
+
+            <MagneticWrap>
+              <a
+                href="#"
+                className="text-sm tracking-[0.1em] uppercase font-light text-muted-foreground hover:text-foreground transition-colors duration-500"
+              >
+                Contactar equipa
+              </a>
+            </MagneticWrap>
+          </div>
+        </FadeUp>
       </div>
     </section>
   );
