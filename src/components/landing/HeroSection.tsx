@@ -102,7 +102,7 @@ const HeroSection = () => {
       scale: 1,
       opacity: 0,
       x: d > 0 ? "-5%" : "5%",
-      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
+      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
     }),
   };
 
