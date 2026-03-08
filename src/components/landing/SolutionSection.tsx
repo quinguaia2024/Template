@@ -1,100 +1,135 @@
-import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { TextReveal, FadeUp, RevealLine, ScrambleText, Parallax } from "./ScrollAnimations";
+import { useRef } from "react";
+import { TextReveal, FadeUp, RevealLine, Parallax } from "./ScrollAnimations";
+import studentImg from "@/assets/student-visual.jpg";
+import parentImg from "@/assets/parent-visual.jpg";
+import teacherImg from "@/assets/teacher-visual.jpg";
 
 const pillars = [
   {
-    num: "01",
-    tag: "Para alunos",
-    title: "Um mentor empático que aprende contigo",
-    desc: "O Mentor IA não é apenas mais um chatbot. É um sistema de inteligência artificial empático que, antes de ensinar, compreende. Através de algoritmos de aprendizagem adaptativa, a plataforma identifica o estilo cognitivo de cada aluno — visual, auditivo, cinestésico — e constrói um percurso educacional completamente personalizado.",
-    details: "Exercícios que se adaptam em tempo real à dificuldade do estudante. Explicações que mudam de abordagem quando o aluno não compreende. Feedback instantâneo que celebra progressos e identifica lacunas antes que se tornem problemas. Disponível 24 horas por dia, 7 dias por semana — porque a aprendizagem não segue horários fixos.",
-    accent: "primary",
+    tag: "Alunos",
+    title: "Aprende ao teu ritmo",
+    desc: "IA que se adapta ao teu estilo. Exercícios personalizados. Suporte 24/7.",
+    img: studentImg,
+    reverse: false,
   },
   {
-    num: "02",
-    tag: "Para encarregados",
-    title: "Visibilidade total com alertas de risco",
-    desc: "O sistema de semáforo do Mentor IA transforma dados complexos em informação imediatamente compreensível. Verde: o aluno está no caminho certo. Amarelo: atenção necessária — há sinais de dificuldade. Vermelho: intervenção urgente recomendada.",
-    details: "Mais do que um simples painel de notas, oferecemos relatórios semanais detalhados, alertas automáticos em tempo real quando padrões preocupantes são detectados, e sugestões concretas de como os encarregados podem apoiar em casa. A informação é apresentada de forma clara e accionável — porque a participação da família é fundamental para o sucesso académico.",
-    accent: "secondary",
+    tag: "Encarregados",
+    title: "Alertas em tempo real",
+    desc: "Sistema semáforo: verde, amarelo, vermelho. Saiba sempre como está o seu filho.",
+    img: parentImg,
+    reverse: true,
   },
   {
-    num: "03",
-    tag: "Para professores",
-    title: "A IA que aprende com o seu material",
-    desc: "Este é o verdadeiro diferencial do Mentor IA. Os professores não são substituídos — são amplificados. Qualquer docente pode enviar os seus próprios materiais didáticos: PDFs, apresentações, vídeos, exercícios, exames anteriores. A inteligência artificial absorve tudo, compreende o conteúdo, e personaliza-o para cada aluno.",
-    details: "O professor mantém o controlo pedagógico total. Pode ver exactamente onde cada estudante está através de analytics detalhados — quais conceitos foram dominados, quais precisam de reforço, quanto tempo cada aluno dedicou a cada tópico. Disciplinas são ilimitadas. O sistema cresce com o professor, não contra ele.",
-    accent: "primary",
+    tag: "Professores",
+    title: "A IA aprende consigo",
+    desc: "Envie materiais. A IA personaliza. Veja o progresso de cada aluno.",
+    img: teacherImg,
+    reverse: false,
   },
 ];
 
 const SolutionSection = () => {
-  const containerRef = useRef(null);
-
   return (
-    <section id="solucao" className="relative py-40 overflow-hidden">
+    <section id="solucao" className="relative py-32 overflow-hidden">
       <div className="absolute inset-0 mesh-bg" />
 
-      <div ref={containerRef} className="relative z-10 px-8 max-w-6xl mx-auto">
-        {/* Label */}
+      <div className="relative z-10 px-8 max-w-7xl mx-auto">
         <FadeUp>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="h-px w-12 glow-line" />
+          <div className="flex items-center gap-3 mb-6">
+            <motion.div
+              animate={{ scaleX: [0, 1, 0] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="h-px w-12 bg-primary origin-left"
+            />
             <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
               A solução
             </span>
           </div>
         </FadeUp>
 
-        <h2 className="text-[clamp(2rem,5vw,4.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-4xl mb-8">
-          <TextReveal>Um ecossistema inteligente onde professores alunos e pais evoluem juntos</TextReveal>
+        <h2 className="text-[clamp(1.8rem,4vw,3.5rem)] leading-[1.1] font-thin tracking-[-0.02em] max-w-3xl mb-24">
+          <TextReveal>Um ecossistema onde todos evoluem juntos</TextReveal>
         </h2>
 
-        <FadeUp delay={0.3}>
-          <p className="text-base font-light text-muted-foreground leading-[1.8] max-w-2xl mb-24">
-            O Mentor IA não é uma ferramenta isolada. É uma plataforma completa que conecta todos os intervenientes do processo educativo num ciclo virtuoso de aprendizagem, acompanhamento e evolução contínua.
-          </p>
-        </FadeUp>
-
-        {/* Pillars */}
+        {/* Image-driven pillars */}
         <div className="space-y-32">
           {pillars.map((pillar, i) => (
-            <div key={pillar.num}>
-              <RevealLine className="mb-12" />
-              <FadeUp>
-                <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-16">
-                  {/* Left side */}
-                  <div>
-                    <span className={`text-6xl font-thin ${pillar.accent === "primary" ? "text-primary/20" : "text-secondary/20"}`}>
-                      {pillar.num}
-                    </span>
-                    <div className="mt-4">
-                      <span className={`text-[10px] tracking-[0.3em] uppercase font-light ${pillar.accent === "primary" ? "text-primary/70" : "text-secondary/70"}`}>
-                        <ScrambleText text={pillar.tag} />
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Right side */}
-                  <div>
-                    <h3 className="text-2xl md:text-3xl font-light text-foreground leading-snug mb-6">
-                      {pillar.title}
-                    </h3>
-                    <p className="text-sm font-light text-muted-foreground leading-[1.9] mb-6 max-w-2xl">
-                      {pillar.desc}
-                    </p>
-                    <p className="text-sm font-light text-muted-foreground/70 leading-[1.9] max-w-2xl">
-                      {pillar.details}
-                    </p>
-                  </div>
-                </div>
-              </FadeUp>
-            </div>
+            <PillarCard key={pillar.tag} pillar={pillar} index={i} />
           ))}
         </div>
       </div>
     </section>
+  );
+};
+
+const PillarCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: number }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const imgY = useTransform(scrollYProgress, [0, 1], [60, -60]);
+  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.05, 1]);
+
+  return (
+    <div ref={ref}>
+      <RevealLine className="mb-12" />
+      <div className={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${pillar.reverse ? 'lg:direction-rtl' : ''}`}>
+        {/* Image side */}
+        <motion.div
+          className={`relative overflow-hidden rounded-2xl ${pillar.reverse ? 'lg:order-2' : ''}`}
+          style={{ y: imgY }}
+        >
+          <motion.div style={{ scale: imgScale }}>
+            <motion.img
+              src={pillar.img}
+              alt={pillar.tag}
+              className="w-full aspect-[4/3] object-cover rounded-2xl"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+            />
+          </motion.div>
+          {/* Overlay gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent rounded-2xl" />
+
+          {/* Floating tag on image */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="absolute bottom-6 left-6 inline-flex items-center gap-2 bg-glass rounded-full px-4 py-2"
+          >
+            <motion.div
+              animate={{ scale: [1, 1.4, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-1.5 h-1.5 rounded-full bg-primary"
+            />
+            <span className="text-[10px] tracking-[0.2em] uppercase font-light text-foreground">
+              {pillar.tag}
+            </span>
+          </motion.div>
+        </motion.div>
+
+        {/* Text side */}
+        <div className={`${pillar.reverse ? 'lg:order-1 lg:text-right' : ''}`}>
+          <FadeUp>
+            <span className="text-6xl font-thin text-primary/15 block mb-4">
+              0{index + 1}
+            </span>
+            <h3 className="text-2xl md:text-4xl font-thin text-foreground leading-tight mb-4">
+              {pillar.title}
+            </h3>
+            <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-sm">
+              {pillar.desc}
+            </p>
+          </FadeUp>
+        </div>
+      </div>
+    </div>
   );
 };
 

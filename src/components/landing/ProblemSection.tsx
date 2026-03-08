@@ -1,6 +1,6 @@
-import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { TextReveal, FadeUp, RevealLine, AnimatedCounter, Parallax } from "./ScrollAnimations";
+import { useRef } from "react";
+import { TextReveal, FadeUp, AnimatedCounter, RevealLine } from "./ScrollAnimations";
 
 const ProblemSection = () => {
   const ref = useRef(null);
@@ -8,89 +8,71 @@ const ProblemSection = () => {
     target: ref,
     offset: ["start end", "end start"],
   });
-  const bgX = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const questionX = useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]);
 
   return (
-    <section id="problema" ref={ref} className="relative py-40 overflow-hidden">
-      {/* Animated bg element */}
+    <section id="problema" ref={ref} className="relative py-32 overflow-hidden">
+      {/* Huge moving "?" */}
       <motion.div
-        style={{ x: bgX }}
-        className="absolute top-20 -right-20 text-[20vw] font-thin text-muted/30 select-none pointer-events-none leading-none"
+        style={{ x: questionX }}
+        className="absolute top-1/2 -translate-y-1/2 right-0 text-[35vw] font-thin text-muted/20 select-none pointer-events-none leading-none"
       >
         ?
       </motion.div>
 
       <div className="relative z-10 px-8 max-w-6xl mx-auto">
-        {/* Label */}
         <FadeUp>
-          <div className="flex items-center gap-4 mb-6">
-            <div className="h-px w-12 glow-line" />
+          <div className="flex items-center gap-3 mb-6">
+            <motion.div
+              animate={{ scaleX: [0, 1, 0] }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="h-px w-12 bg-secondary origin-left"
+            />
             <span className="text-[10px] tracking-[0.4em] uppercase text-secondary font-light">
               O problema
             </span>
           </div>
         </FadeUp>
 
-        {/* Headline */}
-        <h2 className="text-[clamp(2rem,5vw,4.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-4xl mb-20">
-          <TextReveal>A educação técnica em Angola enfrenta uma crise silenciosa que afecta milhares de estudantes todos os anos</TextReveal>
+        <h2 className="text-[clamp(1.8rem,4vw,3.5rem)] leading-[1.1] font-thin tracking-[-0.02em] max-w-3xl mb-20">
+          <TextReveal>Uma crise silenciosa na educação técnica angolana</TextReveal>
         </h2>
 
-        <RevealLine className="mb-20" />
-
-        {/* Stats — large numbers */}
-        <div className="grid md:grid-cols-3 gap-16 mb-24">
+        {/* Stats — visual-first with large animated numbers */}
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
           {[
-            { value: 40, suffix: "%", label: "dos alunos do ensino técnico reprovam por falta de acompanhamento individualizado — um número que continua a crescer ano após ano sem intervenção adequada." },
-            { value: 1, suffix: ":80", label: "é o rácio professor-aluno em grande parte das escolas técnicas, tornando impossível uma atenção personalizada a cada estudante." },
-            { value: 72, suffix: "%", label: "dos pais não têm qualquer visibilidade sobre o progresso académico dos filhos até que os resultados já sejam irreversíveis." },
+            { value: 40, suffix: "%", label: "Taxa de reprovação", color: "text-red-400" },
+            { value: 1, suffix: ":80", label: "Rácio professor-aluno", color: "text-secondary" },
+            { value: 72, suffix: "%", label: "Pais sem visibilidade", color: "text-yellow-400" },
           ].map((stat, i) => (
-            <FadeUp key={i} delay={i * 0.15}>
-              <div className="group">
-                <span className="text-[clamp(3rem,6vw,5rem)] font-thin text-gradient-primary leading-none block mb-6">
+            <FadeUp key={i} delay={i * 0.12}>
+              <motion.div
+                whileHover={{ scale: 1.03, y: -4 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="relative group rounded-2xl bg-glass p-8 overflow-hidden"
+              >
+                {/* Animated border glow on hover */}
+                <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-primary/20 transition-colors duration-700" />
+                <motion.div
+                  className="absolute top-0 left-0 right-0 h-px"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1.5, delay: 0.3 + i * 0.2 }}
+                  style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.4), transparent)", transformOrigin: "left" }}
+                />
+                <span className={`text-[clamp(3rem,5vw,4.5rem)] font-thin leading-none block mb-3 ${stat.color}`}>
                   <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                 </span>
-                <p className="text-sm font-light text-muted-foreground leading-[1.8]">
+                <span className="text-xs tracking-[0.15em] uppercase font-light text-muted-foreground">
                   {stat.label}
-                </p>
-              </div>
+                </span>
+              </motion.div>
             </FadeUp>
           ))}
         </div>
 
-        <RevealLine className="mb-20" />
-
-        {/* Pain points — detailed descriptions */}
-        <div className="grid md:grid-cols-3 gap-12">
-          {[
-            {
-              title: "Alunos",
-              desc: "Cada estudante tem um ritmo e estilo de aprendizagem único. Num sistema onde todos são forçados a aprender da mesma forma, ao mesmo tempo, muitos ficam para trás. Sem feedback personalizado, a frustração acumula-se, a motivação desaparece, e o ciclo de reprovação torna-se inevitável. Os jovens angolanos merecem mais do que um modelo educacional que ignora as suas necessidades individuais.",
-            },
-            {
-              title: "Encarregados",
-              desc: "A maioria dos pais e encarregados de educação só descobre que o filho está em dificuldades quando as notas finais chegam — e nessa altura já é tarde demais para intervir. Sem um sistema de alertas preventivos, sem relatórios de progresso regulares, a família fica completamente no escuro. A falta de comunicação entre escola e casa amplifica o problema.",
-            },
-            {
-              title: "Professores",
-              desc: "Os professores angolanos são dedicados, mas enfrentam turmas enormes sem qualquer ferramenta tecnológica de apoio. Não têm como personalizar o ensino para 80 alunos diferentes. Não têm analytics sobre onde cada estudante está. Não têm forma de integrar os seus materiais didáticos numa plataforma inteligente. A tecnologia que deveria ser o seu maior aliado simplesmente não existe.",
-            },
-          ].map((item, i) => (
-            <FadeUp key={item.title} delay={i * 0.12}>
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-px w-6 bg-primary/40" />
-                  <span className="text-xs tracking-[0.2em] uppercase text-primary/80 font-light">
-                    {item.title}
-                  </span>
-                </div>
-                <p className="text-sm font-light text-muted-foreground leading-[1.9]">
-                  {item.desc}
-                </p>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
+        <RevealLine />
       </div>
     </section>
   );

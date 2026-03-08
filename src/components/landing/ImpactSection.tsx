@@ -1,73 +1,83 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { TextReveal, FadeUp, RevealLine, MagneticWrap } from "./ScrollAnimations";
 
 const ImpactSection = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
-
   return (
-    <section id="impacto" ref={ref} className="relative py-40 overflow-hidden">
-      <div className="absolute inset-0 mesh-bg opacity-50" />
+    <section id="impacto" className="relative py-32 overflow-hidden">
+      <div className="absolute inset-0 mesh-bg opacity-40" />
 
-      {/* Large rotating circle decoration */}
-      <motion.div
-        style={{ rotate }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full border border-primary/5 pointer-events-none"
-      />
+      {/* Large rotating rings */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+          className="w-[50vw] h-[50vw] max-w-[700px] max-h-[700px] rounded-full border border-primary/5"
+        />
+      </div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="w-[35vw] h-[35vw] max-w-[500px] max-h-[500px] rounded-full border border-secondary/5"
+        />
+      </div>
 
-      <div className="relative z-10 px-8 max-w-5xl mx-auto text-center">
+      <div className="relative z-10 px-8 max-w-4xl mx-auto text-center">
         <FadeUp>
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="h-px w-12 glow-line" />
-            <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
-              Impacto
-            </span>
-            <div className="h-px w-12 glow-line" />
+          <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
+            Impacto
+          </span>
+        </FadeUp>
+
+        <div className="my-8">
+          <h2 className="text-[clamp(1.8rem,4vw,3.5rem)] leading-[1.1] font-thin tracking-[-0.02em]">
+            <TextReveal>Professores alunos e pais conectados por IA</TextReveal>
+          </h2>
+        </div>
+
+        <RevealLine className="max-w-xs mx-auto mb-12" />
+
+        {/* Visual alert system — interactive cards */}
+        <FadeUp delay={0.3}>
+          <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mb-16">
+            {[
+              { color: "bg-green-500", shadow: "shadow-green-500/20", label: "Bom" },
+              { color: "bg-yellow-500", shadow: "shadow-yellow-500/20", label: "Atenção" },
+              { color: "bg-red-500", shadow: "shadow-red-500/20", label: "Risco" },
+            ].map((a, i) => (
+              <motion.div
+                key={a.label}
+                whileHover={{ y: -8, scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                className="flex flex-col items-center gap-3 py-6 rounded-xl bg-glass"
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                  className={`w-5 h-5 rounded-full ${a.color} shadow-lg ${a.shadow}`}
+                />
+                <span className="text-[10px] tracking-[0.2em] uppercase font-light text-foreground/70">
+                  {a.label}
+                </span>
+              </motion.div>
+            ))}
           </div>
         </FadeUp>
 
-        <h2 className="text-[clamp(2rem,5vw,4rem)] leading-[1.1] font-thin tracking-[-0.02em] mb-10">
-          <TextReveal>Transformar a educação técnica em Angola criando um ecossistema onde professores alunos e pais trabalham juntos potencializados por inteligência artificial</TextReveal>
-        </h2>
-
-        <FadeUp delay={0.3}>
-          <p className="text-base font-light text-muted-foreground leading-[1.8] max-w-2xl mx-auto mb-16">
-            Disciplinas ilimitadas. Qualquer professor pode contribuir com o seu material. A IA transforma tudo em experiências personalizadas. E cada interveniente do sistema educativo tem acesso à informação que precisa, quando precisa.
-          </p>
-        </FadeUp>
-
-        <RevealLine className="max-w-md mx-auto mb-16" />
-
-        {/* Alert system — interactive */}
+        {/* Key numbers */}
         <FadeUp delay={0.4}>
-          <div className="inline-flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
+          <div className="flex items-center justify-center gap-12 flex-wrap">
             {[
-              { color: "bg-green-500", glow: "shadow-green-500/30", label: "Bom progresso", sub: "O aluno está no caminho certo" },
-              { color: "bg-yellow-500", glow: "shadow-yellow-500/30", label: "Atenção", sub: "Sinais de dificuldade detectados" },
-              { color: "bg-red-500", glow: "shadow-red-500/30", label: "Risco", sub: "Intervenção urgente necessária" },
-            ].map((alert, i) => (
-              <motion.div
-                key={alert.label}
-                whileHover={{ scale: 1.05, y: -4 }}
-                className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-glass cursor-none"
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
-                  className={`w-4 h-4 rounded-full ${alert.color} shadow-lg ${alert.glow}`}
-                />
-                <span className="text-xs tracking-[0.15em] uppercase font-light text-foreground">
-                  {alert.label}
+              { label: "Disciplinas", value: "∞" },
+              { label: "Disponível", value: "24/7" },
+              { label: "Para todos", value: "100%" },
+            ].map((item) => (
+              <div key={item.label} className="text-center">
+                <span className="text-3xl font-thin text-gradient-primary block">{item.value}</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase font-light text-muted-foreground mt-1 block">
+                  {item.label}
                 </span>
-                <span className="text-[10px] font-light text-muted-foreground text-center max-w-[140px]">
-                  {alert.sub}
-                </span>
-              </motion.div>
+              </div>
             ))}
           </div>
         </FadeUp>
