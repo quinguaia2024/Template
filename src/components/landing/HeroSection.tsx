@@ -40,7 +40,7 @@ const slides = [
   },
 ];
 
-const INTERVAL = 4500;
+const INTERVAL = 10000;
 
 const HeroSection = () => {
   const ref = useRef(null);
