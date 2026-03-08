@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useInView, useMotionValueEvent } from 
 // Reveals text word-by-word as it scrolls into view
 export const TextReveal = ({ children, className = "" }: { children: string; className?: string }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-15%" });
+  const isInView = useInView(ref, { once: false, margin: "-15%" });
   const words = children.split(" ");
 
   return (
@@ -40,7 +40,7 @@ export const FadeUp = ({
   className?: string;
 }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: false, margin: "-10%" });
 
   return (
     <motion.div
@@ -82,7 +82,7 @@ export const Parallax = ({
 // Horizontal reveal line
 export const RevealLine = ({ className = "" }: { className?: string }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: false, margin: "-10%" });
 
   return (
     <div ref={ref} className={`overflow-hidden ${className}`}>
@@ -100,7 +100,7 @@ export const RevealLine = ({ className = "" }: { className?: string }) => {
 // Counter that animates numbers
 export const AnimatedCounter = ({ target, suffix = "" }: { target: number; suffix?: string }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: false });
   const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -157,7 +157,7 @@ export const MagneticWrap = ({ children, className = "" }: { children: ReactNode
 // Scramble text effect
 export const ScrambleText = ({ text, className = "" }: { text: string; className?: string }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: false });
   const [display, setDisplay] = useState(text);
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
