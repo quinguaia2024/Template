@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, useInView, useMotionValueEvent } from 
 // Reveals text word-by-word as it scrolls into view
 export const TextReveal = ({ children, className = "" }: { children: string; className?: string }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-15%" });
+  const isInView = useInView(ref, { once: false, margin: "-15%" });
   const words = children.split(" ");
 
   return (
