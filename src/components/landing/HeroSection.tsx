@@ -1,181 +1,283 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { TextReveal, MagneticWrap, Parallax } from "./ScrollAnimations";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { MagneticWrap } from "./ScrollAnimations";
 import heroBg from "@/assets/hero-bg.jpg";
 import aiBrain from "@/assets/ai-brain.jpg";
+import studentImg from "@/assets/student-visual.jpg";
+import parentImg from "@/assets/parent-visual.jpg";
+import teacherImg from "@/assets/teacher-visual.jpg";
+
+const slides = [
+  {
+    img: heroBg,
+    subtitle: "Educação × Inteligência Artificial",
+    title: ["O futuro da", "educação"],
+    accent: 1,
+  },
+  {
+    img: studentImg,
+    subtitle: "Para estudantes",
+    title: ["Aprende ao", "teu ritmo"],
+    accent: 1,
+  },
+  {
+    img: parentImg,
+    subtitle: "Para encarregados",
+    title: ["Acompanha", "em tempo real"],
+    accent: 0,
+  },
+  {
+    img: teacherImg,
+    subtitle: "Para professores",
+    title: ["A IA aprende", "consigo"],
+    accent: 1,
+  },
+  {
+    img: aiBrain,
+    subtitle: "Tecnologia angolana",
+    title: ["Mentor IA", "começa aqui"],
+    accent: 0,
+  },
+];
+
+const INTERVAL = 4500;
 
 const HeroSection = () => {
   const ref = useRef(null);
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const touchStart = useRef(0);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
 
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1, 1.4]);
-  const imgOpacity = useTransform(scrollYProgress, [0, 0.7], [0.35, 0]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, 250]);
-  const brainY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-  const brainRotate = useTransform(scrollYProgress, [0, 1], [0, 15]);
-  const brainScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.55, 0.9]);
+
+  const goTo = useCallback((next: number) => {
+    setDirection(next > current ? 1 : -1);
+    setCurrent(next);
+  }, [current]);
+
+  // Auto-advance
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDirection(1);
+      setCurrent((p) => (p + 1) % slides.length);
+    }, INTERVAL);
+    return () => clearInterval(timer);
+  }, [current]);
+
+  // Touch swipe
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const diff = touchStart.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      const next = diff > 0
+        ? (current + 1) % slides.length
+        : (current - 1 + slides.length) % slides.length;
+      goTo(next);
+    }
+  };
+
+  const slide = slides[current];
+
+  const imgVariants = {
+    enter: (d: number) => ({
+      scale: 1.15,
+      opacity: 0,
+      x: d > 0 ? "8%" : "-8%",
+    }),
+    center: {
+      scale: 1.05,
+      opacity: 1,
+      x: "0%",
+      transition: { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
+    },
+    exit: (d: number) => ({
+      scale: 1,
+      opacity: 0,
+      x: d > 0 ? "-5%" : "5%",
+      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
+    }),
+  };
+
+  const textVariants = {
+    enter: { opacity: 0, y: 40, filter: "blur(8px)" },
+    center: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 0.9, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
+    },
+    exit: {
+      opacity: 0,
+      y: -30,
+      filter: "blur(6px)",
+      transition: { duration: 0.5 },
+    },
+  };
 
   return (
-    <section ref={ref} className="relative h-[250vh]">
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-        {/* Background */}
-        <motion.div className="absolute inset-0" style={{ scale: imgScale, opacity: imgOpacity }}>
-          <img src={heroBg} alt="" className="w-full h-full object-cover" />
-        </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background" />
-
-        {/* Floating decorative particles */}
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute pointer-events-none"
-            style={{
-              top: `${15 + i * 13}%`,
-              left: `${5 + i * 16}%`,
-            }}
+    <section
+      ref={ref}
+      className="relative h-[200vh]"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
+      <div className="sticky top-0 h-[100svh] flex items-center overflow-hidden">
+        {/* Background images with crossfade */}
+        <AnimatePresence custom={direction} mode="popLayout">
+          <motion.div
+            key={current}
+            custom={direction}
+            variants={imgVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            className="absolute inset-0"
           >
+            <img
+              src={slide.img}
+              alt=""
+              className="w-full h-full object-cover"
+              draggable={false}
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Dark overlay */}
+        <motion.div
+          className="absolute inset-0 bg-background"
+          style={{ opacity: overlayOpacity }}
+        />
+
+        {/* Gradient bottom fade */}
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
+
+        {/* Content */}
+        <motion.div
+          className="relative z-10 w-full px-6 md:px-12 max-w-6xl mx-auto"
+          style={{ y: textY }}
+        >
+          <AnimatePresence mode="wait">
             <motion.div
-              animate={{
-                opacity: [0.15, 0.6, 0.15],
-                scale: [1, 1.5, 1],
-                y: [0, -20, 0],
-              }}
-              transition={{ duration: 3 + i, repeat: Infinity, delay: i * 0.5 }}
-              className={`rounded-full ${i % 2 === 0 ? 'bg-primary/30 w-1.5 h-1.5' : 'bg-secondary/20 w-1 h-1'}`}
+              key={current}
+              variants={textVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+            >
+              {/* Subtitle pill */}
+              <div className="flex items-center gap-3 mb-6 md:mb-8">
+                <motion.div
+                  animate={{ scaleX: [0, 1] }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  className="h-px w-8 md:w-10 glow-line origin-left"
+                />
+                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-muted-foreground font-light">
+                  {slide.subtitle}
+                </span>
+              </div>
+
+              {/* Main title */}
+              <h1 className="text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] text-foreground mb-6 md:mb-8">
+                {slide.title.map((line, i) => (
+                  <span key={i} className="block">
+                    {i === slide.accent ? (
+                      <span className="text-gradient-primary">{line}</span>
+                    ) : (
+                      line
+                    )}
+                  </span>
+                ))}
+              </h1>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* CTA buttons — always visible */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.5 }}
+            className="flex items-center gap-4 md:gap-6 mt-2"
+          >
+            <MagneticWrap>
+              <a
+                href="#cta"
+                className="group inline-flex items-center gap-3 rounded-full border border-primary/40 px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-primary transition-all duration-700 hover:bg-primary hover:text-primary-foreground active:scale-95"
+              >
+                <span>Começar</span>
+                <motion.span
+                  animate={{ x: [0, 4, 0] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  →
+                </motion.span>
+              </a>
+            </MagneticWrap>
+            <MagneticWrap>
+              <a
+                href="#video"
+                className="inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-muted-foreground hover:text-foreground transition-colors duration-500 active:scale-95"
+              >
+                <div className="w-8 h-8 rounded-full border border-muted-foreground/30 flex items-center justify-center">
+                  <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                Ver vídeo
+              </a>
+            </MagneticWrap>
+          </motion.div>
+        </motion.div>
+
+        {/* Slide indicators — bottom */}
+        <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              className="relative p-1 group"
+              aria-label={`Slide ${i + 1}`}
+            >
+              <div className="w-8 md:w-12 h-0.5 rounded-full bg-foreground/20 overflow-hidden">
+                {i === current && (
+                  <motion.div
+                    className="h-full bg-primary rounded-full"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{ duration: INTERVAL / 1000, ease: "linear" }}
+                    key={`progress-${current}`}
+                  />
+                )}
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Slide counter — right side on desktop, hidden on small mobile */}
+        <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-20 hidden sm:flex flex-col items-center gap-3">
+          <span className="text-[10px] tracking-[0.2em] text-primary font-light">
+            {String(current + 1).padStart(2, "0")}
+          </span>
+          <div className="w-px h-12 bg-foreground/10 relative overflow-hidden">
+            <motion.div
+              className="w-full bg-primary"
+              initial={{ height: "0%" }}
+              animate={{ height: "100%" }}
+              transition={{ duration: INTERVAL / 1000, ease: "linear" }}
+              key={`bar-${current}`}
             />
           </div>
-        ))}
-
-        {/* Content grid */}
-        <motion.div className="relative z-10 w-full px-8 grid lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto" style={{ y: textY }}>
-          {/* Left — text */}
-          <div>
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-              className="flex items-center gap-3 mb-8"
-            >
-              <motion.div
-                animate={{ scaleX: [0, 1] }}
-                transition={{ duration: 1, delay: 0.8 }}
-                className="h-px w-10 glow-line origin-left"
-              />
-              <span className="text-[10px] tracking-[0.4em] uppercase text-muted-foreground font-light">
-                Educação × Inteligência Artificial
-              </span>
-            </motion.div>
-
-            <h1 className="text-[clamp(2.8rem,7vw,7rem)] leading-[0.88] font-thin tracking-[-0.04em] text-foreground mb-8">
-              <TextReveal>O futuro da</TextReveal>
-              <br />
-              <span className="text-gradient-primary">
-                <TextReveal>educação</TextReveal>
-              </span>
-              <br />
-              <TextReveal>começa aqui</TextReveal>
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1.4 }}
-              className="max-w-sm text-sm font-light text-muted-foreground leading-relaxed mb-10"
-            >
-              Aprendizagem personalizada para cada aluno angolano, potencializada por IA.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1.8 }}
-              className="flex items-center gap-6"
-            >
-              <MagneticWrap>
-                <a
-                  href="#cta"
-                  className="group inline-flex items-center gap-3 rounded-full border border-primary/40 px-8 py-3.5 text-xs tracking-[0.15em] uppercase font-light text-primary transition-all duration-700 hover:bg-primary hover:text-primary-foreground"
-                >
-                  <span>Começar</span>
-                  <motion.span
-                    animate={{ x: [0, 4, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    →
-                  </motion.span>
-                </a>
-              </MagneticWrap>
-              <MagneticWrap>
-                <a href="#video" className="text-xs tracking-[0.15em] uppercase font-light text-muted-foreground hover:text-foreground transition-colors duration-500 flex items-center gap-2">
-                  <motion.div
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="w-8 h-8 rounded-full border border-muted-foreground/30 flex items-center justify-center"
-                  >
-                    <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </motion.div>
-                  Ver vídeo
-                </a>
-              </MagneticWrap>
-            </motion.div>
-          </div>
-
-          {/* Right — floating AI brain image */}
-          <motion.div
-            className="hidden lg:block relative"
-            style={{ y: brainY, rotate: brainRotate, scale: brainScale }}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.5, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="relative"
-            >
-              <img
-                src={aiBrain}
-                alt="Mentor IA Brain"
-                className="w-full rounded-3xl opacity-90"
-              />
-              {/* Glow overlay */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-background via-transparent to-transparent" />
-              {/* Orbiting dot */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0"
-              >
-                <div className="absolute top-4 left-1/2 w-2 h-2 rounded-full bg-primary glow-dot" />
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2"
-          >
-            <div className="w-4 h-7 rounded-full border border-muted-foreground/20 flex justify-center pt-1.5">
-              <motion.div
-                animate={{ y: [0, 8, 0], opacity: [1, 0, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-0.5 h-1.5 rounded-full bg-primary/60"
-              />
-            </div>
-          </motion.div>
-        </motion.div>
+          <span className="text-[10px] tracking-[0.2em] text-muted-foreground/40 font-light">
+            {String(slides.length).padStart(2, "0")}
+          </span>
+        </div>
       </div>
     </section>
   );
