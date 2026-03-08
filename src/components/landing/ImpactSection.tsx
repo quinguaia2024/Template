@@ -1,70 +1,76 @@
-import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { TextReveal, FadeUp, RevealLine, MagneticWrap } from "./ScrollAnimations";
 
 const ImpactSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
 
   return (
-    <section id="impacto" className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 mesh-gradient opacity-70" />
+    <section id="impacto" ref={ref} className="relative py-40 overflow-hidden">
+      <div className="absolute inset-0 mesh-bg opacity-50" />
 
-      <div ref={ref} className="relative z-10 container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="mb-4"
-          >
-            <span className="font-display text-sm font-bold uppercase tracking-[0.3em] text-primary">
+      {/* Large rotating circle decoration */}
+      <motion.div
+        style={{ rotate }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] rounded-full border border-primary/5 pointer-events-none"
+      />
+
+      <div className="relative z-10 px-8 max-w-5xl mx-auto text-center">
+        <FadeUp>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="h-px w-12 glow-line" />
+            <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
               Impacto
             </span>
-          </motion.div>
+            <div className="h-px w-12 glow-line" />
+          </div>
+        </FadeUp>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-8"
-          >
-            Transformar a educação técnica em Angola,{" "}
-            <span className="text-gradient-primary">criando um ecossistema</span>{" "}
-            onde todos evoluem juntos
-          </motion.h2>
+        <h2 className="text-[clamp(2rem,5vw,4rem)] leading-[1.1] font-thin tracking-[-0.02em] mb-10">
+          <TextReveal>Transformar a educação técnica em Angola criando um ecossistema onde professores alunos e pais trabalham juntos potencializados por inteligência artificial</TextReveal>
+        </h2>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto mb-16"
-          >
-            Professores, alunos e pais trabalham conectados, potencializados por inteligência artificial — sem limites de disciplinas.
-          </motion.p>
+        <FadeUp delay={0.3}>
+          <p className="text-base font-light text-muted-foreground leading-[1.8] max-w-2xl mx-auto mb-16">
+            Disciplinas ilimitadas. Qualquer professor pode contribuir com o seu material. A IA transforma tudo em experiências personalizadas. E cada interveniente do sistema educativo tem acesso à informação que precisa, quando precisa.
+          </p>
+        </FadeUp>
 
-          {/* Alert system visualization */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="inline-flex items-center gap-4 rounded-2xl bg-glass p-6"
-          >
-            <div className="flex items-center gap-3">
-              <div className="h-4 w-4 rounded-full bg-alert-green animate-pulse" />
-              <span className="text-sm text-foreground/70">Bom progresso</span>
-            </div>
-            <div className="w-px h-6 bg-border" />
-            <div className="flex items-center gap-3">
-              <div className="h-4 w-4 rounded-full bg-alert-yellow animate-pulse" style={{ animationDelay: "0.5s" }} />
-              <span className="text-sm text-foreground/70">Atenção necessária</span>
-            </div>
-            <div className="w-px h-6 bg-border" />
-            <div className="flex items-center gap-3">
-              <div className="h-4 w-4 rounded-full bg-alert-red animate-pulse" style={{ animationDelay: "1s" }} />
-              <span className="text-sm text-foreground/70">Risco elevado</span>
-            </div>
-          </motion.div>
-        </div>
+        <RevealLine className="max-w-md mx-auto mb-16" />
+
+        {/* Alert system — interactive */}
+        <FadeUp delay={0.4}>
+          <div className="inline-flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
+            {[
+              { color: "bg-green-500", glow: "shadow-green-500/30", label: "Bom progresso", sub: "O aluno está no caminho certo" },
+              { color: "bg-yellow-500", glow: "shadow-yellow-500/30", label: "Atenção", sub: "Sinais de dificuldade detectados" },
+              { color: "bg-red-500", glow: "shadow-red-500/30", label: "Risco", sub: "Intervenção urgente necessária" },
+            ].map((alert, i) => (
+              <motion.div
+                key={alert.label}
+                whileHover={{ scale: 1.05, y: -4 }}
+                className="flex flex-col items-center gap-3 p-6 rounded-2xl bg-glass cursor-none"
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.3, 1], opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
+                  className={`w-4 h-4 rounded-full ${alert.color} shadow-lg ${alert.glow}`}
+                />
+                <span className="text-xs tracking-[0.15em] uppercase font-light text-foreground">
+                  {alert.label}
+                </span>
+                <span className="text-[10px] font-light text-muted-foreground text-center max-w-[140px]">
+                  {alert.sub}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </FadeUp>
       </div>
     </section>
   );

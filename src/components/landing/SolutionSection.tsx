@@ -1,105 +1,96 @@
-import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { TextReveal, FadeUp, RevealLine, ScrambleText, Parallax } from "./ScrollAnimations";
 
 const pillars = [
   {
-    tag: "Para Alunos",
-    title: "Mentor empático que se adapta a ti",
-    desc: "A IA identifica o teu estilo de aprendizagem e cria um percurso único. Exercícios adaptativos, explicações personalizadas, e suporte 24/7.",
-    features: ["Aprendizagem adaptativa", "Exercícios inteligentes", "Suporte contínuo"],
-    gradient: "from-primary/20 to-primary/5",
-    borderColor: "hover:border-primary/40",
-    accentColor: "bg-primary",
-    textColor: "text-primary",
+    num: "01",
+    tag: "Para alunos",
+    title: "Um mentor empático que aprende contigo",
+    desc: "O Mentor IA não é apenas mais um chatbot. É um sistema de inteligência artificial empático que, antes de ensinar, compreende. Através de algoritmos de aprendizagem adaptativa, a plataforma identifica o estilo cognitivo de cada aluno — visual, auditivo, cinestésico — e constrói um percurso educacional completamente personalizado.",
+    details: "Exercícios que se adaptam em tempo real à dificuldade do estudante. Explicações que mudam de abordagem quando o aluno não compreende. Feedback instantâneo que celebra progressos e identifica lacunas antes que se tornem problemas. Disponível 24 horas por dia, 7 dias por semana — porque a aprendizagem não segue horários fixos.",
+    accent: "primary",
   },
   {
-    tag: "Para Pais",
-    title: "Alertas de risco em tempo real",
-    desc: "Sistema de semáforo (verde/amarelo/vermelho) que informa o estado do aluno antes que os problemas se agravem.",
-    features: ["Dashboard intuitivo", "Alertas preventivos", "Relatórios semanais"],
-    gradient: "from-secondary/20 to-secondary/5",
-    borderColor: "hover:border-secondary/40",
-    accentColor: "bg-secondary",
-    textColor: "text-secondary",
+    num: "02",
+    tag: "Para encarregados",
+    title: "Visibilidade total com alertas de risco",
+    desc: "O sistema de semáforo do Mentor IA transforma dados complexos em informação imediatamente compreensível. Verde: o aluno está no caminho certo. Amarelo: atenção necessária — há sinais de dificuldade. Vermelho: intervenção urgente recomendada.",
+    details: "Mais do que um simples painel de notas, oferecemos relatórios semanais detalhados, alertas automáticos em tempo real quando padrões preocupantes são detectados, e sugestões concretas de como os encarregados podem apoiar em casa. A informação é apresentada de forma clara e accionável — porque a participação da família é fundamental para o sucesso académico.",
+    accent: "secondary",
   },
   {
-    tag: "Para Professores",
-    title: "A IA aprende com o teu material",
-    desc: "Envie PDFs, vídeos e exercícios. A IA personaliza para cada aluno e dá-lhe visibilidade total do progresso.",
-    features: ["Upload de conteúdos", "Analytics por aluno", "Disciplinas ilimitadas"],
-    gradient: "from-glow-cyan/20 to-glow-amber/5",
-    borderColor: "hover:border-glow-cyan/40",
-    accentColor: "bg-glow-cyan",
-    textColor: "text-glow-cyan",
+    num: "03",
+    tag: "Para professores",
+    title: "A IA que aprende com o seu material",
+    desc: "Este é o verdadeiro diferencial do Mentor IA. Os professores não são substituídos — são amplificados. Qualquer docente pode enviar os seus próprios materiais didáticos: PDFs, apresentações, vídeos, exercícios, exames anteriores. A inteligência artificial absorve tudo, compreende o conteúdo, e personaliza-o para cada aluno.",
+    details: "O professor mantém o controlo pedagógico total. Pode ver exactamente onde cada estudante está através de analytics detalhados — quais conceitos foram dominados, quais precisam de reforço, quanto tempo cada aluno dedicou a cada tópico. Disciplinas são ilimitadas. O sistema cresce com o professor, não contra ele.",
+    accent: "primary",
   },
 ];
 
 const SolutionSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const containerRef = useRef(null);
 
   return (
-    <section id="solucao" className="relative py-32 overflow-hidden">
-      <div className="absolute inset-0 mesh-gradient opacity-50" />
+    <section id="solucao" className="relative py-40 overflow-hidden">
+      <div className="absolute inset-0 mesh-bg" />
 
-      <div ref={ref} className="relative z-10 container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="mb-4"
-        >
-          <span className="font-display text-sm font-bold uppercase tracking-[0.3em] text-primary">
-            A Solução
-          </span>
-        </motion.div>
+      <div ref={containerRef} className="relative z-10 px-8 max-w-6xl mx-auto">
+        {/* Label */}
+        <FadeUp>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="h-px w-12 glow-line" />
+            <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
+              A solução
+            </span>
+          </div>
+        </FadeUp>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight max-w-3xl mb-20"
-        >
-          Um ecossistema onde{" "}
-          <span className="text-gradient-primary">todos evoluem juntos</span>
-        </motion.h2>
+        <h2 className="text-[clamp(2rem,5vw,4.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-4xl mb-8">
+          <TextReveal>Um ecossistema inteligente onde professores alunos e pais evoluem juntos</TextReveal>
+        </h2>
 
-        <div className="grid lg:grid-cols-3 gap-6">
+        <FadeUp delay={0.3}>
+          <p className="text-base font-light text-muted-foreground leading-[1.8] max-w-2xl mb-24">
+            O Mentor IA não é uma ferramenta isolada. É uma plataforma completa que conecta todos os intervenientes do processo educativo num ciclo virtuoso de aprendizagem, acompanhamento e evolução contínua.
+          </p>
+        </FadeUp>
+
+        {/* Pillars */}
+        <div className="space-y-32">
           {pillars.map((pillar, i) => (
-            <motion.div
-              key={pillar.tag}
-              initial={{ opacity: 0, y: 60 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.2 + i * 0.15 }}
-              className={`group relative rounded-3xl bg-glass p-8 transition-all duration-500 ${pillar.borderColor}`}
-            >
-              {/* Top accent line */}
-              <div className={`h-1 w-12 rounded-full ${pillar.accentColor} mb-6 transition-all duration-500 group-hover:w-20`} />
-
-              <span className={`text-xs font-bold uppercase tracking-[0.2em] ${pillar.textColor}`}>
-                {pillar.tag}
-              </span>
-
-              <h3 className="font-display text-xl font-bold text-foreground mt-3 mb-4 leading-snug">
-                {pillar.title}
-              </h3>
-
-              <p className="text-sm text-muted-foreground leading-relaxed mb-8">
-                {pillar.desc}
-              </p>
-
-              <div className="space-y-3">
-                {pillar.features.map((f) => (
-                  <div key={f} className="flex items-center gap-3">
-                    <div className={`h-1.5 w-1.5 rounded-full ${pillar.accentColor}`} />
-                    <span className="text-sm text-foreground/80">{f}</span>
+            <div key={pillar.num}>
+              <RevealLine className="mb-12" />
+              <FadeUp>
+                <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-16">
+                  {/* Left side */}
+                  <div>
+                    <span className={`text-6xl font-thin ${pillar.accent === "primary" ? "text-primary/20" : "text-secondary/20"}`}>
+                      {pillar.num}
+                    </span>
+                    <div className="mt-4">
+                      <span className={`text-[10px] tracking-[0.3em] uppercase font-light ${pillar.accent === "primary" ? "text-primary/70" : "text-secondary/70"}`}>
+                        <ScrambleText text={pillar.tag} />
+                      </span>
+                    </div>
                   </div>
-                ))}
-              </div>
 
-              {/* Hover gradient overlay */}
-              <div className={`absolute inset-0 rounded-3xl bg-gradient-to-b ${pillar.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`} />
-            </motion.div>
+                  {/* Right side */}
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-light text-foreground leading-snug mb-6">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-sm font-light text-muted-foreground leading-[1.9] mb-6 max-w-2xl">
+                      {pillar.desc}
+                    </p>
+                    <p className="text-sm font-light text-muted-foreground/70 leading-[1.9] max-w-2xl">
+                      {pillar.details}
+                    </p>
+                  </div>
+                </div>
+              </FadeUp>
+            </div>
           ))}
         </div>
       </div>
