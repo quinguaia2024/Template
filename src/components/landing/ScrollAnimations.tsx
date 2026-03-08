@@ -82,7 +82,7 @@ export const Parallax = ({
 // Horizontal reveal line
 export const RevealLine = ({ className = "" }: { className?: string }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: false, margin: "-10%" });
 
   return (
     <div ref={ref} className={`overflow-hidden ${className}`}>
