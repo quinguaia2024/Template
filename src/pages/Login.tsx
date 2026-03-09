@@ -126,7 +126,7 @@ const Login = () => {
                 
                 {/* Header */}
                 <div className="text-center mb-8">
-                  <h1 className="text-3xl font-bold text-foreground mb-2 font-['Clash_Display']">
+                  <h1 className="text-3xl font-bold text-foreground mb-2">
                     Bem-vindo de Volta!
                   </h1>
                   <p className="text-muted-foreground">

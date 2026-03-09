@@ -108,7 +108,7 @@ const AuthGate = () => {
               </div>
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gradient-primary mb-4 font-['Clash_Display']">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gradient-primary mb-4">
               Bem-vindo ao Mentor IA
             </h1>
             
