@@ -9,6 +9,7 @@ import AuthGate from "./pages/AuthGate";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import DashboardTutores from "./pages/DashboardTutores";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
