@@ -192,7 +192,7 @@ const Dashboard = () => {
                   </h3>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3 text-sm">
-                      <div className="mt-0.5 w-4 h-4 rounded-full bg-green-500/20 flex items-center justify-center text-green-500">✓</div>
+                      <div className="mt-0.5 w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center text-primary">✓</div>
                       <span className="text-muted-foreground">Você está <span className="text-foreground">15% acima da média</span> em Lógica de Programação.</span>
                     </li>
                     <li className="flex items-start gap-3 text-sm">
