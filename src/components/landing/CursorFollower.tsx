@@ -57,11 +57,11 @@ const CursorFollower = () => {
     <div className="pointer-events-none fixed inset-0 z-[9999] hidden md:block">
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 h-2 w-2 rounded-full bg-primary transition-transform duration-150 will-change-transform"
+        className="fixed top-0 left-0 h-2.5 w-2.5 rounded-full bg-primary transition-transform duration-100 will-change-transform"
       />
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 h-8 w-8 rounded-full border border-primary/50 transition-[transform,opacity] duration-300 will-change-transform"
+        className="fixed top-0 left-0 h-11 w-11 rounded-full border border-primary/50 transition-[transform,opacity] duration-200 will-change-transform"
       />
     </div>
   );
