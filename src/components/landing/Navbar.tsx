@@ -167,7 +167,7 @@ const Navbar = () => {
                 className="mt-10"
               >
                 <a
-                  href="#cta"
+                  href={AUTH_ROUTES.gate}
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center justify-center gap-3 w-full rounded-full bg-primary text-primary-foreground px-8 py-4 text-xs tracking-[0.2em] uppercase font-light active:scale-95 transition-transform"
                 >
