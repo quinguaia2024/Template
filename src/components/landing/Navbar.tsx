@@ -54,7 +54,7 @@ const Navbar = () => {
 
         <MagneticWrap>
           <a
-            href="#cta"
+            href={AUTH_ROUTES.gate}
             className="hidden md:inline-flex text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
           >
             Começar
