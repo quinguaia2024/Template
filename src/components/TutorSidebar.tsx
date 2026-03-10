@@ -3,7 +3,7 @@ import {
   TrendingUp, School, Settings, LogOut, ChevronRight,
   Bell, FileText, Eye, User
 } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/auth';
 import { NavLink } from '@/components/NavLink';
 import { useLocation } from 'react-router-dom';
 import {
