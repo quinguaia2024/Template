@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MagneticWrap } from "./ScrollAnimations";
+import { AUTH_ROUTES } from "@/auth/constants";
 
 const navItems = [
   { label: "Problema", href: "#problema" },
@@ -53,7 +54,7 @@ const Navbar = () => {
 
         <MagneticWrap>
           <a
-            href="#cta"
+            href={AUTH_ROUTES.gate}
             className="hidden md:inline-flex text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
           >
             Começar
@@ -166,7 +167,7 @@ const Navbar = () => {
                 className="mt-10"
               >
                 <a
-                  href="#cta"
+                  href={AUTH_ROUTES.gate}
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center justify-center gap-3 w-full rounded-full bg-primary text-primary-foreground px-8 py-4 text-xs tracking-[0.2em] uppercase font-light active:scale-95 transition-transform"
                 >

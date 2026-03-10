@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FadeUp, MagneticWrap } from "./ScrollAnimations";
+import { AUTH_ROUTES } from "@/auth/constants";
 
 const CTASection = () => {
   return (
@@ -22,7 +23,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5">
             <MagneticWrap>
               <motion.a
-                href="#"
+                href={AUTH_ROUTES.register}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative inline-flex items-center gap-3 rounded-full bg-primary px-8 md:px-10 py-3.5 md:py-4 text-[11px] md:text-xs tracking-[0.15em] uppercase font-normal text-primary-foreground overflow-hidden active:opacity-90"

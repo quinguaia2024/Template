@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { MagneticWrap } from "./ScrollAnimations";
+import { AUTH_ROUTES } from "@/auth/constants";
 import heroBg from "@/assets/hero-bg.jpg";
 import aiBrain from "@/assets/ai-brain.jpg";
 import studentImg from "@/assets/student-visual.jpg";
@@ -208,7 +209,7 @@ const HeroSection = () => {
           >
             <MagneticWrap>
               <a
-                href="#cta"
+                href={AUTH_ROUTES.gate}
                 className="group inline-flex items-center gap-3 rounded-full border border-primary/40 px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-primary transition-all duration-700 hover:bg-primary hover:text-primary-foreground active:scale-95"
               >
                 <span>Começar</span>
