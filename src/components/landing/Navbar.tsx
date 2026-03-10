@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MagneticWrap } from "./ScrollAnimations";
+import { AUTH_ROUTES } from "@/auth/constants";
 
 const navItems = [
   { label: "Problema", href: "#problema" },
