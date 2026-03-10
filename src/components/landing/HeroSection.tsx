@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { MagneticWrap } from "./ScrollAnimations";
+import { AUTH_ROUTES } from "@/auth/constants";
 import heroBg from "@/assets/hero-bg.jpg";
 import aiBrain from "@/assets/ai-brain.jpg";
 import studentImg from "@/assets/student-visual.jpg";
