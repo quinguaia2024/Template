@@ -1,25 +1,31 @@
-import { useEffect, useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useRef, useCallback } from "react";
 
 const CursorFollower = () => {
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const trailX = useMotionValue(-100);
-  const trailY = useMotionValue(-100);
-
-  const springX = useSpring(trailX, { damping: 25, stiffness: 200 });
-  const springY = useSpring(trailY, { damping: 25, stiffness: 200 });
-
-  const isHovering = useRef(false);
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const mouse = useRef({ x: -100, y: -100 });
+  const ring = useRef({ x: -100, y: -100 });
+  const raf = useRef<number>(0);
+
+  const animate = useCallback(() => {
+    // Lerp the ring toward mouse
+    ring.current.x += (mouse.current.x - ring.current.x) * 0.15;
+    ring.current.y += (mouse.current.y - ring.current.y) * 0.15;
+
+    if (dotRef.current) {
+      dotRef.current.style.transform = `translate(${mouse.current.x - 4}px, ${mouse.current.y - 4}px)`;
+    }
+    if (ringRef.current) {
+      ringRef.current.style.transform = `translate(${ring.current.x - 16}px, ${ring.current.y - 16}px)`;
+    }
+
+    raf.current = requestAnimationFrame(animate);
+  }, []);
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      trailX.set(e.clientX);
-      trailY.set(e.clientY);
+      mouse.current.x = e.clientX;
+      mouse.current.y = e.clientY;
     };
 
     const handleOver = (e: MouseEvent) => {
@@ -35,27 +41,28 @@ const CursorFollower = () => {
       dotRef.current?.classList.remove("scale-0");
     };
 
-    window.addEventListener("mousemove", move);
-    document.addEventListener("mouseover", handleOver);
-    document.addEventListener("mouseout", handleOut);
+    window.addEventListener("mousemove", move, { passive: true });
+    document.addEventListener("mouseover", handleOver, { passive: true });
+    document.addEventListener("mouseout", handleOut, { passive: true });
+    raf.current = requestAnimationFrame(animate);
+
     return () => {
       window.removeEventListener("mousemove", move);
       document.removeEventListener("mouseover", handleOver);
       document.removeEventListener("mouseout", handleOut);
+      cancelAnimationFrame(raf.current);
     };
-  }, [cursorX, cursorY, trailX, trailY]);
+  }, [animate]);
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999] hidden md:block">
-      <motion.div
+      <div
         ref={dotRef}
-        className="fixed top-0 left-0 h-2 w-2 rounded-full bg-primary transition-transform duration-150"
-        style={{ x: cursorX, y: cursorY, translateX: "-50%", translateY: "-50%" }}
+        className="fixed top-0 left-0 h-2 w-2 rounded-full bg-primary transition-transform duration-150 will-change-transform"
       />
-      <motion.div
+      <div
         ref={ringRef}
-        className="fixed top-0 left-0 h-8 w-8 rounded-full border border-primary/50 transition-all duration-300"
-        style={{ x: springX, y: springY, translateX: "-50%", translateY: "-50%" }}
+        className="fixed top-0 left-0 h-8 w-8 rounded-full border border-primary/50 transition-[transform,opacity] duration-300 will-change-transform"
       />
     </div>
   );
