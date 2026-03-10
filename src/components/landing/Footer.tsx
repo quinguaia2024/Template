@@ -50,7 +50,7 @@ const Footer = () => {
             © 2026 Mentor IA
           </p>
           <p className="text-[10px] font-light text-muted-foreground/40">
-
+            Multiverse Development
           </p>
         </div>
       </div>
