@@ -8,15 +8,14 @@ const CursorFollower = () => {
   const raf = useRef<number>(0);
 
   const animate = useCallback(() => {
-    // Lerp the ring toward mouse
     ring.current.x += (mouse.current.x - ring.current.x) * 0.15;
     ring.current.y += (mouse.current.y - ring.current.y) * 0.15;
 
     if (dotRef.current) {
-      dotRef.current.style.transform = `translate(${mouse.current.x - 4}px, ${mouse.current.y - 4}px)`;
+      dotRef.current.style.transform = `translate(${mouse.current.x - 5}px, ${mouse.current.y - 5}px)`;
     }
     if (ringRef.current) {
-      ringRef.current.style.transform = `translate(${ring.current.x - 16}px, ${ring.current.y - 16}px)`;
+      ringRef.current.style.transform = `translate(${ring.current.x - 22}px, ${ring.current.y - 22}px)`;
     }
 
     raf.current = requestAnimationFrame(animate);
