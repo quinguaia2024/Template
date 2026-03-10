@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FadeUp, MagneticWrap } from "./ScrollAnimations";
+import { AUTH_ROUTES } from "@/auth/constants";
 
 const CTASection = () => {
   return (
