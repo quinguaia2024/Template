@@ -16,6 +16,7 @@ import { PasswordStrength } from '@/auth/components/PasswordStrength';
 import { UserRole } from '@/auth/types';
 import { useAuth } from '@/auth/context/AuthContext';
 import { toast } from '@/hooks/use-toast';
+import CursorFollower from '@/components/landing/CursorFollower';
 
 const roleData = {
   Aluno: {
