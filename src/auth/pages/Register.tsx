@@ -152,8 +152,57 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      <div className="absolute inset-0 geometric-bg opacity-20" />
+    <div className="min-h-screen bg-background relative overflow-hidden cursor-none">
+      <CursorFollower />
+      
+      {/* Fundo dinâmico */}
+      <div className="absolute inset-0">
+        <svg
+          className="absolute w-full h-full"
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <defs>
+            <pattern id="reg-grid" width="70" height="70" patternUnits="userSpaceOnUse">
+              <path d="M 70 0 L 0 0 0 70" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" opacity="0.06" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#reg-grid)" />
+
+          <motion.rect
+            x="50" y="200" width="80" height="80" rx="12"
+            fill="hsl(var(--primary))" fillOpacity="0.04"
+            animate={{ rotate: [0, 180, 360] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.circle
+            cx="1050" cy="350" r="70"
+            fill="none" stroke="hsl(var(--secondary))" strokeWidth="1.5" strokeOpacity="0.08"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 5, repeat: Infinity }}
+          />
+
+          {Array.from({ length: 18 }).map((_, i) => (
+            <motion.circle
+              key={`rp-${i}`}
+              cx={80 + (i * 63) % 1040}
+              cy={60 + (i * 41) % 680}
+              r={1 + (i % 3)}
+              fill="hsl(var(--primary))"
+              fillOpacity="0.2"
+              animate={{
+                y: [0, -20 - (i % 12), 0],
+                opacity: [0.15, 0.5, 0.15],
+              }}
+              transition={{
+                duration: 3 + (i % 3),
+                repeat: Infinity,
+                delay: (i * 0.25) % 2,
+              }}
+            />
+          ))}
+        </svg>
+      </div>
       
       <div className="relative z-10 container mx-auto px-4 py-8">
         

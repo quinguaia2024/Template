@@ -18,7 +18,9 @@ const AuthGate = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden cursor-none">
+      <CursorFollower />
+      
       {/* Fundo geométrico animado */}
       <div className="absolute inset-0 geometric-bg opacity-30">
         <svg
@@ -70,6 +72,27 @@ const AuthGate = () => {
             animate={{ rotate: [0, 180, 360] }}
             transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
           />
+
+          {/* Partículas flutuantes extras */}
+          {Array.from({ length: 15 }).map((_, i) => (
+            <motion.circle
+              key={`particle-${i}`}
+              cx={100 + (i * 75) % 1100}
+              cy={100 + (i * 53) % 600}
+              r={1 + (i % 3)}
+              fill="hsl(var(--primary))"
+              fillOpacity="0.2"
+              animate={{
+                y: [0, -30 - (i % 20), 0],
+                opacity: [0.15, 0.5, 0.15],
+              }}
+              transition={{
+                duration: 3 + (i % 3),
+                repeat: Infinity,
+                delay: (i * 0.3) % 2,
+              }}
+            />
+          ))}
         </svg>
       </div>
 
