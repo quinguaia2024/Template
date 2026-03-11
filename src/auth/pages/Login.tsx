@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useAuth } from '@/auth/context/AuthContext';
+import CursorFollower from '@/components/landing/CursorFollower';
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
