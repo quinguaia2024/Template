@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useAuth } from '@/auth/context/AuthContext';
+import CursorFollower from '@/components/landing/CursorFollower';
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -70,7 +71,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden cursor-none">
+      <CursorFollower />
+      
       {/* Fundo com animação de partículas */}
       <div className="absolute inset-0">
         <svg
@@ -78,22 +81,45 @@ const Login = () => {
           viewBox="0 0 1200 800"
           preserveAspectRatio="xMidYMid slice"
         >
-          {Array.from({ length: 20 }).map((_, i) => (
+          {/* Grid sutil */}
+          <defs>
+            <pattern id="login-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+              <path d="M 80 0 L 0 0 0 80" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" opacity="0.06" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#login-grid)" />
+
+          {/* Formas geométricas flutuantes */}
+          <motion.circle
+            cx="150" cy="600" r="60"
+            fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeOpacity="0.08"
+            animate={{ scale: [1, 1.3, 1], rotate: 360 }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.polygon
+            points="1000,100 1060,180 940,180"
+            fill="hsl(var(--secondary))" fillOpacity="0.04"
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          />
+
+          {/* Partículas */}
+          {Array.from({ length: 25 }).map((_, i) => (
             <motion.circle
               key={i}
-              cx={Math.random() * 1200}
-              cy={Math.random() * 800}
-              r="2"
+              cx={50 + (i * 47) % 1100}
+              cy={50 + (i * 31) % 700}
+              r={1 + (i % 3)}
               fill="hsl(var(--primary))"
-              fillOpacity="0.3"
+              fillOpacity="0.25"
               animate={{
-                y: [0, -20, 0],
-                opacity: [0.3, 0.8, 0.3]
+                y: [0, -25 - (i % 15), 0],
+                opacity: [0.2, 0.6, 0.2]
               }}
               transition={{
-                duration: 3 + Math.random() * 2,
+                duration: 3 + (i % 3),
                 repeat: Infinity,
-                delay: Math.random() * 2
+                delay: (i * 0.2) % 2.5
               }}
             />
           ))}
