@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Brain, LogIn, UserPlus, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import CursorFollower from '@/components/landing/CursorFollower';
 
 const AuthGate = () => {
   const navigate = useNavigate();
