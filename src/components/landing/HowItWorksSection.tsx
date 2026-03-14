@@ -43,7 +43,7 @@ const HowItWorksSection = () => {
         <div className="md:hidden mb-8">
           <FadeUp>
             <div className="relative rounded-2xl overflow-hidden">
-              <img src={dashboardImg} alt="Dashboard Mentor IA" className="w-full rounded-2xl" />
+              <img src={dashboardImg} alt="Dashboard Mentor Digital" className="w-full rounded-2xl" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent rounded-2xl" />
               <motion.div
                 animate={{ top: ["0%", "100%", "0%"] }}
