@@ -10,7 +10,7 @@ const Footer = () => {
           {/* Logo */}
           <div className="col-span-2 md:col-span-1">
             <span className="text-sm tracking-[0.2em] uppercase font-light text-foreground">
-              Mentor <span className="text-primary">IA</span>
+              Mentor <span className="text-primary">Digital</span>
             </span>
             <p className="mt-3 text-xs font-light text-muted-foreground leading-[1.8] max-w-xs">
               Plataforma de aprendizagem personalizada movida a IA para Angola.
