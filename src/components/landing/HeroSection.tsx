@@ -11,14 +11,14 @@ import teacherImg from "@/assets/teacher-visual.jpg";
 const slides = [
   {
     img: heroBg,
-    subtitle: "Educação × Inteligência Artificial",
+    subtitle: "Educação orientada por EDU",
     title: ["O futuro da", "educação"],
     accent: 1,
   },
   {
     img: studentImg,
     subtitle: "Para estudantes",
-    title: ["Aprende ao", "teu ritmo"],
+    title: ["Aprende com", "o EDU"],
     accent: 1,
   },
   {
@@ -30,13 +30,13 @@ const slides = [
   {
     img: teacherImg,
     subtitle: "Para professores",
-    title: ["A IA aprende", "consigo"],
+    title: ["O EDU aprende", "consigo"],
     accent: 1,
   },
   {
     img: aiBrain,
     subtitle: "Tecnologia angolana",
-    title: ["Mentor IA", "começa aqui"],
+    title: ["Mentor Digital", "começa aqui"],
     accent: 0,
   },
 ];

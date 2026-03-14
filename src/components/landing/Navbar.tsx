@@ -189,7 +189,7 @@ const Navbar = () => {
               className="px-8 pb-8 flex items-center justify-between"
             >
               <span className="text-[10px] tracking-wider text-muted-foreground/40 font-light">
-                Mentor IA © 2025
+                Mentor Digital © 2026
               </span>
               <span className="text-[10px] tracking-wider text-muted-foreground/40 font-light">
                 Angola

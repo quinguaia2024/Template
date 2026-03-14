@@ -47,7 +47,7 @@ const Footer = () => {
 
         <div className="mt-10 md:mt-12 pt-6 border-t border-border/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-2">
           <p className="text-xs font-light text-muted-foreground">
-            © 2026 Mentor IA
+            © 2026 Mentor Digital
           </p>
           <p className="text-[10px] font-light text-muted-foreground/40">
             Multiverse Development

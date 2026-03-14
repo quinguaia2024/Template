@@ -8,8 +8,8 @@ import teacherImg from "@/assets/teacher-visual.jpg";
 const pillars = [
   {
     tag: "Alunos",
-    title: "Aprende ao teu ritmo",
-    desc: "IA que se adapta ao teu estilo.",
+    title: "Aprende com o EDU",
+    desc: "O teu educador digital que se adapta ao teu ritmo.",
     img: studentImg,
   },
   {
@@ -20,8 +20,8 @@ const pillars = [
   },
   {
     tag: "Professores",
-    title: "A IA aprende consigo",
-    desc: "Envie materiais. Veja o progresso.",
+    title: "O EDU aprende consigo",
+    desc: "Envie materiais. O EDU personaliza o percurso.",
     img: teacherImg,
   },
 ];
