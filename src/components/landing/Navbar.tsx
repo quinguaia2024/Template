@@ -36,7 +36,7 @@ const Navbar = () => {
     >
       <div className="flex items-center justify-between px-5 md:px-8 py-4 md:py-6 relative z-50">
         <a href="#" className="text-foreground text-sm tracking-[0.2em] uppercase font-light">
-          Mentor <span className="text-primary">IA</span>
+          Mentor <span className="text-primary">Digital</span>
         </a>
 
         <div className="hidden md:flex items-center gap-10">
