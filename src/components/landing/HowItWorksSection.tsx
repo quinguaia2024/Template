@@ -5,8 +5,8 @@ import dashboardImg from "@/assets/dashboard-visual.jpg";
 
 const steps = [
   { num: "01", label: "Professor envia materiais", icon: "↑" },
-  { num: "02", label: "IA personaliza o percurso", icon: "✦" },
-  { num: "03", label: "Aluno aprende ao seu ritmo", icon: "◎" },
+  { num: "02", label: "EDU personaliza o percurso", icon: "✦" },
+  { num: "03", label: "Aluno aprende com o EDU", icon: "◎" },
   { num: "04", label: "Todos acompanham em tempo real", icon: "◉" },
 ];
 
