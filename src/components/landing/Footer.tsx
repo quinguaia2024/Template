@@ -13,7 +13,7 @@ const Footer = () => {
               Mentor <span className="text-primary">Digital</span>
             </span>
             <p className="mt-3 text-xs font-light text-muted-foreground leading-[1.8] max-w-xs">
-              Plataforma de aprendizagem personalizada movida a IA para Angola.
+              Plataforma de aprendizagem personalizada para Angola. Aprende com EDU — o teu educador digital.
             </p>
           </div>
 
