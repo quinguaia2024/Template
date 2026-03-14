@@ -5,8 +5,8 @@ import dashboardImg from "@/assets/dashboard-visual.jpg";
 
 const steps = [
   { num: "01", label: "Professor envia materiais", icon: "↑" },
-  { num: "02", label: "IA personaliza o percurso", icon: "✦" },
-  { num: "03", label: "Aluno aprende ao seu ritmo", icon: "◎" },
+  { num: "02", label: "EDU personaliza o percurso", icon: "✦" },
+  { num: "03", label: "Aluno aprende com o EDU", icon: "◎" },
   { num: "04", label: "Todos acompanham em tempo real", icon: "◉" },
 ];
 
@@ -43,7 +43,7 @@ const HowItWorksSection = () => {
         <div className="md:hidden mb-8">
           <FadeUp>
             <div className="relative rounded-2xl overflow-hidden">
-              <img src={dashboardImg} alt="Dashboard Mentor IA" className="w-full rounded-2xl" />
+              <img src={dashboardImg} alt="Dashboard Mentor Digital" className="w-full rounded-2xl" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent rounded-2xl" />
               <motion.div
                 animate={{ top: ["0%", "100%", "0%"] }}
@@ -88,7 +88,7 @@ const HowItWorksSection = () => {
               style={{ y: dashY, scale: dashScale }}
               className="relative rounded-2xl overflow-hidden"
             >
-              <img src={dashboardImg} alt="Dashboard Mentor IA" className="w-full rounded-2xl" />
+              <img src={dashboardImg} alt="Dashboard Mentor Digital" className="w-full rounded-2xl" />
               <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent rounded-2xl" />
               <motion.div
                 animate={{ top: ["0%", "100%", "0%"] }}

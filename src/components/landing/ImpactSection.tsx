@@ -31,7 +31,7 @@ const ImpactSection = () => {
 
         <div className="my-6 md:my-8">
           <h2 className="text-[clamp(1.5rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em]">
-            Professores, alunos e pais conectados por IA
+            Professores, alunos e pais conectados pelo EDU
           </h2>
         </div>
 
