@@ -1,6 +1,7 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect, useCallback, memo } from "react";
 import { FadeUp, MagneticWrap } from "./ScrollAnimations";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Testimonial {
   id: string;
@@ -9,7 +10,6 @@ interface Testimonial {
   avatar: string;
   quote: string;
   videoId: string;
-  thumbnailGradient: [string, string];
 }
 
 const testimonials: Testimonial[] = [
@@ -20,7 +20,6 @@ const testimonials: Testimonial[] = [
     avatar: "AF",
     quote: "Com o EDU, finalmente entendo Matemática. Ele explica de um jeito que faz sentido para mim, no meu ritmo.",
     videoId: "70Jq36szcyA",
-    thumbnailGradient: ["hsl(var(--primary))", "hsl(var(--secondary))"],
   },
   {
     id: "2",
@@ -29,7 +28,6 @@ const testimonials: Testimonial[] = [
     avatar: "CM",
     quote: "O EDU transformou a minha forma de ensinar. Consigo acompanhar cada aluno individualmente sem perder tempo.",
     videoId: "70Jq36szcyA",
-    thumbnailGradient: ["hsl(var(--secondary))", "hsl(var(--primary))"],
   },
   {
     id: "3",
@@ -38,7 +36,6 @@ const testimonials: Testimonial[] = [
     avatar: "MS",
     quote: "Agora sei exatamente como o meu filho está a evoluir. Recebo alertas e relatórios que me deixam tranquila.",
     videoId: "70Jq36szcyA",
-    thumbnailGradient: ["hsl(var(--primary))", "hsl(var(--accent))"],
   },
   {
     id: "4",
@@ -47,14 +44,45 @@ const testimonials: Testimonial[] = [
     avatar: "JB",
     quote: "Estudar com o EDU é como ter um explicador particular 24 horas. Melhorei as minhas notas em 3 meses.",
     videoId: "70Jq36szcyA",
-    thumbnailGradient: ["hsl(var(--accent))", "hsl(var(--primary))"],
   },
 ];
 
-const VIDEO_DURATION = 15000; // ~15s per short
+const VIDEO_DURATION = 15000;
 
-/* ─── 3D Parallax Card ─── */
-const VideoCard = ({
+/* ─── Lazy YouTube Embed (performance) ─── */
+const LazyYouTube = memo(({ videoId, active, name }: { videoId: string; active: boolean; name: string }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (active && !loaded) setLoaded(true);
+  }, [active, loaded]);
+
+  if (!loaded) {
+    return (
+      <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+          <div className="w-0 h-0 border-l-[10px] border-l-primary border-y-[6px] border-y-transparent ml-1" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <iframe
+      src={`https://www.youtube.com/embed/${videoId}?autoplay=${active ? 1 : 0}&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+      className="absolute inset-0 w-full h-full"
+      allow="autoplay; encrypted-media"
+      allowFullScreen
+      loading="lazy"
+      title={`Testemunho de ${name}`}
+      style={{ border: 0 }}
+    />
+  );
+});
+LazyYouTube.displayName = "LazyYouTube";
+
+/* ─── Mobile 3D Card ─── */
+const MobileVideoCard = memo(({
   testimonial,
   index,
   active,
@@ -71,80 +99,103 @@ const VideoCard = ({
   return (
     <motion.div
       onClick={onClick}
-      className="absolute left-1/2 top-0 w-[70%] md:w-[280px] cursor-pointer"
+      className="absolute left-1/2 top-0 w-[70%] cursor-pointer will-change-transform"
       animate={{
         x: `calc(-50% + ${offset * 85}%)`,
         scale: isActive ? 1 : 0.78,
-        rotateY: offset * -25,
+        rotateY: offset * -20,
         z: isActive ? 50 : -50,
         opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.5,
-        filter: isActive ? "blur(0px)" : "blur(2px)",
       }}
-      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       style={{
         transformStyle: "preserve-3d",
         transformOrigin: offset > 0 ? "left center" : offset < 0 ? "right center" : "center",
       }}
     >
       <div
-        className={`relative aspect-[9/16] rounded-2xl overflow-hidden border transition-all duration-500 ${
+        className={`relative aspect-[9/16] rounded-2xl overflow-hidden border transition-colors duration-300 ${
           isActive
-            ? "border-primary/40 shadow-[0_0_40px_-10px_hsl(var(--primary)/0.3)]"
+            ? "border-primary/40 shadow-lg shadow-primary/10"
             : "border-border/20"
         }`}
       >
-        {/* YouTube iframe — only active card autoplays */}
-        <iframe
-          src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=${isActive ? 1 : 0}&mute=1&loop=1&playlist=${testimonial.videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
-          className="absolute inset-0 w-full h-full"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          title={`Testemunho de ${testimonial.name}`}
-          style={{ border: 0 }}
-        />
+        <LazyYouTube videoId={testimonial.videoId} active={isActive} name={testimonial.name} />
 
-        {/* Gradient overlay for info */}
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/90 via-background/40 to-transparent pointer-events-none" />
 
-        {/* Info overlay */}
         <div className="absolute bottom-0 inset-x-0 p-4 pointer-events-none">
-          <motion.div
-            animate={{ opacity: isActive ? 1 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <motion.div
-                animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-1.5 h-1.5 rounded-full bg-primary"
-              />
-              <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
-                A reproduzir
-              </span>
-            </div>
-            <p className="text-xs font-light text-foreground">{testimonial.name}</p>
-            <p className="text-[10px] font-light text-muted-foreground">{testimonial.role}</p>
-          </motion.div>
+          {isActive && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
+                  A reproduzir
+                </span>
+              </div>
+              <p className="text-xs font-light text-foreground">{testimonial.name}</p>
+              <p className="text-[10px] font-light text-muted-foreground">{testimonial.role}</p>
+            </motion.div>
+          )}
         </div>
-
-        {/* Active ring glow */}
-        {isActive && (
-          <motion.div
-            className="absolute -inset-px rounded-2xl border border-primary/30"
-            animate={{ opacity: [0.3, 0.6, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        )}
       </div>
     </motion.div>
   );
-};
+});
+MobileVideoCard.displayName = "MobileVideoCard";
+
+/* ─── Desktop Testimonial Card ─── */
+const DesktopTestimonialCard = memo(({
+  testimonial,
+  isActive,
+  onClick,
+}: {
+  testimonial: Testimonial;
+  isActive: boolean;
+  onClick: () => void;
+}) => (
+  <motion.button
+    onClick={onClick}
+    className={`w-full text-left p-5 rounded-xl border transition-all duration-300 ${
+      isActive
+        ? "bg-primary/5 border-primary/30 shadow-md shadow-primary/5"
+        : "bg-card/50 border-border/20 hover:border-border/40 hover:bg-card/80"
+    }`}
+    whileHover={{ scale: 1.01 }}
+    whileTap={{ scale: 0.99 }}
+  >
+    <div className="flex items-start gap-4">
+      <div
+        className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
+          isActive ? "bg-primary/15 text-primary" : "bg-muted/30 text-muted-foreground"
+        }`}
+      >
+        <span className="text-xs font-light">{testimonial.avatar}</span>
+      </div>
+      <div className="min-w-0">
+        <p className={`text-sm font-medium transition-colors duration-300 ${isActive ? "text-primary" : "text-foreground"}`}>
+          {testimonial.name}
+        </p>
+        <p className="text-[11px] text-muted-foreground mb-2">{testimonial.role}</p>
+        <p className="text-xs font-light text-muted-foreground leading-relaxed line-clamp-2">
+          "{testimonial.quote}"
+        </p>
+      </div>
+    </div>
+  </motion.button>
+));
+DesktopTestimonialCard.displayName = "DesktopTestimonialCard";
 
 /* ─── Main Section ─── */
 const VideoSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, margin: "-10%" });
   const [active, setActive] = useState(0);
+  const isMobile = useIsMobile();
 
   const next = useCallback(() => {
     setActive((p) => (p + 1) % testimonials.length);
@@ -154,14 +205,13 @@ const VideoSection = () => {
     setActive((p) => (p - 1 + testimonials.length) % testimonials.length);
   }, []);
 
-  // Auto-advance when video "ends"
   useEffect(() => {
     if (!isInView) return;
     const timer = setInterval(next, VIDEO_DURATION);
     return () => clearInterval(timer);
   }, [active, isInView, next]);
 
-  // Touch swipe
+  // Touch swipe (mobile only)
   const touchStart = useRef(0);
   const onTouchStart = (e: React.TouchEvent) => {
     touchStart.current = e.touches[0].clientX;
@@ -177,8 +227,7 @@ const VideoSection = () => {
     <section
       id="video"
       className="relative py-20 md:py-32 overflow-hidden"
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
+      {...(isMobile ? { onTouchStart, onTouchEnd } : {})}
     >
       <div className="absolute inset-0 mesh-bg opacity-60" />
 
@@ -187,19 +236,11 @@ const VideoSection = () => {
         <div className="text-center mb-10 md:mb-16">
           <FadeUp>
             <div className="flex items-center justify-center gap-3 mb-4">
-              <motion.div
-                animate={{ scaleX: [0, 1, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="h-px w-10 bg-primary origin-left"
-              />
+              <span className="h-px w-10 bg-primary" />
               <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
                 Testemunhos
               </span>
-              <motion.div
-                animate={{ scaleX: [0, 1, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
-                className="h-px w-10 bg-primary origin-right"
-              />
+              <span className="h-px w-10 bg-primary" />
             </div>
           </FadeUp>
           <FadeUp delay={0.1}>
@@ -214,36 +255,79 @@ const VideoSection = () => {
           </FadeUp>
         </div>
 
-        {/* 3D Parallax Video Carousel */}
-        <FadeUp delay={0.3}>
-          <div
-            className="relative mx-auto"
-            style={{ perspective: 1200 }}
-          >
-            {/* Cards container */}
-            <div className="relative h-[420px] md:h-[500px]">
-              {testimonials.map((t, i) => (
-                <VideoCard
-                  key={t.id}
-                  testimonial={t}
-                  index={i}
-                  active={active}
-                  onClick={() => setActive(i)}
-                />
-              ))}
+        {/* ─── Mobile: 3D Parallax Carousel ─── */}
+        {isMobile && (
+          <FadeUp delay={0.3}>
+            <div className="relative mx-auto" style={{ perspective: 900 }}>
+              <div className="relative h-[420px]">
+                {testimonials.map((t, i) => (
+                  <MobileVideoCard
+                    key={t.id}
+                    testimonial={t}
+                    index={i}
+                    active={active}
+                    onClick={() => setActive(i)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </FadeUp>
+          </FadeUp>
+        )}
 
-        {/* Quote below carousel */}
+        {/* ─── Desktop: Side-by-side layout ─── */}
+        {!isMobile && (
+          <FadeUp delay={0.3}>
+            <div className="grid grid-cols-2 gap-8 items-start">
+              {/* Video player */}
+              <div className="relative aspect-[9/16] max-h-[500px] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <LazyYouTube videoId={current.videoId} active={isInView} name={current.name} />
+                  </motion.div>
+                </AnimatePresence>
+
+                <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background/80 to-transparent pointer-events-none" />
+                <div className="absolute bottom-4 left-4 pointer-events-none">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                    <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
+                      A reproduzir
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Testimonial list */}
+              <div className="space-y-3">
+                {testimonials.map((t, i) => (
+                  <DesktopTestimonialCard
+                    key={t.id}
+                    testimonial={t}
+                    isActive={i === active}
+                    onClick={() => setActive(i)}
+                  />
+                ))}
+              </div>
+            </div>
+          </FadeUp>
+        )}
+
+        {/* Quote below (both layouts) */}
         <div className="mt-8 md:mt-12 max-w-xl mx-auto text-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
-              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -15, filter: "blur(4px)" }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3 }}
             >
               <blockquote className="text-sm md:text-lg lg:text-xl font-thin leading-relaxed text-foreground mb-4">
                 "{current.quote}"
@@ -308,39 +392,6 @@ const VideoSection = () => {
             {String(active + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")}
           </span>
         </div>
-
-        {/* Mini avatars */}
-        <FadeUp delay={0.4}>
-          <div className="flex items-center justify-center gap-3 mt-10">
-            {testimonials.map((t, i) => (
-              <MagneticWrap key={t.id}>
-                <motion.button
-                  onClick={() => setActive(i)}
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`relative w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all duration-500 ${
-                    i === active
-                      ? "bg-primary/15 border-2 border-primary/40"
-                      : "bg-glass border border-border/20 opacity-50 hover:opacity-100"
-                  }`}
-                >
-                  <span className={`text-[10px] md:text-xs font-light ${
-                    i === active ? "text-primary" : "text-muted-foreground"
-                  }`}>
-                    {t.avatar}
-                  </span>
-                  {i === active && (
-                    <motion.div
-                      layoutId="active-ring"
-                      className="absolute -inset-1 rounded-full border border-primary/20"
-                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                    />
-                  )}
-                </motion.button>
-              </MagneticWrap>
-            ))}
-          </div>
-        </FadeUp>
       </div>
     </section>
   );
