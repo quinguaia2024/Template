@@ -57,19 +57,17 @@ const LazyYouTube = memo(({ videoId, active, name }: { videoId: string; active: 
     if (active && !loaded) setLoaded(true);
   }, [active, loaded]);
 
-  if (!loaded) {
-    return (
-      <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
-        <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-          <div className="w-0 h-0 border-l-[10px] border-l-primary border-y-[6px] border-y-transparent ml-1" />
-        </div>
-      </div>
-    );
+  if (!active && !loaded) {
+    return null;
+  }
+
+  if (!active && loaded) {
+    return null;
   }
 
   return (
     <iframe
-      src={`https://www.youtube.com/embed/${videoId}?autoplay=${active ? 1 : 0}&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
       className="absolute inset-0 w-full h-full"
       allow="autoplay; encrypted-media"
       allowFullScreen
@@ -120,27 +118,32 @@ const MobileVideoCard = memo(({
             : "border-border/20"
         }`}
       >
-        <LazyYouTube videoId={testimonial.videoId} active={isActive} name={testimonial.name} />
+        {/* Only render video for the active card */}
+        {isActive ? (
+          <LazyYouTube videoId={testimonial.videoId} active={true} name={testimonial.name} />
+        ) : (
+          <div className="absolute inset-0 bg-muted/30" />
+        )}
 
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/90 via-background/40 to-transparent pointer-events-none" />
 
         <div className="absolute bottom-0 inset-x-0 p-4 pointer-events-none">
-          {isActive && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isActive ? 1 : 0.6 }}
+            transition={{ duration: 0.3 }}
+          >
+            {isActive && (
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
                   A reproduzir
                 </span>
               </div>
-              <p className="text-xs font-light text-foreground">{testimonial.name}</p>
-              <p className="text-[10px] font-light text-muted-foreground">{testimonial.role}</p>
-            </motion.div>
-          )}
+            )}
+            <p className="text-xs font-light text-foreground">{testimonial.name}</p>
+            <p className="text-[10px] font-light text-muted-foreground">{testimonial.role}</p>
+          </motion.div>
         </div>
       </div>
     </motion.div>
