@@ -118,27 +118,32 @@ const MobileVideoCard = memo(({
             : "border-border/20"
         }`}
       >
-        <LazyYouTube videoId={testimonial.videoId} active={isActive} name={testimonial.name} />
+        {/* Only render video for the active card */}
+        {isActive ? (
+          <LazyYouTube videoId={testimonial.videoId} active={true} name={testimonial.name} />
+        ) : (
+          <div className="absolute inset-0 bg-muted/30" />
+        )}
 
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/90 via-background/40 to-transparent pointer-events-none" />
 
         <div className="absolute bottom-0 inset-x-0 p-4 pointer-events-none">
-          {isActive && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isActive ? 1 : 0.6 }}
+            transition={{ duration: 0.3 }}
+          >
+            {isActive && (
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
                   A reproduzir
                 </span>
               </div>
-              <p className="text-xs font-light text-foreground">{testimonial.name}</p>
-              <p className="text-[10px] font-light text-muted-foreground">{testimonial.role}</p>
-            </motion.div>
-          )}
+            )}
+            <p className="text-xs font-light text-foreground">{testimonial.name}</p>
+            <p className="text-[10px] font-light text-muted-foreground">{testimonial.role}</p>
+          </motion.div>
         </div>
       </div>
     </motion.div>
