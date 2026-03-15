@@ -57,19 +57,17 @@ const LazyYouTube = memo(({ videoId, active, name }: { videoId: string; active: 
     if (active && !loaded) setLoaded(true);
   }, [active, loaded]);
 
-  if (!loaded) {
-    return (
-      <div className="absolute inset-0 bg-muted/20 flex items-center justify-center">
-        <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-          <div className="w-0 h-0 border-l-[10px] border-l-primary border-y-[6px] border-y-transparent ml-1" />
-        </div>
-      </div>
-    );
+  if (!active && !loaded) {
+    return null;
+  }
+
+  if (!active && loaded) {
+    return null;
   }
 
   return (
     <iframe
-      src={`https://www.youtube.com/embed/${videoId}?autoplay=${active ? 1 : 0}&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+      src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
       className="absolute inset-0 w-full h-full"
       allow="autoplay; encrypted-media"
       allowFullScreen
