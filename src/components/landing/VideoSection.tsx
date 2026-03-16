@@ -141,47 +141,7 @@ const MobileVideoCard = memo(({
 });
 MobileVideoCard.displayName = "MobileVideoCard";
 
-/* ─── Desktop Testimonial Card ─── */
-const DesktopTestimonialCard = memo(({
-  testimonial,
-  isActive,
-  onClick,
-}: {
-  testimonial: Testimonial;
-  isActive: boolean;
-  onClick: () => void;
-}) => (
-  <motion.button
-    onClick={onClick}
-    className={`w-full text-left p-5 rounded-xl border transition-all duration-300 ${
-      isActive
-        ? "bg-primary/5 border-primary/30 shadow-md shadow-primary/5"
-        : "bg-card/50 border-border/20 hover:border-border/40 hover:bg-card/80"
-    }`}
-    whileHover={{ scale: 1.01 }}
-    whileTap={{ scale: 0.99 }}
-  >
-    <div className="flex items-start gap-4">
-      <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
-          isActive ? "bg-primary/15 text-primary" : "bg-muted/30 text-muted-foreground"
-        }`}
-      >
-        <span className="text-xs font-light">{testimonial.avatar}</span>
-      </div>
-      <div className="min-w-0">
-        <p className={`text-sm font-medium transition-colors duration-300 ${isActive ? "text-primary" : "text-foreground"}`}>
-          {testimonial.name}
-        </p>
-        <p className="text-[11px] text-muted-foreground mb-2">{testimonial.role}</p>
-        <p className="text-xs font-light text-muted-foreground leading-relaxed line-clamp-2">
-          "{testimonial.quote}"
-        </p>
-      </div>
-    </div>
-  </motion.button>
-));
-DesktopTestimonialCard.displayName = "DesktopTestimonialCard";
+/* Desktop card removed — desktop now uses single centered video */
 
 /* ─── Main Section ─── */
 const VideoSection = () => {
