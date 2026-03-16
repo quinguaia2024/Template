@@ -280,23 +280,23 @@ const VideoSection = () => {
 
         {/* Navigation */}
         <div className="flex items-center justify-center gap-4 mt-8">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <MagneticWrap>
               <button
                 onClick={prev}
-                className="w-10 h-10 rounded-full border border-border/30 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 active:scale-90 transition-all"
+                className="w-12 h-12 rounded-full border-2 border-primary/40 bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 hover:border-primary/60 active:scale-90 transition-all shadow-md shadow-primary/10"
                 aria-label="Anterior"
               >
-                ←
+                <ChevronLeft className="w-5 h-5" />
               </button>
             </MagneticWrap>
             <MagneticWrap>
               <button
                 onClick={next}
-                className="w-10 h-10 rounded-full border border-border/30 flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 active:scale-90 transition-all"
+                className="w-12 h-12 rounded-full border-2 border-primary/40 bg-primary/10 flex items-center justify-center text-primary hover:bg-primary/20 hover:border-primary/60 active:scale-90 transition-all shadow-md shadow-primary/10"
                 aria-label="Próximo"
               >
-                →
+                <ChevronRight className="w-5 h-5" />
               </button>
             </MagneticWrap>
           </div>
