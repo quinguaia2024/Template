@@ -212,7 +212,7 @@ const VideoSection = () => {
         {isMobile && (
           <FadeUp delay={0.3}>
             <div className="relative mx-auto" style={{ perspective: 900 }}>
-              <div className="relative h-[420px]">
+              <div className="relative h-[380px]">
                 {testimonials.map((t, i) => (
                   <MobileVideoCard
                     key={t.id}
@@ -227,12 +227,11 @@ const VideoSection = () => {
           </FadeUp>
         )}
 
-        {/* ─── Desktop: Side-by-side layout ─── */}
+        {/* ─── Desktop: Single centered video ─── */}
         {!isMobile && (
           <FadeUp delay={0.3}>
-            <div className="grid grid-cols-2 gap-8 items-start">
-              {/* Video player */}
-              <div className="relative aspect-[9/16] max-h-[500px] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5">
+            <div className="max-w-sm mx-auto">
+              <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active}
@@ -246,27 +245,14 @@ const VideoSection = () => {
                   </motion.div>
                 </AnimatePresence>
 
-                <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background/80 to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 pointer-events-none">
-                  <div className="flex items-center gap-2 mb-1">
+                <div className="absolute bottom-3 left-3 pointer-events-none">
+                  <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
                       A reproduzir
                     </span>
                   </div>
                 </div>
-              </div>
-
-              {/* Testimonial list */}
-              <div className="space-y-3">
-                {testimonials.map((t, i) => (
-                  <DesktopTestimonialCard
-                    key={t.id}
-                    testimonial={t}
-                    isActive={i === active}
-                    onClick={() => setActive(i)}
-                  />
-                ))}
               </div>
             </div>
           </FadeUp>
