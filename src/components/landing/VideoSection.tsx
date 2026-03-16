@@ -1,5 +1,6 @@
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect, useCallback, memo } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FadeUp, MagneticWrap } from "./ScrollAnimations";
 import { useIsMobile } from "@/hooks/use-mobile";
 
