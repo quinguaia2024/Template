@@ -106,7 +106,7 @@ const MobileVideoCard = memo(({
         z: isActive ? 50 : -50,
         opacity: Math.abs(offset) > 1 ? 0 : isActive ? 1 : 0.5,
       }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.65, ease: [0.32, 0.72, 0, 1] }}
       style={{
         transformStyle: "preserve-3d",
         transformOrigin: offset > 0 ? "left center" : offset < 0 ? "right center" : "center",
