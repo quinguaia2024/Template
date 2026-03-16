@@ -97,7 +97,7 @@ const MobileVideoCard = memo(({
   return (
     <motion.div
       onClick={onClick}
-      className="absolute left-1/2 top-0 w-[70%] cursor-pointer will-change-transform"
+      className="absolute left-1/2 top-0 w-[65%] cursor-pointer will-change-transform"
       animate={{
         x: `calc(-50% + ${offset * 85}%)`,
         scale: isActive ? 1 : 0.78,
@@ -118,80 +118,30 @@ const MobileVideoCard = memo(({
             : "border-border/20"
         }`}
       >
-        {/* Only render video for the active card */}
         {isActive ? (
           <LazyYouTube videoId={testimonial.videoId} active={true} name={testimonial.name} />
         ) : (
           <div className="absolute inset-0 bg-muted/30" />
         )}
 
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background/90 via-background/40 to-transparent pointer-events-none" />
-
-        <div className="absolute bottom-0 inset-x-0 p-4 pointer-events-none">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: isActive ? 1 : 0.6 }}
-            transition={{ duration: 0.3 }}
-          >
-            {isActive && (
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
-                  A reproduzir
-                </span>
-              </div>
-            )}
-            <p className="text-xs font-light text-foreground">{testimonial.name}</p>
-            <p className="text-[10px] font-light text-muted-foreground">{testimonial.role}</p>
-          </motion.div>
-        </div>
+        {/* Overlay only on active card, kept minimal */}
+        {isActive && (
+          <div className="absolute bottom-0 inset-x-0 p-3 pointer-events-none">
+            <div className="flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
+                A reproduzir
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </motion.div>
   );
 });
 MobileVideoCard.displayName = "MobileVideoCard";
 
-/* ─── Desktop Testimonial Card ─── */
-const DesktopTestimonialCard = memo(({
-  testimonial,
-  isActive,
-  onClick,
-}: {
-  testimonial: Testimonial;
-  isActive: boolean;
-  onClick: () => void;
-}) => (
-  <motion.button
-    onClick={onClick}
-    className={`w-full text-left p-5 rounded-xl border transition-all duration-300 ${
-      isActive
-        ? "bg-primary/5 border-primary/30 shadow-md shadow-primary/5"
-        : "bg-card/50 border-border/20 hover:border-border/40 hover:bg-card/80"
-    }`}
-    whileHover={{ scale: 1.01 }}
-    whileTap={{ scale: 0.99 }}
-  >
-    <div className="flex items-start gap-4">
-      <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
-          isActive ? "bg-primary/15 text-primary" : "bg-muted/30 text-muted-foreground"
-        }`}
-      >
-        <span className="text-xs font-light">{testimonial.avatar}</span>
-      </div>
-      <div className="min-w-0">
-        <p className={`text-sm font-medium transition-colors duration-300 ${isActive ? "text-primary" : "text-foreground"}`}>
-          {testimonial.name}
-        </p>
-        <p className="text-[11px] text-muted-foreground mb-2">{testimonial.role}</p>
-        <p className="text-xs font-light text-muted-foreground leading-relaxed line-clamp-2">
-          "{testimonial.quote}"
-        </p>
-      </div>
-    </div>
-  </motion.button>
-));
-DesktopTestimonialCard.displayName = "DesktopTestimonialCard";
+/* Desktop card removed — desktop now uses single centered video */
 
 /* ─── Main Section ─── */
 const VideoSection = () => {
@@ -262,7 +212,7 @@ const VideoSection = () => {
         {isMobile && (
           <FadeUp delay={0.3}>
             <div className="relative mx-auto" style={{ perspective: 900 }}>
-              <div className="relative h-[420px]">
+              <div className="relative h-[380px]">
                 {testimonials.map((t, i) => (
                   <MobileVideoCard
                     key={t.id}
@@ -277,12 +227,11 @@ const VideoSection = () => {
           </FadeUp>
         )}
 
-        {/* ─── Desktop: Side-by-side layout ─── */}
+        {/* ─── Desktop: Single centered video ─── */}
         {!isMobile && (
           <FadeUp delay={0.3}>
-            <div className="grid grid-cols-2 gap-8 items-start">
-              {/* Video player */}
-              <div className="relative aspect-[9/16] max-h-[500px] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5">
+            <div className="max-w-sm mx-auto">
+              <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active}
@@ -296,27 +245,14 @@ const VideoSection = () => {
                   </motion.div>
                 </AnimatePresence>
 
-                <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background/80 to-transparent pointer-events-none" />
-                <div className="absolute bottom-4 left-4 pointer-events-none">
-                  <div className="flex items-center gap-2 mb-1">
+                <div className="absolute bottom-3 left-3 pointer-events-none">
+                  <div className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     <span className="text-[9px] tracking-[0.2em] uppercase font-light text-primary">
                       A reproduzir
                     </span>
                   </div>
                 </div>
-              </div>
-
-              {/* Testimonial list */}
-              <div className="space-y-3">
-                {testimonials.map((t, i) => (
-                  <DesktopTestimonialCard
-                    key={t.id}
-                    testimonial={t}
-                    isActive={i === active}
-                    onClick={() => setActive(i)}
-                  />
-                ))}
               </div>
             </div>
           </FadeUp>
