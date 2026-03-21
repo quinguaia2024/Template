@@ -64,7 +64,7 @@ const HowItWorksSection = () => {
                   whileHover={{ x: 12, scale: 1.02 }}
                   whileTap={{ scale: 0.98, x: 6 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="group flex items-center gap-4 md:gap-5 rounded-xl bg-glass p-4 md:p-5 transition-all duration-500 hover:border-primary/20 border border-transparent active:border-primary/20"
+                  className="group flex items-center gap-4 md:gap-5 rounded-xl bg-card p-4 md:p-5 transition-all duration-500 hover:border-primary/20 border border-border/50 active:border-primary/20"
                 >
                   <span className="text-base md:text-lg text-primary/40 font-thin w-6 md:w-8 flex-shrink-0">
                     {step.icon}
