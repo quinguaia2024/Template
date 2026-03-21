@@ -108,7 +108,7 @@ const Mobile3DCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: num
         />
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
 
         {/* Shine/reflection effect */}
         <motion.div
