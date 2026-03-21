@@ -50,14 +50,14 @@ const ImpactSection = () => {
                 whileHover={{ y: -8, scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                className="flex flex-col items-center gap-2 md:gap-3 py-5 md:py-6 rounded-xl bg-glass"
+                className="flex flex-col items-center gap-2 md:gap-3 py-5 md:py-6 rounded-xl bg-card/60 backdrop-blur-xl border border-border/40"
               >
                 <motion.div
                   animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
                   className={`w-4 h-4 md:w-5 md:h-5 rounded-full ${a.color} shadow-lg ${a.shadow}`}
                 />
-                <span className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-light text-foreground/70">
+                <span className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-light text-muted-foreground">
                   {a.label}
                 </span>
               </motion.div>

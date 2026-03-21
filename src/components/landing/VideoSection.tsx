@@ -115,14 +115,14 @@ const MobileVideoCard = memo(({
       <div
         className={`relative aspect-[9/16] rounded-2xl overflow-hidden border transition-colors duration-300 ${
           isActive
-            ? "border-primary/40 shadow-lg shadow-primary/10"
-            : "border-border/20"
+            ? "border-primary/40 shadow-lg shadow-primary/10 bg-card"
+            : "border-border/30 bg-muted/50"
         }`}
       >
         {isActive ? (
           <LazyYouTube videoId={testimonial.videoId} active={true} name={testimonial.name} />
         ) : (
-          <div className="absolute inset-0 bg-muted/30" />
+          <div className="absolute inset-0 bg-muted/60" />
         )}
 
         {/* Overlay only on active card, kept minimal */}
@@ -232,7 +232,7 @@ const VideoSection = () => {
         {!isMobile && (
           <FadeUp delay={0.3}>
             <div className="max-w-sm mx-auto">
-              <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5">
+              <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5 bg-card">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active}
