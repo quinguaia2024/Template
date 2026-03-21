@@ -50,7 +50,7 @@ const ProblemSection = () => {
                 whileHover={{ scale: 1.03, y: -4 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="relative group rounded-2xl bg-glass p-6 md:p-8 overflow-hidden"
+                className="relative group rounded-2xl bg-card p-6 md:p-8 overflow-hidden border border-border/50"
               >
                 <motion.div
                   className="absolute top-0 left-0 right-0 h-px"
