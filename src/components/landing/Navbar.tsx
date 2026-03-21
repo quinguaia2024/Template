@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MagneticWrap } from "./ScrollAnimations";
 import { AUTH_ROUTES } from "@/auth/constants";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const navItems = [
   { label: "Problema", href: "#problema" },
