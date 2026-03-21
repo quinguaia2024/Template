@@ -92,6 +92,7 @@ const Navbar = () => {
           </div>
           </button>
         </div>
+      </div>
 
       {/* Mobile fullscreen menu — reveal from top */}
       <AnimatePresence>
