@@ -122,7 +122,7 @@ const MobileVideoCard = memo(({
         {isActive ? (
           <LazyYouTube videoId={testimonial.videoId} active={true} name={testimonial.name} />
         ) : (
-          <div className="absolute inset-0 bg-muted/30" />
+          <div className="absolute inset-0 bg-muted/60" />
         )}
 
         {/* Overlay only on active card, kept minimal */}
