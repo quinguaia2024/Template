@@ -236,7 +236,7 @@ const PillarCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
               transition={{ duration: 1 }}
             />
           </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent rounded-2xl" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent rounded-2xl" />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
