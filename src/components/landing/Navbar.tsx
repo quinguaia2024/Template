@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MagneticWrap } from "./ScrollAnimations";
 import { AUTH_ROUTES } from "@/auth/constants";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const navItems = [
   { label: "Problema", href: "#problema" },
@@ -52,21 +53,26 @@ const Navbar = () => {
           ))}
         </div>
 
-        <MagneticWrap>
-          <a
-            href={AUTH_ROUTES.gate}
-            className="hidden md:inline-flex text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
-          >
-            Começar
-          </a>
-        </MagneticWrap>
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
+          <MagneticWrap>
+            <a
+              href={AUTH_ROUTES.gate}
+              className="text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
+            >
+              Começar
+            </a>
+          </MagneticWrap>
+        </div>
 
-        {/* Mobile hamburger — pill style */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden relative w-12 h-12 flex items-center justify-center rounded-full border border-foreground/10 active:scale-90 transition-transform"
-          aria-label="Menu"
-        >
+        {/* Mobile controls */}
+        <div className="flex md:hidden items-center gap-2">
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen(!open)}
+            className="relative w-12 h-12 flex items-center justify-center rounded-full border border-foreground/10 active:scale-90 transition-transform"
+            aria-label="Menu"
+          >
           <div className="flex flex-col items-center justify-center gap-[5px] w-5">
             <motion.span
               animate={open ? { rotate: 45, y: 6, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
@@ -84,7 +90,8 @@ const Navbar = () => {
               className="block h-[1.5px] w-full bg-foreground origin-center rounded-full"
             />
           </div>
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Mobile fullscreen menu — reveal from top */}
