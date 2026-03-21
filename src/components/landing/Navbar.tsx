@@ -53,14 +53,17 @@ const Navbar = () => {
           ))}
         </div>
 
-        <MagneticWrap>
-          <a
-            href={AUTH_ROUTES.gate}
-            className="hidden md:inline-flex text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
-          >
-            Começar
-          </a>
-        </MagneticWrap>
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
+          <MagneticWrap>
+            <a
+              href={AUTH_ROUTES.gate}
+              className="text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
+            >
+              Começar
+            </a>
+          </MagneticWrap>
+        </div>
 
         {/* Mobile hamburger — pill style */}
         <button
