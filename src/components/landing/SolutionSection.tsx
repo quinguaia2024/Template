@@ -129,7 +129,7 @@ const Mobile3DCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: num
               transition={{ duration: 2, repeat: Infinity }}
               className="w-1.5 h-1.5 rounded-full bg-primary"
             />
-            <span className="text-[10px] tracking-[0.2em] uppercase font-light text-foreground">
+            <span className="text-[10px] tracking-[0.2em] uppercase font-light text-card-foreground">
               {pillar.tag}
             </span>
           </div>
