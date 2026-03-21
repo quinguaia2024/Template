@@ -65,12 +65,14 @@ const Navbar = () => {
           </MagneticWrap>
         </div>
 
-        {/* Mobile hamburger — pill style */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden relative w-12 h-12 flex items-center justify-center rounded-full border border-foreground/10 active:scale-90 transition-transform"
-          aria-label="Menu"
-        >
+        {/* Mobile controls */}
+        <div className="flex md:hidden items-center gap-2">
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen(!open)}
+            className="relative w-12 h-12 flex items-center justify-center rounded-full border border-foreground/10 active:scale-90 transition-transform"
+            aria-label="Menu"
+          >
           <div className="flex flex-col items-center justify-center gap-[5px] w-5">
             <motion.span
               animate={open ? { rotate: 45, y: 6, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
