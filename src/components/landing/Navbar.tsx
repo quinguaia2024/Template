@@ -90,8 +90,8 @@ const Navbar = () => {
               className="block h-[1.5px] w-full bg-foreground origin-center rounded-full"
             />
           </div>
-        </button>
-      </div>
+          </button>
+        </div>
 
       {/* Mobile fullscreen menu — reveal from top */}
       <AnimatePresence>
