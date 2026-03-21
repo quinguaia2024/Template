@@ -15,7 +15,7 @@ const ProblemSection = () => {
       {/* Huge moving "?" */}
       <motion.div
         style={{ x: questionX }}
-        className="absolute top-1/2 -translate-y-1/2 right-0 text-[40vw] md:text-[35vw] font-thin text-muted/20 select-none pointer-events-none leading-none"
+        className="absolute top-1/2 -translate-y-1/2 right-0 text-[40vw] md:text-[35vw] font-thin text-muted-foreground/10 select-none pointer-events-none leading-none"
       >
         ?
       </motion.div>

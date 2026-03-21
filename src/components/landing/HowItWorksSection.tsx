@@ -73,7 +73,7 @@ const HowItWorksSection = () => {
                     <span className="text-[10px] tracking-[0.2em] text-muted-foreground/50 font-light flex-shrink-0">
                       {step.num}
                     </span>
-                    <span className="text-xs md:text-sm font-light text-foreground/80 group-hover:text-foreground transition-colors duration-500">
+                    <span className="text-xs md:text-sm font-light text-card-foreground group-hover:text-foreground transition-colors duration-500">
                       {step.label}
                     </span>
                   </div>
