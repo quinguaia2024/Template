@@ -133,7 +133,7 @@ const Mobile3DCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: num
               {pillar.tag}
             </span>
           </div>
-          <h3 className="text-xl font-thin text-foreground leading-tight mb-1">
+          <h3 className="text-xl font-thin text-foreground leading-tight mb-1 drop-shadow-sm">
             {pillar.title}
           </h3>
           <p className="text-xs font-light text-muted-foreground">
