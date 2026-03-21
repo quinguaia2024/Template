@@ -116,7 +116,7 @@ const MobileVideoCard = memo(({
         className={`relative aspect-[9/16] rounded-2xl overflow-hidden border transition-colors duration-300 ${
           isActive
             ? "border-primary/40 shadow-lg shadow-primary/10 bg-card"
-            : "border-border/30 bg-muted/50"
+            : "border-border/50 bg-card/80"
         }`}
       >
         {isActive ? (

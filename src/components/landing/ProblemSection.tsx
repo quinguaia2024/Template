@@ -15,7 +15,7 @@ const ProblemSection = () => {
       {/* Huge moving "?" */}
       <motion.div
         style={{ x: questionX }}
-        className="absolute top-1/2 -translate-y-1/2 right-0 text-[40vw] md:text-[35vw] font-thin text-muted/20 select-none pointer-events-none leading-none"
+        className="absolute top-1/2 -translate-y-1/2 right-0 text-[40vw] md:text-[35vw] font-thin text-muted-foreground/10 select-none pointer-events-none leading-none"
       >
         ?
       </motion.div>
@@ -50,7 +50,7 @@ const ProblemSection = () => {
                 whileHover={{ scale: 1.03, y: -4 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="relative group rounded-2xl bg-glass p-6 md:p-8 overflow-hidden"
+                className="relative group rounded-2xl bg-card p-6 md:p-8 overflow-hidden border border-border/50"
               >
                 <motion.div
                   className="absolute top-0 left-0 right-0 h-px"
@@ -61,7 +61,7 @@ const ProblemSection = () => {
                   style={{ background: "linear-gradient(90deg, transparent, hsl(var(--primary) / 0.4), transparent)", transformOrigin: "left" }}
                 />
                 <div className="flex items-baseline gap-4 md:block">
-                  <span className={`text-[clamp(2.5rem,8vw,4.5rem)] font-thin leading-none block mb-1 md:mb-3 ${stat.color}`}>
+                  <span className={`text-[clamp(2.5rem,8vw,4.5rem)] font-thin leading-none block mb-1 md:mb-3 ${stat.color}`} style={{ filter: 'saturate(1.2)' }}>
                     <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                   </span>
                   <span className="text-xs tracking-[0.12em] uppercase font-light text-muted-foreground">

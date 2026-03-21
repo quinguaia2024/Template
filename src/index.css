@@ -7,46 +7,46 @@
 @layer base {
   :root {
     --background: 40 30% 96%;
-    --foreground: 220 20% 12%;
+    --foreground: 220 25% 14%;
 
-    --card: 40 20% 92%;
-    --card-foreground: 220 20% 12%;
+    --card: 40 25% 90%;
+    --card-foreground: 220 25% 14%;
 
-    --popover: 40 20% 92%;
-    --popover-foreground: 220 20% 12%;
+    --popover: 40 25% 90%;
+    --popover-foreground: 220 25% 14%;
 
-    --primary: 165 80% 35%;
+    --primary: 165 80% 28%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 28 90% 48%;
+    --secondary: 28 90% 42%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 10% 88%;
-    --muted-foreground: 220 10% 42%;
+    --muted: 220 12% 84%;
+    --muted-foreground: 220 15% 38%;
 
-    --accent: 165 80% 35%;
+    --accent: 165 80% 28%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 50%;
+    --destructive: 0 84% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 10% 82%;
-    --input: 220 10% 82%;
-    --ring: 165 80% 35%;
+    --border: 220 12% 78%;
+    --input: 220 12% 78%;
+    --ring: 165 80% 28%;
 
     --radius: 0.75rem;
 
-    --glow-cyan: 165 80% 35%;
-    --glow-amber: 28 90% 48%;
+    --glow-cyan: 165 80% 28%;
+    --glow-amber: 28 90% 42%;
 
-    --sidebar-background: 40 20% 92%;
-    --sidebar-foreground: 220 20% 12%;
-    --sidebar-primary: 165 80% 35%;
+    --sidebar-background: 40 25% 90%;
+    --sidebar-foreground: 220 25% 14%;
+    --sidebar-primary: 165 80% 28%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 10% 88%;
-    --sidebar-accent-foreground: 220 20% 12%;
-    --sidebar-border: 220 10% 82%;
-    --sidebar-ring: 165 80% 35%;
+    --sidebar-accent: 220 12% 84%;
+    --sidebar-accent-foreground: 220 25% 14%;
+    --sidebar-border: 220 12% 78%;
+    --sidebar-ring: 165 80% 28%;
   }
 
   .dark {
@@ -145,8 +145,9 @@
   }
 
   .bg-glass {
-    background: hsl(var(--card) / 0.5);
+    background: hsl(var(--card) / 0.85);
     backdrop-filter: blur(30px);
+    border: 1px solid hsl(var(--border) / 0.5);
   }
 
   .glass-card {
