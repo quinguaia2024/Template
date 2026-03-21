@@ -123,7 +123,7 @@ const Mobile3DCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: num
           className="absolute bottom-0 left-0 right-0 p-5"
           style={{ translateZ: 40, transformStyle: "preserve-3d" }}
         >
-          <div className="inline-flex items-center gap-2 bg-glass rounded-full px-3 py-1.5 mb-3">
+          <div className="inline-flex items-center gap-2 bg-card/90 backdrop-blur-xl border border-border/50 rounded-full px-3 py-1.5 mb-3">
             <motion.div
               animate={{ scale: [1, 1.4, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
