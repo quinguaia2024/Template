@@ -232,7 +232,7 @@ const VideoSection = () => {
         {!isMobile && (
           <FadeUp delay={0.3}>
             <div className="max-w-sm mx-auto">
-              <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5">
+              <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-primary/20 shadow-lg shadow-primary/5 bg-card">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active}

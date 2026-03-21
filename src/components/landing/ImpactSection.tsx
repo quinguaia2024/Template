@@ -57,7 +57,7 @@ const ImpactSection = () => {
                   transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
                   className={`w-4 h-4 md:w-5 md:h-5 rounded-full ${a.color} shadow-lg ${a.shadow}`}
                 />
-                <span className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-light text-foreground/70">
+                <span className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-light text-muted-foreground">
                   {a.label}
                 </span>
               </motion.div>
