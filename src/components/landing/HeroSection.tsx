@@ -266,7 +266,7 @@ const HeroSection = () => {
           <span className="text-[10px] tracking-[0.2em] text-primary font-light">
             {String(current + 1).padStart(2, "0")}
           </span>
-          <div className="w-px h-12 bg-foreground/10 relative overflow-hidden">
+          <div className="w-px h-12 bg-white/10 relative overflow-hidden">
             <motion.div
               className="w-full bg-primary"
               initial={{ height: "0%" }}
