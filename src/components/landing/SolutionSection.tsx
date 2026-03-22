@@ -123,20 +123,20 @@ const Mobile3DCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: num
           className="absolute bottom-0 left-0 right-0 p-5"
           style={{ translateZ: 40, transformStyle: "preserve-3d" }}
         >
-          <div className="inline-flex items-center gap-2 bg-card/90 backdrop-blur-xl border border-border/50 rounded-full px-3 py-1.5 mb-3">
+          <div className="inline-flex items-center gap-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-full px-3 py-1.5 mb-3">
             <motion.div
               animate={{ scale: [1, 1.4, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="w-1.5 h-1.5 rounded-full bg-primary"
             />
-            <span className="text-[10px] tracking-[0.2em] uppercase font-light text-card-foreground">
+            <span className="text-[10px] tracking-[0.2em] uppercase font-light text-white/90">
               {pillar.tag}
             </span>
           </div>
-          <h3 className="text-xl font-thin text-foreground leading-tight mb-1 drop-shadow-sm">
+          <h3 className="text-xl font-thin text-white leading-tight mb-1 drop-shadow-md">
             {pillar.title}
           </h3>
-          <p className="text-xs font-light text-muted-foreground">
+          <p className="text-xs font-light text-white/70">
             {pillar.desc}
           </p>
         </motion.div>
