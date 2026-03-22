@@ -96,13 +96,17 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-[border-color] duration-500;
   }
 
   @media (pointer: fine) {
     * {
       cursor: none;
     }
+  }
+
+  html, body {
+    transition: background-color 0.5s ease, color 0.5s ease;
   }
 
   body {
@@ -151,7 +155,7 @@
   }
 
   .glass-card {
-    @apply bg-card/40 backdrop-blur-xl border border-border/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply bg-card/40 backdrop-blur-xl border border-border/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500;
   }
 
   .geometric-bg {

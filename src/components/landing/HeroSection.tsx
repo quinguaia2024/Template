@@ -151,14 +151,14 @@ const HeroSection = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Dark overlay */}
+        {/* Dark overlay — always dark to keep images readable */}
         <motion.div
-          className="absolute inset-0 bg-background"
+          className="absolute inset-0 bg-black"
           style={{ opacity: overlayOpacity }}
         />
 
-        {/* Gradient bottom fade */}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
+        {/* Gradient bottom fade — dark base blending into themed background */}
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background via-black/40 to-transparent" />
 
         {/* Content */}
         <motion.div
@@ -180,13 +180,13 @@ const HeroSection = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="h-px w-8 md:w-10 glow-line origin-left"
                 />
-                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-foreground/70 font-light">
+                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-white/70 font-light">
                   {slide.subtitle}
                 </span>
               </div>
 
               {/* Main title */}
-              <h1 className="text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] text-foreground mb-6 md:mb-8">
+              <h1 className="text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] text-white mb-6 md:mb-8">
                 {slide.title.map((line, i) => (
                   <span key={i} className="block">
                     {i === slide.accent ? (
@@ -224,9 +224,9 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href="#video"
-                className="inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-muted-foreground hover:text-foreground transition-colors duration-500 active:scale-95"
+                className="inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-white/60 hover:text-white transition-colors duration-500 active:scale-95"
               >
-                <div className="w-8 h-8 rounded-full border border-muted-foreground/30 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center">
                   <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
@@ -246,7 +246,7 @@ const HeroSection = () => {
               className="relative p-1 group"
               aria-label={`Slide ${i + 1}`}
             >
-              <div className="w-8 md:w-12 h-0.5 rounded-full bg-foreground/20 overflow-hidden">
+              <div className="w-8 md:w-12 h-0.5 rounded-full bg-white/20 overflow-hidden">
                 {i === current && (
                   <motion.div
                     className="h-full bg-primary rounded-full"
@@ -266,7 +266,7 @@ const HeroSection = () => {
           <span className="text-[10px] tracking-[0.2em] text-primary font-light">
             {String(current + 1).padStart(2, "0")}
           </span>
-          <div className="w-px h-12 bg-foreground/10 relative overflow-hidden">
+          <div className="w-px h-12 bg-white/10 relative overflow-hidden">
             <motion.div
               className="w-full bg-primary"
               initial={{ height: "0%" }}
