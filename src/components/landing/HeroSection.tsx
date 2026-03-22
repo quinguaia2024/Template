@@ -180,7 +180,7 @@ const HeroSection = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="h-px w-8 md:w-10 glow-line origin-left"
                 />
-                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-foreground/70 font-light">
+                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-white/70 font-light">
                   {slide.subtitle}
                 </span>
               </div>
