@@ -155,7 +155,7 @@
   }
 
   .glass-card {
-    @apply bg-card/40 backdrop-blur-xl border border-border/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply bg-card/40 backdrop-blur-xl border border-border/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-500;
   }
 
   .geometric-bg {
