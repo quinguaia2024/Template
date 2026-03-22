@@ -143,7 +143,7 @@ const Mobile3DCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: num
 
         {/* Card number - floating */}
         <motion.span
-          className="absolute top-4 right-4 text-4xl font-thin text-foreground/20"
+          className="absolute top-4 right-4 text-4xl font-thin text-white/20"
           style={{ translateZ: 60, transformStyle: "preserve-3d" }}
         >
           0{index + 1}
