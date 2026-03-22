@@ -96,7 +96,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-[border-color] duration-500;
   }
 
   @media (pointer: fine) {

@@ -242,14 +242,14 @@ const PillarCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="absolute bottom-6 left-6 inline-flex items-center gap-2 bg-card/90 backdrop-blur-xl border border-border/50 rounded-full px-4 py-2"
+            className="absolute bottom-6 left-6 inline-flex items-center gap-2 bg-black/60 backdrop-blur-xl border border-white/10 rounded-full px-4 py-2"
           >
             <motion.div
               animate={{ scale: [1, 1.4, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="w-1.5 h-1.5 rounded-full bg-primary"
             />
-            <span className="text-[10px] tracking-[0.2em] uppercase font-light text-card-foreground">
+            <span className="text-[10px] tracking-[0.2em] uppercase font-light text-white/90">
               {pillar.tag}
             </span>
           </motion.div>
