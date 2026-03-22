@@ -246,7 +246,7 @@ const HeroSection = () => {
               className="relative p-1 group"
               aria-label={`Slide ${i + 1}`}
             >
-              <div className="w-8 md:w-12 h-0.5 rounded-full bg-foreground/20 overflow-hidden">
+              <div className="w-8 md:w-12 h-0.5 rounded-full bg-white/20 overflow-hidden">
                 {i === current && (
                   <motion.div
                     className="h-full bg-primary rounded-full"
