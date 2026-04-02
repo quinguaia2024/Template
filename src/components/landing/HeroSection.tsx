@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { MagneticWrap } from "./ScrollAnimations";
+import { useTheme } from "@/components/ThemeProvider";
 import { AUTH_ROUTES } from "@/auth/constants";
 import heroBg from "@/assets/hero-bg.jpg";
 import aiBrain from "@/assets/ai-brain.jpg";
@@ -48,6 +49,8 @@ const HeroSection = () => {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const touchStart = useRef(0);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -55,7 +58,7 @@ const HeroSection = () => {
   });
 
   const textY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.55, 0.9]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [isDark ? 0.55 : 0.35, isDark ? 0.9 : 0.7]);
 
   const goTo = useCallback((next: number) => {
     setDirection(next > current ? 1 : -1);
@@ -151,14 +154,14 @@ const HeroSection = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Dark overlay — always dark to keep images readable */}
+        {/* Overlay — adapts to theme */}
         <motion.div
-          className="absolute inset-0 bg-black"
+          className={`absolute inset-0 ${isDark ? 'bg-black' : 'bg-white'}`}
           style={{ opacity: overlayOpacity }}
         />
 
-        {/* Gradient bottom fade — always dark base, theme-aware blend at very bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        {/* Gradient bottom fade */}
+        <div className={`absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t ${isDark ? 'from-black/90 via-black/40' : 'from-white/90 via-white/40'} to-transparent`} />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
 
         {/* Content */}
@@ -181,13 +184,13 @@ const HeroSection = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="h-px w-8 md:w-10 glow-line origin-left"
                 />
-                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase text-white/70 font-light">
+                <span className={`text-[10px] md:text-[11px] tracking-[0.35em] uppercase font-light ${isDark ? 'text-white/70' : 'text-foreground/70'}`}>
                   {slide.subtitle}
                 </span>
               </div>
 
               {/* Main title */}
-              <h1 className="text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] text-white mb-6 md:mb-8">
+              <h1 className={`text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] mb-6 md:mb-8 ${isDark ? 'text-white' : 'text-foreground'}`}>
                 {slide.title.map((line, i) => (
                   <span key={i} className="block">
                     {i === slide.accent ? (
@@ -211,7 +214,7 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href={AUTH_ROUTES.gate}
-                className="group inline-flex items-center gap-3 rounded-full border border-white/40 px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-white transition-all duration-700 hover:bg-white hover:text-black active:scale-95"
+                className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white hover:bg-white hover:text-black' : 'border-foreground/40 text-foreground hover:bg-foreground hover:text-background'}`}
               >
                 <span>Começar</span>
                 <motion.span
@@ -225,9 +228,9 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href="#video"
-                className="inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-white/60 hover:text-white transition-colors duration-500 active:scale-95"
+                className={`inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-colors duration-500 active:scale-95 ${isDark ? 'text-white/60 hover:text-white' : 'text-foreground/60 hover:text-foreground'}`}
               >
-                <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center">
+                <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${isDark ? 'border-white/30' : 'border-foreground/30'}`}>
                   <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
@@ -247,7 +250,7 @@ const HeroSection = () => {
               className="relative p-1 group"
               aria-label={`Slide ${i + 1}`}
             >
-              <div className="w-8 md:w-12 h-0.5 rounded-full bg-white/20 overflow-hidden">
+              <div className={`w-8 md:w-12 h-0.5 rounded-full overflow-hidden ${isDark ? 'bg-white/20' : 'bg-foreground/20'}`}>
                 {i === current && (
                   <motion.div
                     className="h-full bg-primary rounded-full"
@@ -264,10 +267,10 @@ const HeroSection = () => {
 
         {/* Slide counter — right side on desktop, hidden on small mobile */}
         <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-20 hidden sm:flex flex-col items-center gap-3">
-          <span className="text-[10px] tracking-[0.2em] text-white font-light">
+          <span className={`text-[10px] tracking-[0.2em] font-light ${isDark ? 'text-white' : 'text-foreground'}`}>
             {String(current + 1).padStart(2, "0")}
           </span>
-          <div className="w-px h-12 bg-white/10 relative overflow-hidden">
+          <div className={`w-px h-12 relative overflow-hidden ${isDark ? 'bg-white/10' : 'bg-foreground/10'}`}>
             <motion.div
               className="w-full bg-primary"
               initial={{ height: "0%" }}
@@ -276,7 +279,7 @@ const HeroSection = () => {
               key={`bar-${current}`}
             />
           </div>
-          <span className="text-[10px] tracking-[0.2em] text-white/40 font-light">
+          <span className={`text-[10px] tracking-[0.2em] font-light ${isDark ? 'text-white/40' : 'text-foreground/40'}`}>
             {String(slides.length).padStart(2, "0")}
           </span>
         </div>
