@@ -157,8 +157,9 @@ const HeroSection = () => {
           style={{ opacity: overlayOpacity }}
         />
 
-        {/* Gradient bottom fade — dark base blending into themed background */}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background via-black/40 to-transparent" />
+        {/* Gradient bottom fade — always dark base, theme-aware blend at very bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
 
         {/* Content */}
         <motion.div
@@ -210,7 +211,7 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href={AUTH_ROUTES.gate}
-                className="group inline-flex items-center gap-3 rounded-full border border-primary/40 px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-primary transition-all duration-700 hover:bg-primary hover:text-primary-foreground active:scale-95"
+                className="group inline-flex items-center gap-3 rounded-full border border-white/40 px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-white transition-all duration-700 hover:bg-white hover:text-black active:scale-95"
               >
                 <span>Começar</span>
                 <motion.span
@@ -263,7 +264,7 @@ const HeroSection = () => {
 
         {/* Slide counter — right side on desktop, hidden on small mobile */}
         <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-20 hidden sm:flex flex-col items-center gap-3">
-          <span className="text-[10px] tracking-[0.2em] text-primary font-light">
+          <span className="text-[10px] tracking-[0.2em] text-white font-light">
             {String(current + 1).padStart(2, "0")}
           </span>
           <div className="w-px h-12 bg-white/10 relative overflow-hidden">
@@ -275,7 +276,7 @@ const HeroSection = () => {
               key={`bar-${current}`}
             />
           </div>
-          <span className="text-[10px] tracking-[0.2em] text-muted-foreground/40 font-light">
+          <span className="text-[10px] tracking-[0.2em] text-white/40 font-light">
             {String(slides.length).padStart(2, "0")}
           </span>
         </div>
