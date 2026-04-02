@@ -157,8 +157,9 @@ const HeroSection = () => {
           style={{ opacity: overlayOpacity }}
         />
 
-        {/* Gradient bottom fade — dark base blending into themed background */}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-background via-black/40 to-transparent" />
+        {/* Gradient bottom fade — always dark base, theme-aware blend at very bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
 
         {/* Content */}
         <motion.div
