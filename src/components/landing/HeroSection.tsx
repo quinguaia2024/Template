@@ -214,7 +214,7 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href={AUTH_ROUTES.gate}
-                className="group inline-flex items-center gap-3 rounded-full border border-white/40 px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-white transition-all duration-700 hover:bg-white hover:text-black active:scale-95"
+                className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white hover:bg-white hover:text-black' : 'border-foreground/40 text-foreground hover:bg-foreground hover:text-background'}`}
               >
                 <span>Começar</span>
                 <motion.span
