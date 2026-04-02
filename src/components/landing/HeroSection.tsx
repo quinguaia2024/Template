@@ -49,6 +49,8 @@ const HeroSection = () => {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
   const touchStart = useRef(0);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -56,7 +58,7 @@ const HeroSection = () => {
   });
 
   const textY = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.55, 0.9]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [isDark ? 0.55 : 0.35, isDark ? 0.9 : 0.7]);
 
   const goTo = useCallback((next: number) => {
     setDirection(next > current ? 1 : -1);
