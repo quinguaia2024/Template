@@ -190,7 +190,7 @@ const HeroSection = () => {
               </div>
 
               {/* Main title */}
-              <h1 className="text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] text-white mb-6 md:mb-8">
+              <h1 className={`text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] mb-6 md:mb-8 ${isDark ? 'text-white' : 'text-foreground'}`}>
                 {slide.title.map((line, i) => (
                   <span key={i} className="block">
                     {i === slide.accent ? (
