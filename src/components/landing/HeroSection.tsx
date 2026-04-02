@@ -264,7 +264,7 @@ const HeroSection = () => {
 
         {/* Slide counter — right side on desktop, hidden on small mobile */}
         <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-20 hidden sm:flex flex-col items-center gap-3">
-          <span className="text-[10px] tracking-[0.2em] text-primary font-light">
+          <span className="text-[10px] tracking-[0.2em] text-white font-light">
             {String(current + 1).padStart(2, "0")}
           </span>
           <div className="w-px h-12 bg-white/10 relative overflow-hidden">
