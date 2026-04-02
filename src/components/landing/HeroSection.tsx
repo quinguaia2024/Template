@@ -154,14 +154,14 @@ const HeroSection = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Dark overlay — always dark to keep images readable */}
+        {/* Overlay — adapts to theme */}
         <motion.div
-          className="absolute inset-0 bg-black"
+          className={`absolute inset-0 ${isDark ? 'bg-black' : 'bg-white'}`}
           style={{ opacity: overlayOpacity }}
         />
 
-        {/* Gradient bottom fade — always dark base, theme-aware blend at very bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+        {/* Gradient bottom fade */}
+        <div className={`absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t ${isDark ? 'from-black/90 via-black/40' : 'from-white/90 via-white/40'} to-transparent`} />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
 
         {/* Content */}
