@@ -228,9 +228,9 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href="#video"
-                className="inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light text-white/60 hover:text-white transition-colors duration-500 active:scale-95"
+                className={`inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-colors duration-500 active:scale-95 ${isDark ? 'text-white/60 hover:text-white' : 'text-foreground/60 hover:text-foreground'}`}
               >
-                <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center">
+                <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${isDark ? 'border-white/30' : 'border-foreground/30'}`}>
                   <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
