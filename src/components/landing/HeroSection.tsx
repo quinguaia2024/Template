@@ -276,7 +276,7 @@ const HeroSection = () => {
               key={`bar-${current}`}
             />
           </div>
-          <span className="text-[10px] tracking-[0.2em] text-muted-foreground/40 font-light">
+          <span className="text-[10px] tracking-[0.2em] text-white/40 font-light">
             {String(slides.length).padStart(2, "0")}
           </span>
         </div>
