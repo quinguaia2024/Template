@@ -14,7 +14,7 @@ const CTASection = () => {
         </h2>
 
         <FadeUp delay={0.3}>
-          <p className="text-xs md:text-sm font-light text-muted-foreground max-w-md mx-auto mb-8 md:mb-12">
+          <p className="text-xs md:text-sm font-light text-foreground max-w-md mx-auto mb-8 md:mb-12">
             Registe-se para acesso antecipado. É gratuito.
           </p>
         </FadeUp>
@@ -47,7 +47,7 @@ const CTASection = () => {
             <MagneticWrap>
               <a
                 href="#"
-                className="text-xs tracking-[0.15em] uppercase font-light text-muted-foreground hover:text-foreground active:text-foreground transition-colors duration-500"
+                className="text-xs tracking-[0.15em] uppercase font-light text-foreground hover:text-foreground active:text-foreground transition-colors duration-500"
               >
                 Contactar equipa
               </a>
