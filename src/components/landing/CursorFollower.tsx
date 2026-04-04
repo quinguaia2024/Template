@@ -4,18 +4,24 @@ const CursorFollower = () => {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const mouse = useRef({ x: -100, y: -100 });
+  const dot = useRef({ x: -100, y: -100 });
   const ring = useRef({ x: -100, y: -100 });
   const raf = useRef<number>(0);
 
   const animate = useCallback(() => {
-    ring.current.x += (mouse.current.x - ring.current.x) * 0.15;
-    ring.current.y += (mouse.current.y - ring.current.y) * 0.15;
+    // Dot follows with very light smoothing for fluid feel
+    dot.current.x += (mouse.current.x - dot.current.x) * 0.35;
+    dot.current.y += (mouse.current.y - dot.current.y) * 0.35;
+
+    // Ring follows with more lag for elastic feel
+    ring.current.x += (mouse.current.x - ring.current.x) * 0.08;
+    ring.current.y += (mouse.current.y - ring.current.y) * 0.08;
 
     if (dotRef.current) {
-      dotRef.current.style.transform = `translate(${mouse.current.x - 5}px, ${mouse.current.y - 5}px)`;
+      dotRef.current.style.transform = `translate3d(${dot.current.x - 5}px, ${dot.current.y - 5}px, 0)`;
     }
     if (ringRef.current) {
-      ringRef.current.style.transform = `translate(${ring.current.x - 22}px, ${ring.current.y - 22}px)`;
+      ringRef.current.style.transform = `translate3d(${ring.current.x - 22}px, ${ring.current.y - 22}px, 0)`;
     }
 
     raf.current = requestAnimationFrame(animate);
@@ -57,11 +63,11 @@ const CursorFollower = () => {
     <div className="pointer-events-none fixed inset-0 z-[9999] hidden md:block">
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 h-2.5 w-2.5 rounded-full bg-primary transition-transform duration-100 will-change-transform"
+        className="fixed top-0 left-0 h-2.5 w-2.5 rounded-full bg-primary will-change-transform"
       />
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 h-11 w-11 rounded-full border border-primary/50 transition-[transform,opacity] duration-200 will-change-transform"
+        className="fixed top-0 left-0 h-11 w-11 rounded-full border border-primary/50 transition-[opacity] duration-200 will-change-transform"
       />
     </div>
   );
