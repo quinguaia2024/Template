@@ -263,7 +263,7 @@ const PillarCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
             <h3 className="text-2xl md:text-4xl font-thin text-foreground leading-tight mb-4">
               {pillar.title}
             </h3>
-            <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-sm">
+            <p className="text-sm font-light text-foreground leading-relaxed max-w-sm">
               {pillar.desc}
             </p>
           </FadeUp>

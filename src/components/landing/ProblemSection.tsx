@@ -64,7 +64,7 @@ const ProblemSection = () => {
                   <span className={`text-[clamp(2.5rem,8vw,4.5rem)] font-thin leading-none block mb-1 md:mb-3 ${stat.color}`} style={{ filter: 'saturate(1.2)' }}>
                     <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                   </span>
-                  <span className="text-xs tracking-[0.12em] uppercase font-light text-muted-foreground">
+                  <span className="text-xs tracking-[0.12em] uppercase font-light text-foreground">
                     {stat.label}
                   </span>
                 </div>

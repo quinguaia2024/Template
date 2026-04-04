@@ -45,7 +45,7 @@ const Navbar = () => {
             <MagneticWrap key={item.label}>
               <a
                 href={item.href}
-                className="text-foreground text-xs tracking-[0.15em] uppercase font-light opacity-60 hover:opacity-100 transition-opacity duration-500"
+                className="text-foreground text-xs tracking-[0.15em] uppercase font-light hover:opacity-100 transition-opacity duration-500"
               >
                 {item.label}
               </a>
@@ -195,10 +195,10 @@ const Navbar = () => {
               transition={{ delay: 0.7 }}
               className="px-8 pb-8 flex items-center justify-between"
             >
-              <span className="text-[10px] tracking-wider text-muted-foreground/40 font-light">
+                <span className="text-[10px] tracking-wider text-foreground font-light">
                 Mentor Digital © 2026
               </span>
-              <span className="text-[10px] tracking-wider text-muted-foreground/40 font-light">
+                <span className="text-[10px] tracking-wider text-foreground font-light">
                 Angola
               </span>
             </motion.div>

@@ -70,7 +70,7 @@ const HowItWorksSection = () => {
                     {step.icon}
                   </span>
                   <div className="flex items-center gap-3 md:gap-4 flex-1 min-w-0">
-                    <span className="text-[10px] tracking-[0.2em] text-muted-foreground/50 font-light flex-shrink-0">
+                    <span className="text-[10px] tracking-[0.2em] text-foreground font-light flex-shrink-0">
                       {step.num}
                     </span>
                     <span className="text-xs md:text-sm font-light text-card-foreground group-hover:text-foreground transition-colors duration-500">

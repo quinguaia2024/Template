@@ -203,7 +203,7 @@ const VideoSection = () => {
             </h2>
           </FadeUp>
           <FadeUp delay={0.2}>
-            <p className="text-xs md:text-sm font-light text-muted-foreground max-w-md mx-auto">
+            <p className="text-xs md:text-sm font-light text-foreground max-w-md mx-auto">
               Histórias reais de alunos, professores e encarregados.
             </p>
           </FadeUp>
@@ -273,7 +273,7 @@ const VideoSection = () => {
                 "{current.quote}"
               </blockquote>
               <p className="text-xs font-light text-primary">{current.name}</p>
-              <p className="text-[10px] font-light text-muted-foreground mt-0.5">{current.role}</p>
+              <p className="text-[10px] font-light text-foreground mt-0.5">{current.role}</p>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -328,7 +328,7 @@ const VideoSection = () => {
             ))}
           </div>
 
-          <span className="text-[10px] tracking-[0.2em] text-muted-foreground/50 font-light">
+          <span className="text-[10px] tracking-[0.2em] text-foreground font-light">
             {String(active + 1).padStart(2, "0")} / {String(testimonials.length).padStart(2, "0")}
           </span>
         </div>
