@@ -24,7 +24,7 @@ const Footer = () => {
             </span>
             {["Alunos", "Professores", "Encarregados", "Escolas"].map((link) =>
             <MagneticWrap key={link}>
-                <a href="#" className="block text-xs font-light text-muted-foreground hover:text-foreground active:text-foreground transition-colors duration-500 mb-2 py-0.5">
+                <a href="#" className="block text-base font-light text-muted-foreground hover:text-foreground active:text-foreground transition-colors duration-500 mb-2 py-0.5">
                   {link}
                 </a>
               </MagneticWrap>
@@ -37,7 +37,7 @@ const Footer = () => {
             </span>
             {["Sobre nós", "Contacto", "Privacidade", "Termos"].map((link) =>
             <MagneticWrap key={link}>
-                <a href="#" className="block text-xs font-light text-muted-foreground hover:text-foreground active:text-foreground transition-colors duration-500 mb-2 py-0.5">
+                <a href="#" className="block text-base font-light text-muted-foreground hover:text-foreground active:text-foreground transition-colors duration-500 mb-2 py-0.5">
                   {link}
                 </a>
               </MagneticWrap>
