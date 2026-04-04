@@ -7,13 +7,13 @@
 @layer base {
   :root {
     --background: 40 30% 96%;
-    --foreground: 220 30% 6%;
+    --foreground: 0 0% 0%;
 
     --card: 40 25% 90%;
-    --card-foreground: 220 30% 6%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 40 25% 90%;
-    --popover-foreground: 220 30% 6%;
+    --popover-foreground: 0 0% 0%;
 
     --primary: 165 80% 28%;
     --primary-foreground: 0 0% 100%;
@@ -22,7 +22,7 @@
     --secondary-foreground: 0 0% 100%;
 
     --muted: 220 12% 84%;
-    --muted-foreground: 220 15% 28%;
+    --muted-foreground: 0 0% 0%;
 
     --accent: 165 80% 28%;
     --accent-foreground: 0 0% 100%;
@@ -40,24 +40,24 @@
     --glow-amber: 28 90% 42%;
 
     --sidebar-background: 40 25% 90%;
-    --sidebar-foreground: 220 30% 6%;
+    --sidebar-foreground: 0 0% 0%;
     --sidebar-primary: 165 80% 28%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 12% 84%;
-    --sidebar-accent-foreground: 220 30% 6%;
+    --sidebar-accent-foreground: 0 0% 0%;
     --sidebar-border: 220 12% 78%;
     --sidebar-ring: 165 80% 28%;
   }
 
   .dark {
     --background: 220 20% 3%;
-    --foreground: 0 0% 92%;
+    --foreground: 0 0% 100%;
 
     --card: 220 18% 6%;
-    --card-foreground: 0 0% 92%;
+    --card-foreground: 0 0% 100%;
 
     --popover: 220 18% 6%;
-    --popover-foreground: 0 0% 92%;
+    --popover-foreground: 0 0% 100%;
 
     --primary: 165 100% 50%;
     --primary-foreground: 220 20% 3%;
@@ -66,7 +66,7 @@
     --secondary-foreground: 220 20% 3%;
 
     --muted: 220 15% 12%;
-    --muted-foreground: 220 10% 50%;
+    --muted-foreground: 0 0% 100%;
 
     --accent: 165 100% 50%;
     --accent-foreground: 220 20% 3%;
@@ -84,11 +84,11 @@
     --glow-amber: 28 100% 58%;
 
     --sidebar-background: 220 18% 6%;
-    --sidebar-foreground: 0 0% 92%;
+    --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 165 100% 50%;
     --sidebar-primary-foreground: 220 20% 3%;
     --sidebar-accent: 220 15% 12%;
-    --sidebar-accent-foreground: 0 0% 92%;
+    --sidebar-accent-foreground: 0 0% 100%;
     --sidebar-border: 220 15% 14%;
     --sidebar-ring: 165 100% 50%;
   }
@@ -205,5 +205,13 @@
 
   .line-decoration {
     background: linear-gradient(180deg, hsl(var(--primary) / 0.4), transparent);
+  }
+
+  .hero-text-shadow-light {
+    text-shadow: 0 1px 2px hsl(var(--background) / 0.95), 0 10px 30px hsl(var(--background) / 0.55);
+  }
+
+  .dark .hero-text-shadow-light {
+    text-shadow: none;
   }
 }

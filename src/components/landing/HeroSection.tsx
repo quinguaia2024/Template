@@ -188,13 +188,13 @@ const HeroSection = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="h-px w-8 md:w-10 glow-line origin-left"
                 />
-                <span className={`text-[10px] md:text-[11px] tracking-[0.35em] uppercase font-light ${isDark ? 'text-white/70' : 'text-foreground/70'}`}>
+                <span className={`hero-text-shadow-light text-[10px] md:text-[11px] tracking-[0.35em] uppercase font-light ${isDark ? 'text-white/70' : 'text-foreground/70'}`}>
                   {slide.subtitle}
                 </span>
               </div>
 
               {/* Main title */}
-              <h1 className={`text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] mb-6 md:mb-8 ${isDark ? 'text-white' : 'text-foreground'}`}>
+              <h1 className={`hero-text-shadow-light text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] mb-6 md:mb-8 ${isDark ? 'text-white' : 'text-foreground'}`}>
                 {slide.title.map((line, i) => (
                   <span key={i} className="block">
                     {i === slide.accent ? (
