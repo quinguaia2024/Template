@@ -154,18 +154,14 @@ const HeroSection = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* Overlay — only in dark mode */}
-        {isDark && (
-          <motion.div
-            className="absolute inset-0 bg-black"
-            style={{ opacity: overlayOpacity }}
-          />
-        )}
+        {/* Overlay */}
+        <motion.div
+          className="absolute inset-0 bg-black"
+          style={{ opacity: overlayOpacity }}
+        />
 
-        {/* Gradient bottom fade — only in dark mode */}
-        {isDark && (
-          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-        )}
+        {/* Gradient bottom fade */}
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
 
         {/* Content */}
