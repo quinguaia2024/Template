@@ -172,7 +172,7 @@ const SolutionSection = () => {
           </div>
         </FadeUp>
 
-        <h2 className="text-[clamp(1.5rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-3xl mb-12 md:mb-24">
+        <h2 className="text-[clamp(1.8rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-3xl mb-12 md:mb-24">
           Um ecossistema onde todos evoluem juntos
         </h2>
 
@@ -257,13 +257,13 @@ const PillarCard = ({ pillar, index }: { pillar: typeof pillars[0]; index: numbe
 
         <div className={`${reverse ? 'lg:order-1 lg:text-right' : ''}`}>
           <FadeUp>
-            <span className="text-6xl font-thin text-primary/15 block mb-4">
+            <span className="text-6xl font-thin text-primary/30 block mb-4">
               0{index + 1}
             </span>
             <h3 className="text-2xl md:text-4xl font-thin text-foreground leading-tight mb-4">
               {pillar.title}
             </h3>
-            <p className="text-sm font-light text-foreground leading-relaxed max-w-sm">
+            <p className="text-base font-light text-foreground leading-relaxed max-w-sm">
               {pillar.desc}
             </p>
           </FadeUp>

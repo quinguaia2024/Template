@@ -14,7 +14,7 @@ const CTASection = () => {
         </h2>
 
         <FadeUp delay={0.3}>
-          <p className="text-xs md:text-sm font-light text-foreground max-w-md mx-auto mb-8 md:mb-12">
+          <p className="text-sm md:text-base font-light text-foreground max-w-md mx-auto mb-8 md:mb-12">
             Registe-se para acesso antecipado. É gratuito.
           </p>
         </FadeUp>
