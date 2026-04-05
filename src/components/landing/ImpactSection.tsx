@@ -30,7 +30,7 @@ const ImpactSection = () => {
         </FadeUp>
 
         <div className="my-6 md:my-8">
-          <h2 className="text-[clamp(1.5rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em]">
+          <h2 className="text-[clamp(1.8rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em]">
             Professores, alunos e pais conectados pelo EDU
           </h2>
         </div>
@@ -57,7 +57,7 @@ const ImpactSection = () => {
                   transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
                   className={`w-4 h-4 md:w-5 md:h-5 rounded-full ${a.color} shadow-lg ${a.shadow}`}
                 />
-                <span className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-light text-foreground">
+                <span className="text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-foreground">
                   {a.label}
                 </span>
               </motion.div>
@@ -75,7 +75,7 @@ const ImpactSection = () => {
             ].map((item) => (
               <div key={item.label} className="text-center">
                 <span className="text-2xl md:text-3xl font-thin text-gradient-primary block">{item.value}</span>
-                <span className="text-[9px] md:text-[10px] tracking-[0.2em] uppercase font-light text-foreground mt-1 block">
+                <span className="text-[10px] md:text-xs tracking-[0.2em] uppercase font-light text-foreground mt-1 block">
                   {item.label}
                 </span>
               </div>
