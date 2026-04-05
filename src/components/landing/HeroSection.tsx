@@ -188,13 +188,13 @@ const HeroSection = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="h-px w-8 md:w-10 glow-line origin-left"
                 />
-                <span className={`hero-text-shadow-light text-[10px] md:text-[11px] tracking-[0.35em] uppercase font-light ${isDark ? 'text-white/70' : 'text-foreground/100'}`}>
+                <span className="text-[10px] md:text-[11px] tracking-[0.35em] uppercase font-light text-white/70">
                   {slide.subtitle}
                 </span>
               </div>
 
               {/* Main title */}
-              <h1 className={`hero-text-shadow-light text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] mb-6 md:mb-8 ${isDark ? 'text-white' : 'text-foreground'}`}>
+              <h1 className="text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] mb-6 md:mb-8 text-white">
                 {slide.title.map((line, i) => (
                   <span key={i} className="block">
                     {i === slide.accent ? (
@@ -218,7 +218,7 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href={AUTH_ROUTES.gate}
-                className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white hover:bg-white hover:text-black' : 'border-foreground/60 text-foreground hover:bg-foreground hover:text-background'}`}
+                className="group inline-flex items-center gap-3 rounded-full border border-white/40 text-white px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 hover:bg-white hover:text-black"
               >
                 <span>Começar</span>
                 <motion.span
@@ -232,9 +232,9 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href="#video"
-                className={`inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-colors duration-500 active:scale-95 ${isDark ? 'text-white/60 hover:text-white' : 'text-foreground/100 hover:text-foreground'}`}
+                className="inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-colors duration-500 active:scale-95 text-white/60 hover:text-white"
               >
-                <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${isDark ? 'border-white/30' : 'border-foreground/60'}`}>
+                <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center">
                   <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
@@ -254,7 +254,7 @@ const HeroSection = () => {
               className="relative p-1 group"
               aria-label={`Slide ${i + 1}`}
             >
-              <div className={`w-8 md:w-12 h-0.5 rounded-full overflow-hidden ${isDark ? 'bg-white/20' : 'bg-foreground/30'}`}>
+              <div className="w-8 md:w-12 h-0.5 rounded-full overflow-hidden bg-white/20">
                 {i === current && (
                   <motion.div
                     className="h-full bg-primary rounded-full"
@@ -271,10 +271,10 @@ const HeroSection = () => {
 
         {/* Slide counter — right side on desktop, hidden on small mobile */}
         <div className="absolute right-6 md:right-12 top-1/2 -translate-y-1/2 z-20 hidden sm:flex flex-col items-center gap-3">
-          <span className={`text-[10px] tracking-[0.2em] font-light ${isDark ? 'text-white' : 'text-foreground'}`}>
+          <span className="text-[10px] tracking-[0.2em] font-light text-white">
             {String(current + 1).padStart(2, "0")}
           </span>
-          <div className={`w-px h-12 relative overflow-hidden ${isDark ? 'bg-white/10' : 'bg-foreground/30'}`}>
+          <div className="w-px h-12 relative overflow-hidden bg-white/10">
             <motion.div
               className="w-full bg-primary"
               initial={{ height: "0%" }}
@@ -283,7 +283,7 @@ const HeroSection = () => {
               key={`bar-${current}`}
             />
           </div>
-          <span className={`text-[10px] tracking-[0.2em] font-light ${isDark ? 'text-white/40' : 'text-foreground/100'}`}>
+          <span className="text-[10px] tracking-[0.2em] font-light text-white/40">
             {String(slides.length).padStart(2, "0")}
           </span>
         </div>
