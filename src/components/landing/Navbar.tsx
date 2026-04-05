@@ -32,7 +32,7 @@ const Navbar = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, delay: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled && !open ? "bg-background/80 backdrop-blur-xl" : ""
+        scrolled && !open ? "bg-background/60 backdrop-blur-2xl shadow-sm" : "backdrop-blur-sm"
       }`}
     >
       <div className="flex items-center justify-between px-5 md:px-8 py-4 md:py-6 relative z-50">
