@@ -160,9 +160,9 @@ const HeroSection = () => {
           style={{ opacity: overlayOpacity }}
         />
 
-        {/* Gradient bottom fade */}
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background to-transparent" />
+        {/* Gradient bottom fade — only in dark mode */}
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 via-black/20 to-transparent dark:block hidden" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background to-transparent dark:block hidden" />
 
         {/* Content */}
         <motion.div
