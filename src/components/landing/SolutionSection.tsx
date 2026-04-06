@@ -166,7 +166,7 @@ const SolutionSection = () => {
               transition={{ duration: 3, repeat: Infinity }}
               className="h-px w-10 bg-primary origin-left"
             />
-            <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
+            <span className="text-sm tracking-[0.4em] uppercase text-primary font-medium">
               A solução
             </span>
           </div>

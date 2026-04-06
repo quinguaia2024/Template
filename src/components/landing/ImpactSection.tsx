@@ -24,7 +24,7 @@ const ImpactSection = () => {
 
       <div className="relative z-10 px-5 md:px-8 max-w-4xl mx-auto text-center">
         <FadeUp>
-          <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
+          <span className="text-sm tracking-[0.4em] uppercase text-primary font-medium">
             Impacto
           </span>
         </FadeUp>

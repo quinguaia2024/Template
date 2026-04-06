@@ -28,7 +28,7 @@ const ProblemSection = () => {
               transition={{ duration: 3, repeat: Infinity }}
               className="h-px w-10 bg-secondary origin-left"
             />
-            <span className="text-[10px] tracking-[0.4em] uppercase text-secondary font-light">
+            <span className="text-sm tracking-[0.4em] uppercase text-secondary font-medium">
               O problema
             </span>
           </div>
