@@ -91,7 +91,7 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile fullscreen menu — outside header to avoid transform containment */}
       <AnimatePresence>
