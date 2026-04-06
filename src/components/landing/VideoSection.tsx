@@ -191,7 +191,7 @@ const VideoSection = () => {
           <FadeUp>
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="h-px w-10 bg-primary" />
-              <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
+              <span className="text-sm tracking-[0.4em] uppercase text-primary font-medium">
                 Testemunhos
               </span>
               <span className="h-px w-10 bg-primary" />
