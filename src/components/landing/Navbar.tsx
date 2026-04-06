@@ -28,11 +28,8 @@ const Navbar = () => {
 
   return (
     <>
-      <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, delay: 0.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      <header
+        className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
           scrolled && !open ? "bg-background/60 backdrop-blur-2xl shadow-sm" : "backdrop-blur-sm"
         }`}
       >
