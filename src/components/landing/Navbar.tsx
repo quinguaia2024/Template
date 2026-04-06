@@ -27,74 +27,76 @@ const Navbar = () => {
   }, [open]);
 
   return (
-    <motion.header
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.5, delay: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
-        scrolled && !open ? "bg-background/60 backdrop-blur-2xl shadow-sm" : "backdrop-blur-sm"
-      }`}
-    >
-      <div className="flex items-center justify-between px-5 md:px-8 py-4 md:py-6 relative z-50">
-        <a href="#" className="text-foreground text-sm tracking-[0.2em] uppercase font-light">
-          Mentor <span className="text-primary">Digital</span>
-        </a>
+    <>
+      <motion.header
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5, delay: 0.5 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled && !open ? "bg-background/60 backdrop-blur-2xl shadow-sm" : "backdrop-blur-sm"
+        }`}
+      >
+        <div className="flex items-center justify-between px-5 md:px-8 py-4 md:py-6 relative z-50">
+          <a href="#" className="text-foreground text-sm tracking-[0.2em] uppercase font-light">
+            Mentor <span className="text-primary">Digital</span>
+          </a>
 
-        <div className="hidden md:flex items-center gap-10">
-          {navItems.map((item) => (
-            <MagneticWrap key={item.label}>
+          <div className="hidden md:flex items-center gap-10">
+            {navItems.map((item) => (
+              <MagneticWrap key={item.label}>
+                <a
+                  href={item.href}
+                  className="text-foreground text-xs tracking-[0.15em] uppercase font-light hover:opacity-100 transition-opacity duration-500"
+                >
+                  {item.label}
+                </a>
+              </MagneticWrap>
+            ))}
+          </div>
+
+          <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
+            <MagneticWrap>
               <a
-                href={item.href}
-                className="text-foreground text-xs tracking-[0.15em] uppercase font-light hover:opacity-100 transition-opacity duration-500"
+                href={AUTH_ROUTES.gate}
+                className="text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
               >
-                {item.label}
+                Começar
               </a>
             </MagneticWrap>
-          ))}
-        </div>
-
-        <div className="hidden md:flex items-center gap-4">
-          <ThemeToggle />
-          <MagneticWrap>
-            <a
-              href={AUTH_ROUTES.gate}
-              className="text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
-            >
-              Começar
-            </a>
-          </MagneticWrap>
-        </div>
-
-        {/* Mobile controls */}
-        <div className="flex md:hidden items-center gap-2">
-          <ThemeToggle />
-          <button
-            onClick={() => setOpen(!open)}
-            className="relative w-12 h-12 flex items-center justify-center rounded-full border border-foreground/10 active:scale-90 transition-transform"
-            aria-label="Menu"
-          >
-          <div className="flex flex-col items-center justify-center gap-[5px] w-5">
-            <motion.span
-              animate={open ? { rotate: 45, y: 6, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 24 }}
-              className="block h-[1.5px] w-full bg-foreground origin-center rounded-full"
-            />
-            <motion.span
-              animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.15 }}
-              className="block h-[1.5px] w-3/4 bg-foreground rounded-full"
-            />
-            <motion.span
-              animate={open ? { rotate: -45, y: -6, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 24 }}
-              className="block h-[1.5px] w-full bg-foreground origin-center rounded-full"
-            />
           </div>
-          </button>
-        </div>
-      </div>
 
-      {/* Mobile fullscreen menu — reveal from top */}
+          {/* Mobile controls */}
+          <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle />
+            <button
+              onClick={() => setOpen(!open)}
+              className="relative z-[60] w-12 h-12 flex items-center justify-center rounded-full border border-foreground/10 active:scale-90 transition-transform"
+              aria-label="Menu"
+            >
+            <div className="flex flex-col items-center justify-center gap-[5px] w-5">
+              <motion.span
+                animate={open ? { rotate: 45, y: 6, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                className="block h-[1.5px] w-full bg-foreground origin-center rounded-full"
+              />
+              <motion.span
+                animate={open ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                transition={{ duration: 0.15 }}
+                className="block h-[1.5px] w-3/4 bg-foreground rounded-full"
+              />
+              <motion.span
+                animate={open ? { rotate: -45, y: -6, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                className="block h-[1.5px] w-full bg-foreground origin-center rounded-full"
+              />
+            </div>
+            </button>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Mobile fullscreen menu — outside header to avoid transform containment */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -102,8 +104,7 @@ const Navbar = () => {
             animate={{ clipPath: "circle(150% at calc(100% - 44px) 28px)" }}
             exit={{ clipPath: "circle(0% at calc(100% - 44px) 28px)" }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 flex flex-col md:hidden"
-            style={{ backgroundColor: 'hsl(var(--background))', zIndex: 9999 }}
+            className="fixed inset-0 bg-background flex flex-col md:hidden z-[55]"
           >
             {/* Decorative background elements */}
             <motion.div
@@ -206,7 +207,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 };
 
