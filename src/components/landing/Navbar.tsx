@@ -102,7 +102,8 @@ const Navbar = () => {
             animate={{ clipPath: "circle(150% at calc(100% - 44px) 28px)" }}
             exit={{ clipPath: "circle(0% at calc(100% - 44px) 28px)" }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 bg-background backdrop-blur-xl flex flex-col md:hidden z-40"
+            className="fixed inset-0 bg-background flex flex-col md:hidden z-[70]"
+            style={{ backgroundColor: 'hsl(var(--background))' }}
           >
             {/* Decorative background elements */}
             <motion.div
