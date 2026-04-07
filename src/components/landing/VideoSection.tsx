@@ -98,9 +98,9 @@ const MobileVideoCard = memo(({
   return (
     <motion.div
       onClick={onClick}
-      className="absolute left-1/2 top-0 w-[65%] cursor-pointer will-change-transform"
+      className="absolute left-1/2 top-0 w-[58%] cursor-pointer will-change-transform"
       animate={{
-        x: `calc(-50% + ${offset * 85}%)`,
+        x: `calc(-50% + ${offset * 95}%)`,
         scale: isActive ? 1 : 0.78,
         rotateY: offset * -20,
         z: isActive ? 50 : -50,
