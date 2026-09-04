@@ -231,6 +231,14 @@ const HeroSection = () => {
             </MagneticWrap>
             <MagneticWrap>
               <a
+                href={AUTH_ROUTES.tutorLogin}
+                className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white/80 hover:bg-white hover:text-black' : 'border-foreground/60 text-foreground/80 hover:bg-foreground hover:text-background'}`}
+              >
+                <span>Sou Tutor</span>
+              </a>
+            </MagneticWrap>
+            <MagneticWrap>
+              <a
                 href="#video"
                 className={`inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-colors duration-500 active:scale-95 ${isDark ? 'text-white/60 hover:text-white' : 'text-foreground/100 hover:text-foreground'}`}
               >
