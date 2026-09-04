@@ -57,10 +57,18 @@ const Navbar = () => {
           <ThemeToggle />
           <MagneticWrap>
             <a
-              href={AUTH_ROUTES.gate}
+              href={AUTH_ROUTES.alunoLogin}
               className="text-xs tracking-[0.15em] uppercase font-light text-primary border border-primary/30 rounded-full px-6 py-2.5 hover:bg-primary/10 transition-colors duration-500"
             >
-              Começar
+              Aluno
+            </a>
+          </MagneticWrap>
+          <MagneticWrap>
+            <a
+              href={AUTH_ROUTES.tutorLogin}
+              className="text-xs tracking-[0.15em] uppercase font-light text-foreground border border-foreground/30 rounded-full px-6 py-2.5 hover:bg-foreground/10 transition-colors duration-500"
+            >
+              Tutor
             </a>
           </MagneticWrap>
         </div>

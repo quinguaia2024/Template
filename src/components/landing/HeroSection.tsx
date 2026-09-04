@@ -217,10 +217,10 @@ const HeroSection = () => {
           >
             <MagneticWrap>
               <a
-                href={AUTH_ROUTES.gate}
+                href={AUTH_ROUTES.alunoLogin}
                 className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white hover:bg-white hover:text-black' : 'border-foreground/60 text-foreground hover:bg-foreground hover:text-background'}`}
               >
-                <span>Começar</span>
+                <span>Sou Aluno</span>
                 <motion.span
                   animate={{ x: [0, 4, 0] }}
                   transition={{ duration: 2, repeat: Infinity }}
