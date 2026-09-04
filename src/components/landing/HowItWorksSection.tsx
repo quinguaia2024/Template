@@ -29,13 +29,13 @@ const HowItWorksSection = () => {
               transition={{ duration: 3, repeat: Infinity }}
               className="h-px w-10 bg-secondary origin-left"
             />
-            <span className="text-sm tracking-[0.4em] uppercase text-secondary font-medium">
+            <span className="text-[10px] tracking-[0.4em] uppercase text-secondary font-light">
               Como funciona
             </span>
           </div>
         </FadeUp>
 
-        <h2 className="text-[clamp(1.8rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-3xl mb-10 md:mb-20">
+        <h2 className="text-[clamp(1.5rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-3xl mb-10 md:mb-20">
           Quatro passos simples
         </h2>
 
@@ -73,7 +73,7 @@ const HowItWorksSection = () => {
                     <span className="text-[10px] tracking-[0.2em] text-foreground font-light flex-shrink-0">
                       {step.num}
                     </span>
-                    <span className="text-sm md:text-base font-light text-card-foreground group-hover:text-foreground transition-colors duration-500">
+                    <span className="text-xs md:text-sm font-light text-card-foreground group-hover:text-foreground transition-colors duration-500">
                       {step.label}
                     </span>
                   </div>

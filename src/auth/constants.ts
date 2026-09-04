@@ -4,8 +4,15 @@
  */
 export const AUTH_BASE_URL = 'https://mentor-ia-v1.vercel.app';
 
+/**
+ * URL base do dashboard (acesso de alunos e tutores).
+ */
+export const DASH_BASE_URL = 'https://mentor-ia-dash-v1.vercel.app';
+
 export const AUTH_ROUTES = {
   gate: `${AUTH_BASE_URL}/auth`,
   login: `${AUTH_BASE_URL}/login`,
   register: `${AUTH_BASE_URL}/register`,
+  alunoLogin: `${DASH_BASE_URL}/auth/aluno/login`,
+  tutorLogin: `${DASH_BASE_URL}/auth/tutor/login`,
 } as const;

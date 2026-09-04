@@ -28,13 +28,13 @@ const ProblemSection = () => {
               transition={{ duration: 3, repeat: Infinity }}
               className="h-px w-10 bg-secondary origin-left"
             />
-            <span className="text-sm tracking-[0.4em] uppercase text-secondary font-medium">
+            <span className="text-[10px] tracking-[0.4em] uppercase text-secondary font-light">
               O problema
             </span>
           </div>
         </FadeUp>
 
-        <h2 className="text-[clamp(1.8rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-3xl mb-12 md:mb-20">
+        <h2 className="text-[clamp(1.5rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-3xl mb-12 md:mb-20">
           Uma crise silenciosa na educação técnica angolana
         </h2>
 
@@ -64,7 +64,7 @@ const ProblemSection = () => {
                   <span className={`text-[clamp(2.5rem,8vw,4.5rem)] font-thin leading-none block mb-1 md:mb-3 ${stat.color}`} style={{ filter: 'saturate(1.2)' }}>
                     <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                   </span>
-                  <span className="text-sm tracking-[0.12em] uppercase font-light text-foreground">
+                  <span className="text-xs tracking-[0.12em] uppercase font-light text-foreground">
                     {stat.label}
                   </span>
                 </div>

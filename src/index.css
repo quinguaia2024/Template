@@ -208,6 +208,10 @@
   }
 
   .hero-text-shadow-light {
+    text-shadow: 0 1px 2px hsl(var(--background) / 0.95), 0 10px 30px hsl(var(--background) / 0.55);
+  }
+
+  .dark .hero-text-shadow-light {
     text-shadow: none;
   }
 }

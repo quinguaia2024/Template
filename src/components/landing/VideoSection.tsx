@@ -98,9 +98,9 @@ const MobileVideoCard = memo(({
   return (
     <motion.div
       onClick={onClick}
-      className="absolute left-1/2 top-0 w-[58%] cursor-pointer will-change-transform"
+      className="absolute left-1/2 top-0 w-[65%] cursor-pointer will-change-transform"
       animate={{
-        x: `calc(-50% + ${offset * 95}%)`,
+        x: `calc(-50% + ${offset * 85}%)`,
         scale: isActive ? 1 : 0.78,
         rotateY: offset * -20,
         z: isActive ? 50 : -50,
@@ -191,7 +191,7 @@ const VideoSection = () => {
           <FadeUp>
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="h-px w-10 bg-primary" />
-              <span className="text-sm tracking-[0.4em] uppercase text-primary font-medium">
+              <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-light">
                 Testemunhos
               </span>
               <span className="h-px w-10 bg-primary" />
