@@ -182,7 +182,7 @@ const Navbar = () => {
                 className="mt-10"
               >
                 <a
-                  href={AUTH_ROUTES.gate}
+                  href={AUTH_ROUTES.alunoLogin}
                   onClick={() => setOpen(false)}
                   className="inline-flex items-center justify-center gap-3 w-full rounded-full bg-primary text-primary-foreground px-8 py-4 text-xs tracking-[0.2em] uppercase font-light active:scale-95 transition-transform"
                 >
@@ -191,7 +191,14 @@ const Navbar = () => {
                     transition={{ duration: 2, repeat: Infinity }}
                     className="w-2 h-2 rounded-full bg-primary-foreground/40"
                   />
-                  Começar agora
+                  Entrar como Aluno
+                </a>
+                <a
+                  href={AUTH_ROUTES.tutorLogin}
+                  onClick={() => setOpen(false)}
+                  className="mt-3 inline-flex items-center justify-center gap-3 w-full rounded-full border border-foreground/30 text-foreground px-8 py-4 text-xs tracking-[0.2em] uppercase font-light active:scale-95 transition-transform"
+                >
+                  Entrar como Tutor
                 </a>
               </motion.div>
             </div>
