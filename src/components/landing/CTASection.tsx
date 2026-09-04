@@ -33,7 +33,7 @@ const CTASection = () => {
                   animate={{ x: ["-100%", "200%"] }}
                   transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
                 />
-                <span className="relative z-10">Acesso antecipado</span>
+                <span className="relative z-10">Entrar como Aluno</span>
                 <motion.span
                   className="relative z-10"
                   animate={{ x: [0, 4, 0] }}
@@ -46,10 +46,10 @@ const CTASection = () => {
 
             <MagneticWrap>
               <a
-                href="#"
-                className="text-xs tracking-[0.15em] uppercase font-light text-foreground hover:text-foreground active:text-foreground transition-colors duration-500"
+                href={AUTH_ROUTES.tutorLogin}
+                className="text-xs tracking-[0.15em] uppercase font-light text-foreground border border-foreground/30 rounded-full px-8 py-3.5 hover:bg-foreground/10 transition-colors duration-500"
               >
-                Contactar equipa
+                Entrar como Tutor
               </a>
             </MagneticWrap>
           </div>
