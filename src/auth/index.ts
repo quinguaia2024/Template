@@ -28,4 +28,4 @@ export { default as RegisterPage } from './pages/Register';
 export type { User, UserRole, RegisterData, AuthContextType, AuthState, AuthAction } from './types';
 
 // Constants
-export { AUTH_BASE_URL, AUTH_ROUTES } from './constants';
+export { AUTH_BASE_URL, DASH_BASE_URL, AUTH_ROUTES } from './constants';
