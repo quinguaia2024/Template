@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import eduAvatar from "@/assets/edu-avatar.png";
+import { AUTH_ROUTES } from "@/auth/constants";
 
 /**
  * EDU — companheiro flutuante persistente.
@@ -23,6 +24,7 @@ const EduCompanion = () => {
   const [excited, setExcited] = useState(false);
   const [tip, setTip] = useState<string | null>(null);
   const [hidden, setHidden] = useState(false);
+  const [open, setOpen] = useState(false);
   const tipTimer = useRef<number>();
   const tipIndex = useRef(0);
 
@@ -56,11 +58,17 @@ const EduCompanion = () => {
 
   const poke = useCallback(() => {
     setExcited(true);
-    setTip(TIPS[tipIndex.current % TIPS.length]);
-    tipIndex.current += 1;
     window.setTimeout(() => setExcited(false), 850);
     window.clearTimeout(tipTimer.current);
-    tipTimer.current = window.setTimeout(() => setTip(null), 3600);
+    setOpen((prev) => {
+      if (prev) {
+        setTip(null);
+        return false;
+      }
+      setTip(TIPS[tipIndex.current % TIPS.length]);
+      tipIndex.current += 1;
+      return true;
+    });
   }, []);
 
   if (hidden) return null;
@@ -73,18 +81,34 @@ const EduCompanion = () => {
       className="fixed bottom-4 right-3 md:bottom-8 md:right-8 z-40 pointer-events-none"
     >
       <div className="relative flex flex-col items-end">
-        {/* Balão de fala */}
+        {/* Balão de fala + CTA interativa */}
         <AnimatePresence>
           {tip && (
             <motion.div
-              key={tip}
-              initial={{ opacity: 0, y: 8, scale: 0.9 }}
+              initial={{ opacity: 0, y: 10, scale: 0.92 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -6, scale: 0.95 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-2 mr-1 max-w-[60vw] whitespace-nowrap rounded-2xl rounded-br-sm border border-border/60 bg-card/95 px-3 py-1.5 text-[11px] md:text-xs text-card-foreground shadow-lg backdrop-blur-xl"
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-auto mb-3 mr-1 w-[min(78vw,17rem)] rounded-2xl rounded-br-sm border border-border/60 bg-card/95 p-3.5 text-card-foreground shadow-xl backdrop-blur-xl"
             >
-              {tip}
+              <p className="text-xs md:text-sm leading-snug mb-3">{tip}</p>
+              <p className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-2">
+                Começar agora
+              </p>
+              <div className="flex flex-col gap-2">
+                <a
+                  href={AUTH_ROUTES.alunoLogin}
+                  className="rounded-full bg-primary px-4 py-2 text-center text-xs font-medium uppercase tracking-[0.12em] text-primary-foreground transition-transform duration-300 hover:scale-[1.03]"
+                >
+                  Sou Aluno
+                </a>
+                <a
+                  href={AUTH_ROUTES.tutorLogin}
+                  className="rounded-full border border-foreground/30 px-4 py-2 text-center text-xs font-medium uppercase tracking-[0.12em] text-foreground transition-colors duration-300 hover:bg-foreground/10"
+                >
+                  Sou Tutor
+                </a>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
