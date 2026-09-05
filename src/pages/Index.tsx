@@ -1,3 +1,4 @@
+import EduCompanion from "@/components/landing/EduCompanion";
 import CursorFollower from "@/components/landing/CursorFollower";
 import Navbar from "@/components/landing/Navbar";
 import HeroSection from "@/components/landing/HeroSection";
@@ -29,6 +30,7 @@ const Index = () => {
       <SectionDivider variant="pulse" />
       <CTASection />
       <Footer />
+      <EduCompanion />
     </div>
   );
 };
