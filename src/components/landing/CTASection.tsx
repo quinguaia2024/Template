@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { FadeUp, MagneticWrap } from "./ScrollAnimations";
-import EduAvatar from "./EduAvatar";
 import { AUTH_ROUTES } from "@/auth/constants";
 
 const CTASection = () => {
@@ -56,17 +55,6 @@ const CTASection = () => {
           </div>
         </FadeUp>
 
-        <FadeUp delay={0.55}>
-          <EduAvatar
-            sizeClass="w-28 md:w-36"
-            tips={[
-              "Estás quase lá! 🚀",
-              "Junta-te a nós!",
-              "O futuro é digital ✦",
-            ]}
-            className="mt-10 md:mt-12"
-          />
-        </FadeUp>
       </div>
     </section>
   );

@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { FadeUp } from "./ScrollAnimations";
-import EduAvatar from "./EduAvatar";
 import dashboardImg from "@/assets/dashboard-visual.jpg";
 
 const steps = [
@@ -35,15 +34,6 @@ const HowItWorksSection = () => {
                 Como funciona
               </span>
             </div>
-            <EduAvatar
-              sizeClass="w-20 md:w-28"
-              tips={[
-                "Eu organizo o teu percurso!",
-                "Cada passo conta ✦",
-                "Vamos começar?",
-              ]}
-              className="-mt-2 sm:-mt-6"
-            />
           </div>
         </FadeUp>
 
