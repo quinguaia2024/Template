@@ -213,8 +213,8 @@ const EduCompanion = () => {
       drag
       dragMomentum={false}
       dragElastic={0.08}
-      initial={{ opacity: 0, y: 30, scale: 0.8 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
       style={{ x: pos.x, y: pos.y }}
       onDragStart={() => {
         dragging.current = true;
