@@ -6,12 +6,13 @@ import { AUTH_ROUTES } from "@/auth/constants";
 /**
  * EDU — companheiro flutuante persistente.
  * - Mensagens contextuais conforme a secção visível
- * - Memória em localStorage (mensagens já vistas, aberto/fechado, posição)
+ * - Memória em localStorage (progresso por secção, aberto/fechado, posição)
  * - Pode ser arrastado para qualquer canto do ecrã
  */
 
 const STORAGE = {
-  seen: "edu:seen-tips",
+  progress: "edu:section-progress",
+  lastCtx: "edu:last-context",
   open: "edu:balloon-open",
   hidden: "edu:hidden",
   pos: "edu:position",
@@ -51,11 +52,38 @@ const MESSAGES: Record<Ctx, string[]> = {
   ],
 };
 
-const readSeen = (): string[] => {
+const readProgress = (): Record<Ctx, number> => {
   try {
-    return JSON.parse(localStorage.getItem(STORAGE.seen) || "[]");
+    return JSON.parse(localStorage.getItem(STORAGE.progress) || "{}") as Record<Ctx, number>;
   } catch {
-    return [];
+    return {} as Record<Ctx, number>;
+  }
+};
+
+const saveProgress = (ctx: Ctx, idx: number) => {
+  const progress = readProgress();
+  progress[ctx] = idx;
+  try {
+    localStorage.setItem(STORAGE.progress, JSON.stringify(progress));
+  } catch {
+    /* noop */
+  }
+};
+
+const readLastCtx = (): Ctx | null => {
+  try {
+    const raw = localStorage.getItem(STORAGE.lastCtx) as Ctx | null;
+    return raw && MESSAGES[raw] ? raw : null;
+  } catch {
+    return null;
+  }
+};
+
+const saveLastCtx = (ctx: Ctx) => {
+  try {
+    localStorage.setItem(STORAGE.lastCtx, ctx);
+  } catch {
+    /* noop */
   }
 };
 
@@ -86,27 +114,26 @@ const EduCompanion = () => {
       return { x: 0, y: 0 };
     }
   });
-  const ctx = useRef<Ctx>("intro");
-  const seen = useRef<string[]>(readSeen());
+  const ctx = useRef<Ctx>(readLastCtx() || "intro");
   const dragging = useRef(false);
   const moved = useRef(false);
 
-  // Escolhe a próxima mensagem ainda não vista do contexto actual
-  const pickMessage = useCallback(() => {
-    const pool = MESSAGES[ctx.current] ?? MESSAGES.intro;
-    let next = pool.find((m) => !seen.current.includes(m));
-    if (!next) {
-      // todas vistas neste contexto: recomeça só este contexto
-      seen.current = seen.current.filter((m) => !pool.includes(m));
-      next = pool[0];
-    }
-    seen.current = [...seen.current, next];
-    try {
-      localStorage.setItem(STORAGE.seen, JSON.stringify(seen.current.slice(-40)));
-    } catch {
-      /* noop */
-    }
-    return next;
+  // Devolve a mensagem guardada para um contexto (sem avançar)
+  const pickMessage = useCallback((ctxKey: Ctx) => {
+    const pool = MESSAGES[ctxKey] ?? MESSAGES.intro;
+    const progress = readProgress();
+    const idx = Math.min(progress[ctxKey] ?? 0, pool.length - 1);
+    return pool[idx];
+  }, []);
+
+  // Avança para a próxima mensagem do contexto e guarda o novo índice
+  const advanceMessage = useCallback((ctxKey: Ctx) => {
+    const pool = MESSAGES[ctxKey] ?? MESSAGES.intro;
+    const progress = readProgress();
+    const currentIdx = progress[ctxKey] ?? 0;
+    const nextIdx = (currentIdx + 1) % pool.length;
+    saveProgress(ctxKey, nextIdx);
+    return pool[nextIdx];
   }, []);
 
   // Contexto conforme a secção visível
@@ -137,8 +164,9 @@ const EduCompanion = () => {
         const found = targets.find((t) => t.el === visible.target);
         if (found && found.key !== ctx.current) {
           ctx.current = found.key;
+          saveLastCtx(found.key);
           setOpen((isOpen) => {
-            if (isOpen) setTip(pickMessage());
+            if (isOpen) setTip(pickMessage(found.key));
             return isOpen;
           });
         }
@@ -149,9 +177,11 @@ const EduCompanion = () => {
     return () => observer.disconnect();
   }, [pickMessage]);
 
-  // Restaura o balão aberto entre visitas
+  // Restaura o balão aberto e a última mensagem da secção entre visitas
   useEffect(() => {
-    if (open && !tip) setTip(pickMessage());
+    if (open && !tip) {
+      setTip(pickMessage(ctx.current));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -191,6 +221,12 @@ const EduCompanion = () => {
     }
   };
 
+  const closeBalloon = useCallback(() => {
+    persistOpen(false);
+    setOpen(false);
+    setTip(null);
+  }, []);
+
   const poke = useCallback(() => {
     if (moved.current) {
       moved.current = false;
@@ -199,12 +235,17 @@ const EduCompanion = () => {
     setExcited(true);
     window.setTimeout(() => setExcited(false), 850);
     setOpen((prev) => {
-      const next = !prev;
-      persistOpen(next);
-      setTip(next ? pickMessage() : null);
-      return next;
+      if (prev) {
+        // Já aberto: avança para a próxima mensagem da secção actual
+        setTip(advanceMessage(ctx.current));
+        return prev;
+      }
+      // Fechado: abre e mostra a mensagem guardada da secção actual
+      persistOpen(true);
+      setTip(pickMessage(ctx.current));
+      return true;
     });
-  }, [pickMessage]);
+  }, [pickMessage, advanceMessage]);
 
   if (hidden) return null;
 
@@ -248,7 +289,17 @@ const EduCompanion = () => {
               transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
               className="mb-3 mr-1 w-[min(78vw,17rem)] rounded-2xl rounded-br-sm border border-border/60 bg-card/95 p-3.5 text-card-foreground shadow-xl backdrop-blur-xl"
             >
-              <p className="text-xs md:text-sm leading-snug mb-3">{tip}</p>
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-xs md:text-sm leading-snug mb-3">{tip}</p>
+                <button
+                  type="button"
+                  onClick={closeBalloon}
+                  aria-label="Fechar balão"
+                  className="shrink-0 -mt-1 -mr-1 grid h-5 w-5 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  ×
+                </button>
+              </div>
               <p className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-2">
                 Começar agora
               </p>
