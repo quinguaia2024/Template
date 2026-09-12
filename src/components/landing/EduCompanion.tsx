@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import eduAvatar from "@/assets/edu-avatar.png";
+import EduRig, { type EduMood } from "@/components/landing/EduRig";
 import { AUTH_ROUTES } from "@/auth/constants";
 
 /**
@@ -89,8 +89,8 @@ const saveLastCtx = (ctx: Ctx) => {
 
 const EduCompanion = () => {
   const [drift, setDrift] = useState({ x: 0, y: 0, r: 0 });
-  const [blink, setBlink] = useState(false);
   const [excited, setExcited] = useState(false);
+  const [sleeping, setSleeping] = useState(false);
   const [tip, setTip] = useState<string | null>(null);
   const [hidden, setHidden] = useState(() => {
     try {
@@ -199,19 +199,27 @@ const EduCompanion = () => {
     return () => window.clearInterval(id);
   }, []);
 
-  // Piscar os olhos em intervalos irregulares
+  // Dorme após inatividade prolongada; acorda com qualquer interação
   useEffect(() => {
     let id: number;
-    const schedule = () => {
-      id = window.setTimeout(() => {
-        setBlink(true);
-        window.setTimeout(() => setBlink(false), 130);
-        schedule();
-      }, 2600 + Math.random() * 4200);
+    const wake = () => {
+      setSleeping(false);
+      window.clearTimeout(id);
+      id = window.setTimeout(() => setSleeping(true), 45000);
     };
-    schedule();
-    return () => window.clearTimeout(id);
+    wake();
+    window.addEventListener("pointermove", wake, { passive: true });
+    window.addEventListener("scroll", wake, { passive: true });
+    window.addEventListener("pointerdown", wake, { passive: true });
+    return () => {
+      window.clearTimeout(id);
+      window.removeEventListener("pointermove", wake);
+      window.removeEventListener("scroll", wake);
+      window.removeEventListener("pointerdown", wake);
+    };
   }, []);
+
+  const mood: EduMood = excited ? "excited" : sleeping ? "sleeping" : open ? "talking" : "idle";
 
   const persistOpen = (value: boolean) => {
     try {
@@ -337,7 +345,6 @@ const EduCompanion = () => {
             x: drift.x,
             y: excited ? [0, -16, 0] : [0, -9, 0],
             rotate: excited ? [0, -6, 6, 0] : drift.r,
-            scaleY: blink ? 0.94 : 1,
             scale: excited ? [1, 1.08, 1] : 1,
           }}
           transition={{
@@ -346,18 +353,12 @@ const EduCompanion = () => {
             y: excited
               ? { duration: 0.85, ease: "easeInOut" }
               : { duration: 3.1, repeat: Infinity, ease: "easeInOut" },
-            scaleY: { duration: 0.12 },
             scale: { duration: 0.85 },
           }}
           whileTap={{ scale: 0.92 }}
           className="relative w-16 md:w-24 select-none will-change-transform"
         >
-          <img
-            src={eduAvatar}
-            alt="EDU — Educador Digital do Mentor Digital"
-            draggable={false}
-            className="h-auto w-full drop-shadow-[0_12px_28px_hsl(var(--primary)/0.3)]"
-          />
+          <EduRig mood={mood} className="drop-shadow-[0_12px_28px_hsl(var(--primary)/0.3)]" />
         </motion.button>
 
         {/* Fechar */}
