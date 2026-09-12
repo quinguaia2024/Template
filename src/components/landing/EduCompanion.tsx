@@ -199,18 +199,24 @@ const EduCompanion = () => {
     return () => window.clearInterval(id);
   }, []);
 
-  // Piscar os olhos em intervalos irregulares
+  // Dorme após inatividade prolongada; acorda com qualquer interação
   useEffect(() => {
     let id: number;
-    const schedule = () => {
-      id = window.setTimeout(() => {
-        setBlink(true);
-        window.setTimeout(() => setBlink(false), 130);
-        schedule();
-      }, 2600 + Math.random() * 4200);
+    const wake = () => {
+      setSleeping(false);
+      window.clearTimeout(id);
+      id = window.setTimeout(() => setSleeping(true), 45000);
     };
-    schedule();
-    return () => window.clearTimeout(id);
+    wake();
+    window.addEventListener("pointermove", wake, { passive: true });
+    window.addEventListener("scroll", wake, { passive: true });
+    window.addEventListener("pointerdown", wake, { passive: true });
+    return () => {
+      window.clearTimeout(id);
+      window.removeEventListener("pointermove", wake);
+      window.removeEventListener("scroll", wake);
+      window.removeEventListener("pointerdown", wake);
+    };
   }, []);
 
   const persistOpen = (value: boolean) => {
