@@ -343,7 +343,6 @@ const EduCompanion = () => {
             x: drift.x,
             y: excited ? [0, -16, 0] : [0, -9, 0],
             rotate: excited ? [0, -6, 6, 0] : drift.r,
-            scaleY: blink ? 0.94 : 1,
             scale: excited ? [1, 1.08, 1] : 1,
           }}
           transition={{
@@ -352,18 +351,12 @@ const EduCompanion = () => {
             y: excited
               ? { duration: 0.85, ease: "easeInOut" }
               : { duration: 3.1, repeat: Infinity, ease: "easeInOut" },
-            scaleY: { duration: 0.12 },
             scale: { duration: 0.85 },
           }}
           whileTap={{ scale: 0.92 }}
           className="relative w-16 md:w-24 select-none will-change-transform"
         >
-          <img
-            src={eduAvatar}
-            alt="EDU — Educador Digital do Mentor Digital"
-            draggable={false}
-            className="h-auto w-full drop-shadow-[0_12px_28px_hsl(var(--primary)/0.3)]"
-          />
+          <EduRig mood={mood} className="drop-shadow-[0_12px_28px_hsl(var(--primary)/0.3)]" />
         </motion.button>
 
         {/* Fechar */}
