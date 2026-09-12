@@ -126,7 +126,7 @@ const EduRig = ({ mood, className }: EduRigProps) => {
       );
     }
     return (
-      <g key={key} style={{ transform: `scaleY(${eyeOpen})`, transformOrigin: `${cx}px ${EYE_L.y}px`, transition: "transform 90ms ease" }}>
+      <g key={key} style={{ transform: `scaleY(${eyeOpen})`, transformBox: "fill-box", transformOrigin: "center", transition: "transform 90ms ease" }}>
         <ellipse cx={cx} cy={EYE_L.y} rx={EYE_R_W * 0.82} ry={EYE_R_W * 1.05} fill="#F4FAFF" />
         <g ref={pupilRef}>
           <ellipse cx={cx} cy={EYE_L.y + 0.4} rx={EYE_R_W * 0.52} ry={EYE_R_W * 0.62} fill="#0A2540" />
