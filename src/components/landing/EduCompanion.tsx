@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import eduAvatar from "@/assets/edu-avatar.png";
+import EduRig, { type EduMood } from "@/components/landing/EduRig";
 import { AUTH_ROUTES } from "@/auth/constants";
 
 /**
@@ -89,8 +89,8 @@ const saveLastCtx = (ctx: Ctx) => {
 
 const EduCompanion = () => {
   const [drift, setDrift] = useState({ x: 0, y: 0, r: 0 });
-  const [blink, setBlink] = useState(false);
   const [excited, setExcited] = useState(false);
+  const [sleeping, setSleeping] = useState(false);
   const [tip, setTip] = useState<string | null>(null);
   const [hidden, setHidden] = useState(() => {
     try {
