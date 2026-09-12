@@ -15,7 +15,7 @@ const EYE_L = { x: 35.4, y: 28.9 };
 const EYE_R = { x: 59.6, y: 28.9 };
 const EYE_R_W = 6.6; // raio do olho em % da largura
 const MOUTH = { x: 47, y: 37.5, w: 12 };
-const ARM = { left: 14, top: 46, width: 42, originX: 0.78, originY: 0.55 };
+const ARM = { left: -6, top: 22, width: 47, originX: 0.64, originY: 0.73 };
 
 const EduRig = ({ mood, className }: EduRigProps) => {
   const reduceMotion = useReducedMotion();
