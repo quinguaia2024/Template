@@ -219,6 +219,8 @@ const EduCompanion = () => {
     };
   }, []);
 
+  const mood: EduMood = excited ? "excited" : sleeping ? "sleeping" : open ? "talking" : "idle";
+
   const persistOpen = (value: boolean) => {
     try {
       localStorage.setItem(STORAGE.open, value ? "1" : "0");
