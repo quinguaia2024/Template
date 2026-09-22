@@ -90,6 +90,7 @@ const saveLastCtx = (ctx: Ctx) => {
 const EduCompanion = () => {
   const [drift, setDrift] = useState({ x: 0, y: 0, r: 0 });
   const [excited, setExcited] = useState(false);
+  const [attentive, setAttentive] = useState(false);
   const [sleeping, setSleeping] = useState(false);
   const [tip, setTip] = useState<string | null>(null);
   const [hidden, setHidden] = useState(() => {
@@ -165,6 +166,8 @@ const EduCompanion = () => {
         if (found && found.key !== ctx.current) {
           ctx.current = found.key;
           saveLastCtx(found.key);
+          setAttentive(true);
+          window.setTimeout(() => setAttentive(false), 1800);
           setOpen((isOpen) => {
             if (isOpen) setTip(pickMessage(found.key));
             return isOpen;
@@ -219,7 +222,15 @@ const EduCompanion = () => {
     };
   }, []);
 
-  const mood: EduMood = excited ? "excited" : sleeping ? "sleeping" : open ? "talking" : "idle";
+  const mood: EduMood = excited
+    ? "excited"
+    : sleeping
+      ? "sleeping"
+      : open
+        ? "talking"
+        : attentive
+          ? "attentive"
+          : "idle";
 
   const persistOpen = (value: boolean) => {
     try {

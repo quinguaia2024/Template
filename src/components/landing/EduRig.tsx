@@ -24,15 +24,25 @@ const EduRig = ({ mood, className }: EduRigProps) => {
   const pupilRRef = useRef<SVGGElement>(null);
   const [blink, setBlink] = useState(false);
   const [waving, setWaving] = useState(false);
+  const [visible, setVisible] = useState(true);
   const rafRef = useRef(0);
   const target = useRef({ x: 0, y: 0 });
 
   const sleeping = mood === "sleeping";
   const happy = mood === "excited";
+  const attentive = mood === "attentive";
+
+  // Pausa os ciclos internos quando o separador deixa de estar visível.
+  useEffect(() => {
+    const onVisibility = () => setVisible(!document.hidden);
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
 
   // Olhar que segue o ponteiro (um único listener, via rAF)
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion || !visible || sleeping) return;
     const onMove = (e: PointerEvent) => {
       const el = rootRef.current;
       if (!el) return;
@@ -57,11 +67,11 @@ const EduRig = ({ mood, className }: EduRigProps) => {
       window.removeEventListener("pointermove", onMove);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [reduceMotion]);
+  }, [reduceMotion, sleeping, visible]);
 
   // Piscar irregular, com piscadela dupla ocasional
   useEffect(() => {
-    if (reduceMotion || sleeping || happy) return;
+    if (reduceMotion || !visible || sleeping || happy) return;
     let t1: number, t2: number;
     const schedule = () => {
       t1 = window.setTimeout(() => {
@@ -83,22 +93,26 @@ const EduRig = ({ mood, className }: EduRigProps) => {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
     };
-  }, [reduceMotion, sleeping, happy]);
+  }, [reduceMotion, sleeping, happy, visible]);
 
   // Aceno automático periódico
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion || !visible || sleeping) return;
     let id: number;
+    let stopId: number;
     const schedule = () => {
       id = window.setTimeout(() => {
         setWaving(true);
-        window.setTimeout(() => setWaving(false), 1600);
+        stopId = window.setTimeout(() => setWaving(false), 1600);
         schedule();
       }, 9000 + Math.random() * 9000);
     };
     schedule();
-    return () => window.clearTimeout(id);
-  }, [reduceMotion]);
+    return () => {
+      window.clearTimeout(id);
+      window.clearTimeout(stopId);
+    };
+  }, [reduceMotion, sleeping, visible]);
 
   // Acena sempre que fica animado
   useEffect(() => {
@@ -118,7 +132,7 @@ const EduRig = ({ mood, className }: EduRigProps) => {
         <path
           key={key}
           d={`M ${cx - EYE_R_W * 0.8} ${EYE_L.y + 1.2} Q ${cx} ${EYE_L.y - EYE_R_W * 0.9} ${cx + EYE_R_W * 0.8} ${EYE_L.y + 1.2}`}
-          stroke="#7DF9FF"
+          stroke="hsl(var(--primary))"
           strokeWidth={1.6}
           strokeLinecap="round"
           fill="none"
@@ -127,11 +141,11 @@ const EduRig = ({ mood, className }: EduRigProps) => {
     }
     return (
       <g key={key} style={{ transform: `scaleY(${eyeOpen})`, transformBox: "fill-box", transformOrigin: "center", transition: "transform 90ms ease" }}>
-        <ellipse cx={cx} cy={EYE_L.y} rx={EYE_R_W * 0.82} ry={EYE_R_W * 1.05} fill="#F4FAFF" />
+        <ellipse cx={cx} cy={EYE_L.y} rx={EYE_R_W * 0.82} ry={EYE_R_W * 1.05} fill="hsl(var(--foreground))" />
         <g ref={pupilRef}>
-          <ellipse cx={cx} cy={EYE_L.y + 0.4} rx={EYE_R_W * 0.52} ry={EYE_R_W * 0.62} fill="#0A2540" />
-          <ellipse cx={cx} cy={EYE_L.y + 0.55} rx={EYE_R_W * 0.4} ry={EYE_R_W * 0.46} fill="none" stroke="#18C8FF" strokeWidth={0.55} />
-          <circle cx={cx - EYE_R_W * 0.18} cy={EYE_L.y - 0.35} r={EYE_R_W * 0.16} fill="#FFFFFF" />
+          <ellipse cx={cx} cy={EYE_L.y + 0.4} rx={EYE_R_W * (attentive ? 0.56 : 0.52)} ry={EYE_R_W * (attentive ? 0.67 : 0.62)} fill="hsl(var(--background))" />
+          <ellipse cx={cx} cy={EYE_L.y + 0.55} rx={EYE_R_W * 0.4} ry={EYE_R_W * 0.46} fill="none" stroke="hsl(var(--primary))" strokeWidth={0.55} />
+          <circle cx={cx - EYE_R_W * 0.18} cy={EYE_L.y - 0.35} r={EYE_R_W * 0.16} fill="hsl(var(--foreground))" />
         </g>
       </g>
     );
@@ -148,17 +162,25 @@ const EduRig = ({ mood, className }: EduRigProps) => {
         aria-hidden
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
       >
+        {/* Reflexo vivo no visor e sobrancelhas de atenção */}
+        <ellipse cx={47.5} cy={29} rx={27} ry={17} fill="none" stroke="hsl(var(--primary) / 0.16)" strokeWidth={0.55} />
+        {attentive && (
+          <g stroke="hsl(var(--primary))" strokeWidth={0.8} strokeLinecap="round" opacity={0.9}>
+            <path d={`M ${EYE_L.x - 4} ${EYE_L.y - 7} Q ${EYE_L.x} ${EYE_L.y - 8.5} ${EYE_L.x + 4} ${EYE_L.y - 7.2}`} />
+            <path d={`M ${EYE_R.x - 4} ${EYE_L.y - 7.2} Q ${EYE_R.x} ${EYE_L.y - 8.5} ${EYE_R.x + 4} ${EYE_L.y - 7}`} />
+          </g>
+        )}
         {renderEye(EYE_L.x, "l", pupilLRef)}
         {renderEye(EYE_R.x, "r", pupilRRef)}
         {/* Boca */}
         {mood === "talking" ? (
-          <ellipse cx={MOUTH.x} cy={MOUTH.y} rx={MOUTH.w * 0.28} ry={1.4} fill="#7A2E3A">
-            <animate attributeName="ry" values="0.5;1.7;0.8;1.5;0.5" dur="0.9s" repeatCount="indefinite" />
+          <ellipse cx={MOUTH.x} cy={MOUTH.y} rx={MOUTH.w * 0.28} ry={1.4} fill="hsl(var(--secondary))">
+            {!reduceMotion && <animate attributeName="ry" values="0.5;1.7;0.8;1.5;0.5" dur="0.9s" repeatCount="indefinite" />}
           </ellipse>
         ) : sleeping ? (
           <path
             d={`M ${MOUTH.x - 2.4} ${MOUTH.y} Q ${MOUTH.x} ${MOUTH.y + 1.1} ${MOUTH.x + 2.4} ${MOUTH.y}`}
-            stroke="#7A2E3A"
+            stroke="hsl(var(--secondary))"
             strokeWidth={0.7}
             strokeLinecap="round"
             fill="none"
@@ -166,11 +188,11 @@ const EduRig = ({ mood, className }: EduRigProps) => {
         ) : (
           <path
             d={`M ${MOUTH.x - MOUTH.w * 0.32} ${MOUTH.y - 0.6} Q ${MOUTH.x} ${MOUTH.y + (happy ? 3.4 : 2.4)} ${MOUTH.x + MOUTH.w * 0.32} ${MOUTH.y - 0.6} Q ${MOUTH.x} ${MOUTH.y + (happy ? 1.6 : 0.9)} ${MOUTH.x - MOUTH.w * 0.32} ${MOUTH.y - 0.6} Z`}
-            fill={happy ? "#8A3242" : "#7A2E3A"}
+            fill="hsl(var(--secondary))"
           />
         )}
         {sleeping && (
-          <text x={EYE_R.x + 10} y={EYE_L.y - 6} fontSize={5} fill="#7DF9FF" opacity={0.8}>
+          <text x={EYE_R.x + 10} y={EYE_L.y - 6} fontSize={5} fill="hsl(var(--primary))" opacity={0.8}>
             z
             <animate attributeName="y" values={`${EYE_L.y - 6};${EYE_L.y - 12}`} dur="2.2s" repeatCount="indefinite" />
             <animate attributeName="opacity" values="0;0.85;0" dur="2.2s" repeatCount="indefinite" />
