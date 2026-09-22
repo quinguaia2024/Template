@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import eduBody from "@/assets/edu/edu-body.png";
-import eduArm from "@/assets/edu/edu-arm.png";
 
 export type EduMood = "idle" | "attentive" | "excited" | "sleeping" | "talking";
 
@@ -15,7 +14,6 @@ const EYE_L = { x: 35.4, y: 28.9 };
 const EYE_R = { x: 59.6, y: 28.9 };
 const EYE_R_W = 6.6; // raio do olho em % da largura
 const MOUTH = { x: 47, y: 37.5, w: 12 };
-const ARM = { left: -8, top: 17, width: 54, originX: 0.64, originY: 0.73 };
 
 const EduRig = ({ mood, className }: EduRigProps) => {
   const reduceMotion = useReducedMotion();
@@ -23,7 +21,6 @@ const EduRig = ({ mood, className }: EduRigProps) => {
   const pupilLRef = useRef<SVGGElement>(null);
   const pupilRRef = useRef<SVGGElement>(null);
   const [blink, setBlink] = useState(false);
-  const [waving, setWaving] = useState(false);
   const [visible, setVisible] = useState(true);
   const rafRef = useRef(0);
   const target = useRef({ x: 0, y: 0 });
@@ -94,34 +91,6 @@ const EduRig = ({ mood, className }: EduRigProps) => {
       window.clearTimeout(t2);
     };
   }, [reduceMotion, sleeping, happy, visible]);
-
-  // Aceno automático periódico
-  useEffect(() => {
-    if (reduceMotion || !visible || sleeping) return;
-    let id: number;
-    let stopId: number;
-    const schedule = () => {
-      id = window.setTimeout(() => {
-        setWaving(true);
-        stopId = window.setTimeout(() => setWaving(false), 1600);
-        schedule();
-      }, 9000 + Math.random() * 9000);
-    };
-    schedule();
-    return () => {
-      window.clearTimeout(id);
-      window.clearTimeout(stopId);
-    };
-  }, [reduceMotion, sleeping, visible]);
-
-  // Acena sempre que fica animado
-  useEffect(() => {
-    if (mood === "excited") {
-      setWaving(true);
-      const id = window.setTimeout(() => setWaving(false), 1800);
-      return () => window.clearTimeout(id);
-    }
-  }, [mood]);
 
   const eyeOpen = sleeping ? 0 : blink ? 0.08 : 1;
 
@@ -199,29 +168,6 @@ const EduRig = ({ mood, className }: EduRigProps) => {
           </text>
         )}
       </svg>
-
-      {/* Braço que acena */}
-      <motion.img
-        src={eduArm}
-        alt=""
-        aria-hidden
-        draggable={false}
-        initial={false}
-        animate={
-          waving
-            ? { rotate: [0, -22, 8, -18, 6, 0] }
-            : { rotate: 0 }
-        }
-        transition={waving ? { duration: 1.5, ease: "easeInOut" } : { duration: 0.35 }}
-        style={{
-          position: "absolute",
-          left: `${ARM.left}%`,
-          top: `${ARM.top}%`,
-          width: `${ARM.width}%`,
-          transformOrigin: `${ARM.originX * 100}% ${ARM.originY * 100}%`,
-          willChange: "transform",
-        }}
-      />
     </div>
   );
 };
