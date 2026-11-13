@@ -14,7 +14,7 @@ const CTASection = () => {
         </h2>
 
         <FadeUp delay={0.3}>
-          <p className="text-sm md:text-base font-light text-foreground max-w-md mx-auto mb-8 md:mb-12">
+          <p className="text-xs md:text-sm font-light text-foreground max-w-md mx-auto mb-8 md:mb-12">
             Registe-se para acesso antecipado. É gratuito.
           </p>
         </FadeUp>
@@ -23,7 +23,7 @@ const CTASection = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5">
             <MagneticWrap>
               <motion.a
-                href={AUTH_ROUTES.register}
+                href={AUTH_ROUTES.alunoLogin}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative inline-flex items-center gap-3 rounded-full bg-primary px-8 md:px-10 py-3.5 md:py-4 text-[11px] md:text-xs tracking-[0.15em] uppercase font-normal text-primary-foreground overflow-hidden active:opacity-90"
@@ -33,7 +33,7 @@ const CTASection = () => {
                   animate={{ x: ["-100%", "200%"] }}
                   transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
                 />
-                <span className="relative z-10">Acesso antecipado</span>
+                <span className="relative z-10">Entrar como Aluno</span>
                 <motion.span
                   className="relative z-10"
                   animate={{ x: [0, 4, 0] }}
@@ -46,14 +46,15 @@ const CTASection = () => {
 
             <MagneticWrap>
               <a
-                href="#"
-                className="text-xs tracking-[0.15em] uppercase font-light text-foreground hover:text-foreground active:text-foreground transition-colors duration-500"
+                href={AUTH_ROUTES.tutorLogin}
+                className="text-xs tracking-[0.15em] uppercase font-light text-foreground border border-foreground/30 rounded-full px-8 py-3.5 hover:bg-foreground/10 transition-colors duration-500"
               >
-                Contactar equipa
+                Entrar como Tutor
               </a>
             </MagneticWrap>
           </div>
         </FadeUp>
+
       </div>
     </section>
   );

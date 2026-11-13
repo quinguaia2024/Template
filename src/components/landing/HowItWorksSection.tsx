@@ -23,19 +23,21 @@ const HowItWorksSection = () => {
     <section id="processo" ref={ref} className="relative py-20 md:py-32 overflow-hidden">
       <div className="relative z-10 px-5 md:px-8 max-w-7xl mx-auto">
         <FadeUp>
-          <div className="flex items-center gap-3 mb-5">
-            <motion.div
-              animate={{ scaleX: [0, 1, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="h-px w-10 bg-secondary origin-left"
-            />
-            <span className="text-sm tracking-[0.4em] uppercase text-secondary font-medium">
-              Como funciona
-            </span>
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+            <div className="flex items-center gap-3">
+              <motion.div
+                animate={{ scaleX: [0, 1, 0] }}
+                transition={{ duration: 3, repeat: Infinity }}
+                className="h-px w-10 bg-secondary origin-left"
+              />
+              <span className="text-[10px] tracking-[0.4em] uppercase text-secondary font-light">
+                Como funciona
+              </span>
+            </div>
           </div>
         </FadeUp>
 
-        <h2 className="text-[clamp(1.8rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-3xl mb-10 md:mb-20">
+        <h2 className="text-[clamp(1.5rem,6vw,3.5rem)] leading-[1.05] font-thin tracking-[-0.02em] max-w-3xl mb-10 md:mb-20">
           Quatro passos simples
         </h2>
 
@@ -73,7 +75,7 @@ const HowItWorksSection = () => {
                     <span className="text-[10px] tracking-[0.2em] text-foreground font-light flex-shrink-0">
                       {step.num}
                     </span>
-                    <span className="text-sm md:text-base font-light text-card-foreground group-hover:text-foreground transition-colors duration-500">
+                    <span className="text-xs md:text-sm font-light text-card-foreground group-hover:text-foreground transition-colors duration-500">
                       {step.label}
                     </span>
                   </div>
