@@ -166,7 +166,9 @@ const HeroSection = () => {
         {isDark && (
           <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
         )}
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
+        {isDark && (
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
+        )}
 
         {/* Content */}
         <motion.div
@@ -188,13 +190,13 @@ const HeroSection = () => {
                   transition={{ duration: 0.8, delay: 0.5 }}
                   className="h-px w-8 md:w-10 glow-line origin-left"
                 />
-                <span className={`hero-text-shadow-light text-[10px] md:text-[11px] tracking-[0.35em] uppercase font-light ${isDark ? 'text-white/70' : 'text-foreground/100'}`}>
+                <span className={`text-[10px] md:text-[11px] tracking-[0.35em] uppercase font-light ${isDark ? 'text-white/70' : 'text-white/85'}`}>
                   {slide.subtitle}
                 </span>
               </div>
 
               {/* Main title */}
-              <h1 className={`hero-text-shadow-light text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] mb-6 md:mb-8 ${isDark ? 'text-white' : 'text-foreground'}`}>
+              <h1 className="text-[clamp(2.4rem,10vw,7rem)] leading-[0.9] font-thin tracking-[-0.04em] mb-6 md:mb-8 text-white">
                 {slide.title.map((line, i) => (
                   <span key={i} className="block">
                     {i === slide.accent ? (
@@ -218,7 +220,7 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href={AUTH_ROUTES.alunoLogin}
-                className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white hover:bg-white hover:text-black' : 'border-foreground/60 text-foreground hover:bg-foreground hover:text-background'}`}
+                className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white hover:bg-white hover:text-black' : 'border-white/70 bg-black/20 text-white hover:bg-white hover:text-black'}`}
               >
                 <span>Sou Aluno</span>
                 <motion.span
@@ -232,7 +234,7 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href={AUTH_ROUTES.tutorLogin}
-                className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white/80 hover:bg-white hover:text-black' : 'border-foreground/60 text-foreground/80 hover:bg-foreground hover:text-background'}`}
+                className={`group inline-flex items-center gap-3 rounded-full border px-6 md:px-8 py-3 md:py-3.5 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-all duration-700 active:scale-95 ${isDark ? 'border-white/40 text-white/80 hover:bg-white hover:text-black' : 'border-white/70 bg-black/20 text-white/85 hover:bg-white hover:text-black'}`}
               >
                 <span>Sou Tutor</span>
               </a>
@@ -240,9 +242,9 @@ const HeroSection = () => {
             <MagneticWrap>
               <a
                 href="#video"
-                className={`inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-colors duration-500 active:scale-95 ${isDark ? 'text-white/60 hover:text-white' : 'text-foreground/100 hover:text-foreground'}`}
+                className={`inline-flex items-center gap-2 text-[11px] md:text-xs tracking-[0.15em] uppercase font-light transition-colors duration-500 active:scale-95 ${isDark ? 'text-white/60 hover:text-white' : 'text-white/85 hover:text-white'}`}
               >
-                <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${isDark ? 'border-white/30' : 'border-foreground/60'}`}>
+                <div className={`w-8 h-8 rounded-full border flex items-center justify-center ${isDark ? 'border-white/30' : 'border-white/70 bg-black/20'}`}>
                   <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8 5v14l11-7z" />
                   </svg>
