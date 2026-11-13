@@ -1,0 +1,175 @@
+import { useEffect, useRef, useState, useCallback } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import eduBody from "@/assets/edu/edu-body.png";
+
+export type EduMood = "idle" | "attentive" | "excited" | "sleeping" | "talking";
+
+interface EduRigProps {
+  mood: EduMood;
+  className?: string;
+}
+
+// Posições medidas sobre edu-body.png (percentagens do contentor)
+const EYE_L = { x: 35.4, y: 28.9 };
+const EYE_R = { x: 59.6, y: 28.9 };
+const EYE_R_W = 6.6; // raio do olho em % da largura
+const MOUTH = { x: 47, y: 37.5, w: 12 };
+
+const EduRig = ({ mood, className }: EduRigProps) => {
+  const reduceMotion = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const pupilLRef = useRef<SVGGElement>(null);
+  const pupilRRef = useRef<SVGGElement>(null);
+  const [blink, setBlink] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const rafRef = useRef(0);
+  const target = useRef({ x: 0, y: 0 });
+
+  const sleeping = mood === "sleeping";
+  const happy = mood === "excited";
+  const attentive = mood === "attentive";
+
+  // Pausa os ciclos internos quando o separador deixa de estar visível.
+  useEffect(() => {
+    const onVisibility = () => setVisible(!document.hidden);
+    onVisibility();
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
+  // Olhar que segue o ponteiro (um único listener, via rAF)
+  useEffect(() => {
+    if (reduceMotion || !visible || sleeping) return;
+    const onMove = (e: PointerEvent) => {
+      const el = rootRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height * 0.29;
+      target.current = {
+        x: Math.max(-1, Math.min(1, (e.clientX - cx) / (r.width * 1.6))),
+        y: Math.max(-1, Math.min(1, (e.clientY - cy) / (r.height * 0.9))),
+      };
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        const dx = target.current.x * EYE_R_W * 0.32;
+        const dy = target.current.y * EYE_R_W * 0.24;
+        for (const ref of [pupilLRef, pupilRRef]) {
+          ref.current?.setAttribute("transform", `translate(${dx} ${dy})`);
+        }
+      });
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      cancelAnimationFrame(rafRef.current);
+    };
+  }, [reduceMotion, sleeping, visible]);
+
+  // Piscar irregular, com piscadela dupla ocasional
+  useEffect(() => {
+    if (reduceMotion || !visible || sleeping || happy) return;
+    let t1: number, t2: number;
+    const schedule = () => {
+      t1 = window.setTimeout(() => {
+        setBlink(true);
+        t2 = window.setTimeout(() => {
+          setBlink(false);
+          if (Math.random() < 0.22) {
+            t2 = window.setTimeout(() => {
+              setBlink(true);
+              t2 = window.setTimeout(() => setBlink(false), 130);
+            }, 240);
+          }
+          schedule();
+        }, 140);
+      }, 2400 + Math.random() * 4200);
+    };
+    schedule();
+    return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+    };
+  }, [reduceMotion, sleeping, happy, visible]);
+
+  const eyeOpen = sleeping ? 0 : blink ? 0.08 : 1;
+
+  const renderEye = (cx: number, key: string, pupilRef: React.RefObject<SVGGElement>) => {
+    if (happy) {
+      // Olhos felizes: arcos
+      return (
+        <path
+          key={key}
+          d={`M ${cx - EYE_R_W * 0.8} ${EYE_L.y + 1.2} Q ${cx} ${EYE_L.y - EYE_R_W * 0.9} ${cx + EYE_R_W * 0.8} ${EYE_L.y + 1.2}`}
+          stroke="hsl(var(--primary))"
+          strokeWidth={1.6}
+          strokeLinecap="round"
+          fill="none"
+        />
+      );
+    }
+    return (
+      <g key={key} style={{ transform: `scaleY(${eyeOpen})`, transformBox: "fill-box", transformOrigin: "center", transition: "transform 90ms ease" }}>
+        <ellipse cx={cx} cy={EYE_L.y} rx={EYE_R_W * 0.82} ry={EYE_R_W * 1.05} fill="hsl(var(--foreground))" />
+        <g ref={pupilRef}>
+          <ellipse cx={cx} cy={EYE_L.y + 0.4} rx={EYE_R_W * (attentive ? 0.56 : 0.52)} ry={EYE_R_W * (attentive ? 0.67 : 0.62)} fill="hsl(var(--background))" />
+          <ellipse cx={cx} cy={EYE_L.y + 0.55} rx={EYE_R_W * 0.4} ry={EYE_R_W * 0.46} fill="none" stroke="hsl(var(--primary))" strokeWidth={0.55} />
+          <circle cx={cx - EYE_R_W * 0.18} cy={EYE_L.y - 0.35} r={EYE_R_W * 0.16} fill="hsl(var(--foreground))" />
+        </g>
+      </g>
+    );
+  };
+
+  return (
+    <div ref={rootRef} className={className} style={{ position: "relative" }}>
+      <img src={eduBody} alt="EDU — Educador Digital do Mentor Digital" draggable={false} className="block h-auto w-full" />
+
+      {/* Rosto vetorial: olhos + boca */}
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        aria-hidden
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }}
+      >
+        {/* Reflexo vivo no visor e sobrancelhas de atenção */}
+        <ellipse cx={47.5} cy={29} rx={27} ry={17} fill="none" stroke="hsl(var(--primary) / 0.16)" strokeWidth={0.55} />
+        {attentive && (
+          <g stroke="hsl(var(--primary))" strokeWidth={0.8} strokeLinecap="round" opacity={0.9}>
+            <path d={`M ${EYE_L.x - 4} ${EYE_L.y - 7} Q ${EYE_L.x} ${EYE_L.y - 8.5} ${EYE_L.x + 4} ${EYE_L.y - 7.2}`} />
+            <path d={`M ${EYE_R.x - 4} ${EYE_L.y - 7.2} Q ${EYE_R.x} ${EYE_L.y - 8.5} ${EYE_R.x + 4} ${EYE_L.y - 7}`} />
+          </g>
+        )}
+        {renderEye(EYE_L.x, "l", pupilLRef)}
+        {renderEye(EYE_R.x, "r", pupilRRef)}
+        {/* Boca */}
+        {mood === "talking" ? (
+          <ellipse cx={MOUTH.x} cy={MOUTH.y} rx={MOUTH.w * 0.28} ry={1.4} fill="hsl(var(--secondary))">
+            {!reduceMotion && <animate attributeName="ry" values="0.5;1.7;0.8;1.5;0.5" dur="0.9s" repeatCount="indefinite" />}
+          </ellipse>
+        ) : sleeping ? (
+          <path
+            d={`M ${MOUTH.x - 2.4} ${MOUTH.y} Q ${MOUTH.x} ${MOUTH.y + 1.1} ${MOUTH.x + 2.4} ${MOUTH.y}`}
+            stroke="hsl(var(--secondary))"
+            strokeWidth={0.7}
+            strokeLinecap="round"
+            fill="none"
+          />
+        ) : (
+          <path
+            d={`M ${MOUTH.x - MOUTH.w * 0.32} ${MOUTH.y - 0.6} Q ${MOUTH.x} ${MOUTH.y + (happy ? 3.4 : 2.4)} ${MOUTH.x + MOUTH.w * 0.32} ${MOUTH.y - 0.6} Q ${MOUTH.x} ${MOUTH.y + (happy ? 1.6 : 0.9)} ${MOUTH.x - MOUTH.w * 0.32} ${MOUTH.y - 0.6} Z`}
+            fill="hsl(var(--secondary))"
+          />
+        )}
+        {sleeping && (
+          <text x={EYE_R.x + 10} y={EYE_L.y - 6} fontSize={5} fill="hsl(var(--primary))" opacity={0.8}>
+            z
+            <animate attributeName="y" values={`${EYE_L.y - 6};${EYE_L.y - 12}`} dur="2.2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.85;0" dur="2.2s" repeatCount="indefinite" />
+          </text>
+        )}
+      </svg>
+    </div>
+  );
+};
+
+export default EduRig;
