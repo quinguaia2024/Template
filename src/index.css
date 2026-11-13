@@ -207,4 +207,26 @@
     background: linear-gradient(180deg, hsl(var(--primary) / 0.4), transparent);
   }
 
+  .landing-page {
+    font-weight: 400;
+  }
+
+  .landing-page .font-thin {
+    font-weight: 300;
+  }
+
+  .landing-page .font-light {
+    font-weight: 400;
+  }
+
+  .landing-page [class*="text-[9px]"],
+  .landing-page [class*="text-[10px]"] {
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .landing-page [class*="text-[11px]"] {
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
 }

@@ -13,7 +13,7 @@ import SectionDivider from "@/components/landing/SectionDivider";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="landing-page min-h-screen bg-background">
       <CursorFollower />
       <Navbar />
       <HeroSection />
