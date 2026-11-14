@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Cloudflare builds use npm + package-lock.json.
+# Do not commit Bun lockfiles, otherwise the build falls back to Bun.
+bun.lock
+bun.lockb
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
