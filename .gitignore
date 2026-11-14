@@ -17,6 +17,10 @@ dist-ssr
 bun.lock
 bun.lockb
 
+# Wrangler (local deploys)
+.wrangler/
+.dev.vars
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

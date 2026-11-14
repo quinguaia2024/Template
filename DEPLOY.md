@@ -1,31 +1,39 @@
-# Deploy no Cloudflare Pages
+# Deploy no Cloudflare Workers (Vite + React)
 
-Este projeto é um SPA (Vite + React + `react-router-dom`) e é publicado no
-Cloudflare Pages a partir da pasta `dist`.
+O projeto é um SPA (Vite + React + `react-router-dom`) publicado como um
+Worker com **Static Assets**, gerado a partir da pasta `dist`.
 
-## Configuração do projeto no Cloudflare Pages
+## Configuração no Cloudflare (Workers Builds)
 
 | Campo | Valor |
 | --- | --- |
-| Framework preset | Vite |
 | Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
 | Build output directory | `dist` |
 | Root directory | `/` (raiz do repositório) |
 
-> Importante: não defina um *install command* manual com Bun. O projeto usa
-> **apenas `package-lock.json`**, por isso o Cloudflare executa `npm ci`
-> automaticamente. O `npm ci` recria a `node_modules` do zero a cada build,
-> o que evita o problema de cache antigo que quebrava o binário nativo do SWC
-> (`@swc/core`: `Failed to load native binding`).
+O Worker se chama `info-site` e a configuração fica versionada em
+`wrangler.jsonc`:
 
-## Variáveis de ambiente
-
-Nenhuma variável é obrigatória para o build. Recomenda-se apenas fixar a
-versão do Node:
-
+```jsonc
+{
+  "name": "info-site",
+  "compatibility_date": "2026-11-13",
+  "observability": { "enabled": true },
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}
 ```
-NODE_VERSION=22
-```
+
+Com `not_found_handling: "single-page-application"`, rotas como `/login` e
+`/dashboard` caem em `index.html` automaticamente.
+
+> **Não adicione `public/_redirects`** com `/* /index.html 200` neste projeto.
+> Os Workers Assets já normalizam `.html`/`/index`, e essa regra é rejeitada
+> no deploy com `Invalid _redirects configuration: Infinite loop detected`
+> (código `100324`). O fallback de SPA já vem do `not_found_handling`.
 
 ## Por que só existe um lockfile
 
@@ -40,8 +48,8 @@ Error: Failed to load native binding
     at Object.<anonymous> (/opt/buildhome/repo/node_modules/@swc/core/binding.js:345:11)
 ```
 
-Agora o repositório tem um único lockfile (`package-lock.json`) e os
-lockfiles do Bun estão no `.gitignore`.
+Agora o repositório tem um único lockfile (`package-lock.json`) e o
+Cloudflare executa `npm clean-install`, que recria a `node_modules` do zero.
 
 ## Desenvolvimento local
 
@@ -52,40 +60,24 @@ npm run build
 npm run preview
 ```
 
-Se aparecer erro de `EUSAGE` do `npm ci` dizendo que o lockfile está
-dessincronizado, rode `npm install` e faça commit do `package-lock.json`
-atualizado.
+Se o `npm ci` reclamar de lockfile dessincronizado (`EUSAGE`), rode
+`npm install` e faça commit do `package-lock.json` atualizado.
 
 ## Se o erro do SWC voltar
 
 1. Confirme que `bun.lock` e `bun.lockb` **não** existem no repositório
    (`git ls-files | grep bun.lock` deve retornar vazio).
-2. Confirme no painel do Cloudflare: build command `npm run build` e output
-   `dist`.
-3. Verifique se a variável `NODE_ENV` não está definida como `production` nas
-   variáveis de ambiente do projeto. Com `NODE_ENV=production` o `npm ci`
-   instala apenas dependências de produção e o `vite` (que é `devDependency`)
-   não fica disponível. Se precisar manter essa variável, defina também
+2. Verifique se `NODE_ENV` não está definido como `production` nas variáveis
+   de ambiente do build. Com `NODE_ENV=production` o `npm ci` instala apenas
+   dependências de produção e o `vite` (que é `devDependency`) não fica
+   disponível. Se precisar manter a variável, defina também
    `NPM_FLAGS=--include=dev`.
-4. Se ainda assim falhar, a alternativa definitiva é trocar o plugin nativo
-   por um baseado em Babel (sem binário nativo):
+3. Alternativa definitiva, sem binário nativo: trocar
+   `@vitejs/plugin-react-swc` por `@vitejs/plugin-react` (Babel).
 
    ```bash
    npm uninstall @vitejs/plugin-react-swc
    npm install -D @vitejs/plugin-react
    ```
 
-   e, no `vite.config.ts`, trocar
-   `import react from "@vitejs/plugin-react-swc"` por
-   `import react from "@vitejs/plugin-react"`.
-
-## Rotas (SPA)
-
-O arquivo `public/_redirects` contém:
-
-```
-/* /index.html 200
-```
-
-Assim, acessos diretos a rotas como `/dashboard` ou `/login` funcionam sem
-404 no Cloudflare Pages.
+   e no `vite.config.ts` usar `import react from "@vitejs/plugin-react";`.
