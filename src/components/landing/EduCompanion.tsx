@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import EduRig, { type EduMood } from "@/components/landing/EduRig";
 import { AUTH_ROUTES } from "@/auth/constants";
 
@@ -88,6 +88,7 @@ const saveLastCtx = (ctx: Ctx) => {
 };
 
 const EduCompanion = () => {
+  const reduceMotion = useReducedMotion();
   const [drift, setDrift] = useState({ x: 0, y: 0, r: 0 });
   const [excited, setExcited] = useState(false);
   const [attentive, setAttentive] = useState(false);
@@ -190,17 +191,22 @@ const EduCompanion = () => {
 
   // Vaguear devagar (pequenos deslocamentos aleatórios)
   useEffect(() => {
+    if (reduceMotion) {
+      setDrift({ x: 0, y: 0, r: 0 });
+      return;
+    }
+
     const wander = () => {
       setDrift({
-        x: (Math.random() - 0.5) * 40,
-        y: (Math.random() - 0.5) * 30,
-        r: (Math.random() - 0.5) * 8,
+        x: (Math.random() - 0.5) * 16,
+        y: (Math.random() - 0.5) * 12,
+        r: (Math.random() - 0.5) * 3,
       });
     };
     wander();
     const id = window.setInterval(wander, 4200);
     return () => window.clearInterval(id);
-  }, []);
+  }, [reduceMotion]);
 
   // Dorme após inatividade prolongada; acorda com qualquer interação
   useEffect(() => {
@@ -273,7 +279,7 @@ const EduCompanion = () => {
       drag
       dragMomentum={false}
       dragElastic={0.08}
-      initial={{ opacity: 0, scale: 0.8 }}
+      initial={reduceMotion ? false : { opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       style={{ x: pos.x, y: pos.y }}
       onDragStart={() => {
@@ -293,10 +299,10 @@ const EduCompanion = () => {
           moved.current = false;
         }, 120);
       }}
-      transition={{ delay: 1.2, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      transition={reduceMotion ? { duration: 0 } : { delay: 1.2, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="fixed bottom-4 right-3 md:bottom-8 md:right-8 z-40 cursor-grab active:cursor-grabbing touch-none"
     >
-      <div className="relative flex flex-col items-end">
+      <div className="group relative flex flex-col items-end">
         {/* Balão de fala + CTA interativa */}
         <AnimatePresence mode="wait">
           {tip && (
@@ -340,9 +346,16 @@ const EduCompanion = () => {
           )}
         </AnimatePresence>
 
+        <motion.div
+          aria-hidden
+          animate={reduceMotion ? { opacity: 0.4, scale: 1 } : { opacity: [0.25, 0.45, 0.25], scale: [0.94, 1.04, 0.94] }}
+          transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
+          className="pointer-events-none absolute left-1/2 top-[40%] h-[72%] w-[78%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/25 blur-2xl"
+        />
+
         {/* Sombra/brilho no chão */}
         <motion.div
-          animate={{ opacity: [0.35, 0.18, 0.35], scaleX: [1, 0.85, 1] }}
+          animate={reduceMotion ? { opacity: 0.25, scaleX: 1 } : { opacity: [0.35, 0.18, 0.35], scaleX: [1, 0.85, 1] }}
           transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut" }}
           className="absolute -bottom-1 right-4 h-3 w-14 rounded-full bg-primary/25 blur-md pointer-events-none"
         />
@@ -350,24 +363,23 @@ const EduCompanion = () => {
         {/* Mascote */}
         <motion.button
           type="button"
-          aria-label="EDU, o teu educador digital"
+          aria-label="Falar com o EDU"
           onClick={poke}
           animate={{
-            x: drift.x,
-            y: excited ? [0, -16, 0] : [0, -9, 0],
-            rotate: excited ? [0, -6, 6, 0] : drift.r,
-            scale: excited ? [1, 1.08, 1] : 1,
+            x: reduceMotion ? 0 : drift.x,
+            y: reduceMotion ? 0 : excited ? [0, -16, 0] : [0, -7, 0],
+            rotate: reduceMotion ? 0 : excited ? [0, -6, 6, 0] : drift.r,
+            scale: reduceMotion ? 1 : excited ? [1, 1.08, 1] : 1,
           }}
           transition={{
             x: { duration: 4.2, ease: "easeInOut" },
             rotate: excited ? { duration: 0.85 } : { duration: 4.2, ease: "easeInOut" },
-            y: excited
-              ? { duration: 0.85, ease: "easeInOut" }
-              : { duration: 3.1, repeat: Infinity, ease: "easeInOut" },
+            y: excited ? { duration: 0.85, ease: "easeInOut" } : { duration: 3.1, repeat: Infinity, ease: "easeInOut" },
             scale: { duration: 0.85 },
           }}
-          whileTap={{ scale: 0.92 }}
-          className="relative w-16 md:w-24 select-none will-change-transform"
+          whileHover={reduceMotion ? undefined : { scale: 1.04, y: -2 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+          className="relative w-[4.75rem] select-none rounded-[2rem] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background will-change-transform md:w-28"
         >
           <EduRig mood={mood} className="drop-shadow-[0_12px_28px_hsl(var(--primary)/0.3)]" />
         </motion.button>
@@ -384,7 +396,7 @@ const EduCompanion = () => {
             }
           }}
           aria-label="Esconder o EDU"
-          className="absolute -top-1 -left-1 grid h-5 w-5 place-items-center rounded-full border border-border/60 bg-card/90 text-[10px] leading-none text-muted-foreground opacity-0 transition-opacity hover:opacity-100 focus:opacity-100 md:opacity-60"
+          className="absolute -top-1 -left-1 grid h-5 w-5 place-items-center rounded-full border border-border/60 bg-card/90 text-[10px] leading-none text-muted-foreground opacity-50 transition-opacity hover:opacity-100 focus-visible:opacity-100 md:opacity-0 md:group-hover:opacity-100"
         >
           ×
         </button>
